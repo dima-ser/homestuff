@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using HomeStuff.Data;
 using HomeStuff.Models;
 
-namespace HomeStuff
+namespace HomeStuff.Junk
 {
     public class IndexModel : PageModel
     {

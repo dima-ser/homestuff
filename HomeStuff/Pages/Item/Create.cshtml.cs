@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using HomeStuff.Data;
 using HomeStuff.Models;
 
-namespace HomeStuff
+namespace HomeStuff.Junk
 {
     public class CreateModel : PageModel
     {
