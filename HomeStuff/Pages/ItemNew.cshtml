@@ -5,41 +5,55 @@
     ViewData["Title"] = "Add Item";
 }
 
-<h1>Add Item</h1>
+<h1>@ViewData["Title"]</h1>
 
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
+<form method="post">
+    <div class="row">
+        <div class="col-md-6">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Item.LocationId" class="control-label"></label>
+                <select asp-for="Item.LocationId" asp-items="Model.Locations" class="form-control"></select>
+                <span asp-validation-for="Item.LocationId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Item.Name" class="control-label"></label>
                 <input asp-for="Item.Name" class="form-control" />
                 <span asp-validation-for="Item.Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Item.LocationId" class="control-label"></label>
-                <input asp-for="Item.LocationId" class="form-control" />
-                <span asp-validation-for="Item.LocationId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Item.Description" class="control-label"></label>
-                <input asp-for="Item.Description" class="form-control" />
-                <span asp-validation-for="Item.Description" class="text-danger"></span>
-            </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Item.PurchasePrice" class="control-label"></label>
                 <input asp-for="Item.PurchasePrice" class="form-control" />
                 <span asp-validation-for="Item.PurchasePrice" class="text-danger"></span>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="Item.Description" class="control-label"></label>
+                @*<input asp-for="Item.Description" class="form-control" />*@
+                <textarea asp-for="Item.Description" class="form-control" ></textarea>
+                <span asp-validation-for="Item.Description" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
-        </form>
+        </div>
     </div>
-</div>
-
+</form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

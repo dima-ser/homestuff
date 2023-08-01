@@ -13,10 +13,12 @@ namespace HomeStuff.Pages
     public class ItemNewModel : PageModel
     {
         private readonly HomeStuff.Data.SqliteContext _context;
+        public SelectList Locations { get; set; }
 
         public ItemNewModel(HomeStuff.Data.SqliteContext context)
         {
             _context = context;
+            Locations = new SelectList(context.Location, nameof(Location.Id), nameof(Location.Name));
         }
 
         public IActionResult OnGet()
