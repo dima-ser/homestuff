@@ -14,7 +14,7 @@ namespace HomeStuff.Models
 
         public string? Description { get; set; }
 
-        [DisplayName("Purchase Price")]
+        [DisplayName("Purchase Price"), DataType(DataType.Currency)]
         public double? PurchasePrice { get; set; }
 
 

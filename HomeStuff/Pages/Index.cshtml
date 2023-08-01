@@ -4,14 +4,17 @@
     ViewData["Title"] = "Home page";
 }
 
+<div class="row">
 @foreach (var item in Model.Item)
 {
-
-    <div class="card mb-2">
-        <h5 class="card-header">@Html.DisplayFor(modelItem => item.Name)</h5>
-        <div class="card-body">
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a asp-page="./Item" asp-route-id="@item.Id" class="stretched-link"></a>
+    <div class="col-md-4">
+        <div class="card mb-2">
+            <h5 class="card-header">@Html.DisplayFor(modelItem => item.Name)</h5>
+            <div class="card-body">
+                    <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                <a asp-page="./Item" asp-route-id="@item.Id" class="stretched-link"></a>
+            </div>
         </div>
     </div>
 }
+</div>

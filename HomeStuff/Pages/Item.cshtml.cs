@@ -8,14 +8,15 @@ namespace HomeStuff.Pages
     public class ItemModel : PageModel
     {
         private readonly HomeStuff.Data.SqliteContext _context;
+        public HomeStuff.Models.Item Item { get; set; } = default!;
+        public string LocationName { get; set; } = string.Empty;
 
         public ItemModel(HomeStuff.Data.SqliteContext context)
         {
             _context = context;
         }
 
-        public HomeStuff.Models.Item Item { get; set; } = default!;
-
+ 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Item == null)
@@ -31,6 +32,7 @@ namespace HomeStuff.Pages
             else
             {
                 Item = item;
+                LocationName = _context.Location.Where(l => l.Id == Item.LocationId).First().Name;
             }
             return Page();
         }
