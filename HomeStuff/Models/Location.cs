@@ -1,17 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
 namespace HomeStuff.Models
 {
-    public class Item
+    public class Location
     {
         public int Id { get; set; }
         [Required]
         public required string Name { get; set; }
-        [Required]
-        public int LocationId {  get; set; }
-        public string? Description { get; set; }
-        public double? PurchasePrice { get; set; }
-
-
     }
 }

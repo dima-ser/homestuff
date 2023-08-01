@@ -4,26 +4,14 @@
     ViewData["Title"] = "Home page";
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Item[0].Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Item)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <a asp-page="./Item" asp-route-id="@item.Id">Details</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@foreach (var item in Model.Item)
+{
+
+    <div class="card mb-2">
+        <h5 class="card-header">@Html.DisplayFor(modelItem => item.Name)</h5>
+        <div class="card-body">
+            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+            <a asp-page="./Item" asp-route-id="@item.Id" class="stretched-link"></a>
+        </div>
+    </div>
+}
