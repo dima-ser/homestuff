@@ -9,7 +9,7 @@ namespace HomeStuff.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly HomeStuff.Data.SqliteContext _context;
-        public IList<HomeStuff.Models.Item> Item { get; set; } = default!;
+        public IList<HomeStuff.Models.Item> Items { get; set; } = default!;
 
         public IndexModel(ILogger<IndexModel> logger, HomeStuff.Data.SqliteContext context)
         {
@@ -22,7 +22,7 @@ namespace HomeStuff.Pages
         {
             if (_context.Item != null)
             {
-                Item =  _context.Item.ToList();
+                Items =  _context.Item.ToList();
             }
         }
     }
