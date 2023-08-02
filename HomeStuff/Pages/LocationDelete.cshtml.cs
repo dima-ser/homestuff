@@ -13,10 +13,12 @@ namespace HomeStuff.Pages
     public class LocationDeleteModel : PageModel
     {
         private readonly HomeStuff.Data.SqliteContext _context;
+        public ICollection<HomeStuff.Models.Item> Items { get; set; } = new List<HomeStuff.Models.Item>();
 
         public LocationDeleteModel(HomeStuff.Data.SqliteContext context)
         {
             _context = context;
+
         }
 
         [BindProperty]
@@ -38,6 +40,7 @@ namespace HomeStuff.Pages
             else 
             {
                 Location = location;
+                Items = _context.Item.Where(i => i.LocationId == id).ToList();
             }
             return Page();
         }
