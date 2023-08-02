@@ -363,4 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Database and data
-db/
+/HomeStuff/db/
+/HomeStuff/db/homestuff.db
+/HomeStuff/db/homestuff.db
