@@ -9,9 +9,8 @@ namespace HomeStuff.Models
         public int Id { get; set; }
         [Required]
         public required string Name { get; set; }
-        [Required, DisplayName("Location")]
+        [Required]
         public int LocationId {  get; set; }
-
         public string? Description { get; set; }
 
         [DisplayName("Purchase Price"), DataType(DataType.Currency)]
