@@ -6,9 +6,27 @@
     border: 1px solid #cecece;
     padding: 7px;
 }*/
-.homestuff-nav {
-    margin-bottom:10px;
+
+.bg-homestuff-dark{
+    background-color:#2b87a5
 }
-.btn-homestuff-form {
-    margin-top:10px;
+.navbar-homestuff{
+    color:white;
 }
+
+
+.btn-primary {
+    color: #fff;
+    background-color: #2b87a5;
+    border-color: #267791;
+}
+    .btn-primary:hover {
+        color: #fff;
+        background-color: #267791;
+        border-color: #267791;
+    }
+    .btn-primary.active, .btn-primary:active {
+        color: #fff;
+        background-color: #20657b;
+        border-color: #20657b;
+    }
