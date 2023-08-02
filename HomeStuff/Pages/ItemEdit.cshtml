@@ -1,17 +1,21 @@
 ﻿@page
-@model HomeStuff.Pages.ItemNewModel
+@model HomeStuff.Pages.ItemEditModel
 
 @{
-    ViewData["Title"] = "Add Item";
+    ViewData["Title"] = "ItemEdit";
 }
 
-<h1>@ViewData["Title"]</h1>
-
+<h1>ItemEdit</h1>
 <hr />
+<div class="btn-group homestuff-nav" role="toolbar" aria-label="Item navigation">
+    <a asp-page="./Item" asp-route-id="@Model.Item?.Id" class="btn btn-primary">Details</a>
+    <a href="#" class="btn btn-primary active" aria-current="page">Edit</a>
+</div>
 <form method="post">
     <div class="row">
         <div class="col-md-6">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Item.Id" />
             <div class="form-group">
                 <label asp-for="Item.LocationId" class="control-label"></label>
                 <select asp-for="Item.LocationId" asp-items="Model.Locations" class="form-control"></select>
@@ -37,8 +41,7 @@
         <div class="col-md-12">
             <div class="form-group">
                 <label asp-for="Item.Description" class="control-label"></label>
-                @*<input asp-for="Item.Description" class="form-control" />*@
-                <textarea asp-for="Item.Description" class="form-control" ></textarea>
+                <textarea asp-for="Item.Description" class="form-control"></textarea>
                 <span asp-validation-for="Item.Description" class="text-danger"></span>
             </div>
         </div>
@@ -46,14 +49,13 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <input type="submit" value="Add Item" class="btn btn-primary btn-homestuff-form" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </div>
     </div>
 </form>
 
+
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

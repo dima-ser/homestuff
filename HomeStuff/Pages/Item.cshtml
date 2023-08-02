@@ -7,6 +7,11 @@
 
 <div>
     <hr />
+    <div class="btn-group homestuff-nav" role="toolbar" aria-label="Item navigation">
+        <a href="#" class="btn btn-primary active" aria-current="page">Details</a>
+        <a asp-page="./ItemEdit" asp-route-id="@Model.Item?.Id" class="btn btn-primary">Edit</a>
+    </div>
+
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Item.LocationId)
@@ -31,7 +36,6 @@
             @Html.DisplayFor(model => model.Item.PurchasePrice)
         </dd>
     </dl>
+    
 </div>
-<div>
-    <a asp-page="./ItemEdit" asp-route-id="@Model.Item?.Id">Edit</a>
-</div>
+

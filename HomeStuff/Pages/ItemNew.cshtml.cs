@@ -14,6 +14,8 @@ namespace HomeStuff.Pages
     {
         private readonly HomeStuff.Data.SqliteContext _context;
         public SelectList Locations { get; set; }
+        [BindProperty]
+        public HomeStuff.Models.Item Item { get; set; } = default!;
 
         public ItemNewModel(HomeStuff.Data.SqliteContext context)
         {
@@ -26,8 +28,7 @@ namespace HomeStuff.Pages
             return Page();
         }
 
-        [BindProperty]
-        public HomeStuff.Models.Item Item { get; set; } = default!;
+
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
