@@ -39,6 +39,7 @@ namespace HomeStuff.Pages
                 return NotFound();
             }
             Item = item;
+            ViewData["Title"] = Item.Name;
             return Page();
         }
 

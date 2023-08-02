@@ -34,6 +34,7 @@ namespace HomeStuff.Pages
                 Item = item;
                 LocationName = _context.Location.Where(l => l.Id == Item.LocationId).First().Name;
             }
+            ViewData["Title"] = Item.Name;
             return Page();
         }
     }

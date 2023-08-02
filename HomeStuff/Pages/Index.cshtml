@@ -1,10 +1,19 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Items";
 }
 
 <div class="row">
+    <div class="col-md-4 mb-2">
+        <div class="card h-100 card-hover">
+            <h5 class="card-header bg-complimentary text-light">Add Item</h5>
+            <div class="card-body border-complimentary">
+                <p class="card-text"> Click to add new item</p>
+                <a asp-page="./ItemNew" class="stretched-link"></a>
+            </div>
+        </div>
+    </div>
     @foreach (var item in Model.Items)
     {
         <div class="col-md-4 mb-2">
