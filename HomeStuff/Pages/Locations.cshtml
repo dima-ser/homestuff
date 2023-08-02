@@ -26,8 +26,8 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <a asp-page="./LocationEdit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./LocationDelete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn btn-primary" asp-page="./LocationEdit" asp-route-id="@item.Id">Edit</a> 
+                <a class="btn btn-danger"  asp-page="./LocationDelete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
