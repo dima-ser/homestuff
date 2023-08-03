@@ -22,7 +22,7 @@ namespace HomeStuff.Models
         public double? PurchasePrice { get; set; }
         public string? Vendor { get; set; }
         [DataType(DataType.Date)]
-        [DisplayName("Purchase Date")]
+        [DisplayName("Purchase Date"), DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateOnly? PurchaseDate { get; set; }
         public string? SKU { get; set; }
 

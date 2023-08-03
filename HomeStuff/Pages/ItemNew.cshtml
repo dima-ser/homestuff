@@ -25,7 +25,56 @@
                 <span asp-validation-for="Item.Name" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-6">
+        
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label asp-for="Item.Description" class="control-label"></label>
+                <textarea asp-for="Item.Description" class="form-control" ></textarea>
+                <span asp-validation-for="Item.Description" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Item.Manufacturer" class="control-label"></label>
+                <input asp-for="Item.Manufacturer" class="form-control" />
+                <span asp-validation-for="Item.Manufacturer" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Item.ModelNumber" class="control-label"></label>
+                <input asp-for="Item.ModelNumber" class="form-control" />
+                <span asp-validation-for="Item.ModelNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Item.SerialNumber" class="control-label"></label>
+                <input asp-for="Item.SerialNumber" class="form-control" />
+                <span asp-validation-for="Item.SerialNumber" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Item.PurchaseDate" class="control-label"></label>
+                <input asp-for="Item.PurchaseDate" class="form-control" />
+                <span asp-validation-for="Item.PurchaseDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Item.Vendor" class="control-label"></label>
+                <input asp-for="Item.Vendor" class="form-control" />
+                <span asp-validation-for="Item.Vendor" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="Item.PurchasePrice" class="control-label"></label>
                 <input asp-for="Item.PurchasePrice" class="form-control" />
@@ -34,12 +83,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-4">
             <div class="form-group">
-                <label asp-for="Item.Description" class="control-label"></label>
-                @*<input asp-for="Item.Description" class="form-control" />*@
-                <textarea asp-for="Item.Description" class="form-control" ></textarea>
-                <span asp-validation-for="Item.Description" class="text-danger"></span>
+                <label asp-for="Item.SKU" class="control-label"></label>
+                <input asp-for="Item.SKU" class="form-control" />
+                <span asp-validation-for="Item.SKU" class="text-danger"></span>
             </div>
         </div>
     </div>

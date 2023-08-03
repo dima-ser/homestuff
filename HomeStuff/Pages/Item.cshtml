@@ -31,6 +31,61 @@
             </dd>
         </dl>
     }
+    @if (!String.IsNullOrEmpty(Model.Item.Manufacturer))
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Item.Manufacturer)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Item.Manufacturer)
+            </dd>
+        </dl>
+    }
+    @if (!String.IsNullOrEmpty(Model.Item.ModelNumber))
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Item.ModelNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Item.ModelNumber)
+            </dd>
+        </dl>
+    }
+    @if (!String.IsNullOrEmpty(Model.Item.SerialNumber))
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Item.SerialNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Item.SerialNumber)
+            </dd>
+        </dl>
+    }
+    @if (Model.Item.PurchaseDate != null)
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Item.PurchaseDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Item.PurchaseDate)
+            </dd>
+        </dl>
+    }
+    @if (!String.IsNullOrEmpty(Model.Item.Vendor))
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Item.Vendor)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Item.Vendor)
+            </dd>
+        </dl>
+    }
     @if (Model.Item.PurchasePrice != null)
     {
         <dl class="row">
@@ -39,6 +94,17 @@
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Item.PurchasePrice)
+            </dd>
+        </dl>
+    }
+    @if (!String.IsNullOrEmpty(Model.Item.SKU))
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Item.SKU)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Item.SKU)
             </dd>
         </dl>
     }
