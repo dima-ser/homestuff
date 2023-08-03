@@ -52,6 +52,7 @@ namespace HomeStuff.Pages
                 return Page();
             }
 
+            Item.LastModifiedUtc = DateTime.UtcNow;
             _context.Attach(Item).State = EntityState.Modified;
 
             try

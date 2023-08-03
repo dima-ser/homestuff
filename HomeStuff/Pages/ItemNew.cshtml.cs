@@ -38,7 +38,7 @@ namespace HomeStuff.Pages
             {
                 return Page();
             }
-
+            Item.LastModifiedUtc = DateTime.UtcNow;
             _context.Item.Add(Item);
             await _context.SaveChangesAsync();
 

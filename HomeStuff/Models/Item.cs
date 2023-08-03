@@ -25,6 +25,6 @@ namespace HomeStuff.Models
         [DisplayName("Purchase Date"), DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateOnly? PurchaseDate { get; set; }
         public string? SKU { get; set; }
-
+        public DateTime LastModifiedUtc { get; set; }
     }
 }
