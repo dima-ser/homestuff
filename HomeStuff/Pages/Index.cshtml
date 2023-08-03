@@ -3,12 +3,21 @@
 @{
     ViewData["Title"] = "Items";
 }
-<div class="row">
+@*<div class="row">
     <div class="col-md-4 mb-2">
     <a href="./ItemNew" class="btn btn-success btn-lg w-100">Add Item</a>
     </div>
-</div>
+</div>*@
 <div class="row">
+    <div class="col-md-4 mb-2">
+        <div class="card h-100 card-hover  border-success">
+            <h5 class="card-header bg-success text-light">Add New Item</h5>
+            <div class="card-body">
+                <p class="card-text"> Click here to add a new item</p>
+                <a asp-page="./ItemNew" class="stretched-link"></a>
+            </div>
+        </div>
+    </div>
     @foreach (var item in Model.Items)
     {
         <div class="col-md-4 mb-2">
