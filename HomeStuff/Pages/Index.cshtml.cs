@@ -22,7 +22,7 @@ namespace HomeStuff.Pages
         {
             if (_context.Item != null)
             {
-                Items =  _context.Item.ToList();
+                Items =  _context.Item.OrderByDescending(i => i.LastModifiedUtc).ToList();
             }
         }
     }

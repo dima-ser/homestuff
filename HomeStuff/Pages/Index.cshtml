@@ -24,6 +24,7 @@
             <div class="card h-100 card-hover">
                 <h5 class="card-header bg-primary text-light">@(item.Name.Length > 50 ? item.Name.Substring(0, 50) + "..." : item.Name)</h5>
                 <div class="card-body border-primary">
+                    <span class="badge bg-secondary">Secondary</span>
                     <p class="card-text"> @(item.Description != null && item.Description.Length > 135 ? item.Description.Substring(0, 135) + "..." : item.Description)</p>
                     <a asp-page="./Item" asp-route-id="@item.Id" class="stretched-link"></a>
                 </div>
