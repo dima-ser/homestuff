@@ -23,6 +23,10 @@ namespace HomeStuff.Pages
             if (_context.Item != null)
             {
                 Items =  _context.Item.OrderByDescending(i => i.LastModifiedUtc).ToList();
+                foreach (var item in Items)
+                {
+                    item.Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId);
+                }
             }
         }
     }

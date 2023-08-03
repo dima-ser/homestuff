@@ -34,7 +34,7 @@ namespace HomeStuff.Pages
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Item == null || Item == null)
+            if (!ModelState.IsValid || _context.Item == null || Item == null)
             {
                 return Page();
             }

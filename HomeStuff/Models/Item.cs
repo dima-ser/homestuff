@@ -11,6 +11,8 @@ namespace HomeStuff.Models
         public required string Name { get; set; }
         [Required, DisplayName("Location")]
         public int LocationId {  get; set; }
+        // need to make this nullable to get binding to work. It doesn't affect db anyway as only LocationID goes into db
+        public Location? Location { get; set; }
         public string? Description { get; set; }
         public string? Manufacturer { get; set; }
         [DisplayName("Model Number")]
