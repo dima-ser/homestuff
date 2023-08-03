@@ -8,8 +8,19 @@
     <a href="./ItemNew" class="btn btn-success btn-lg w-100">Add Item</a>
     </div>
 </div>*@
+<form>
+<div class="row no-gutters mb-3">
+    <div class="col input-group">
+        <input class="form-control" type="search" placeholder="Search items" asp-for="q">
+            <select class="form-control" asp-for="l" asp-items="Model.Locations">
+                <option value="">All Locations</option>
+            </select>
+        <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+</div>
+</form>
 <div class="row">
-    <div class="col-md-4 mb-2">
+@*    <div class="col-md-4 mb-2">
         <div class="card h-100 card-hover  border-success">
             <h5 class="card-header bg-success text-light">Add New Item</h5>
             <div class="card-body">
@@ -17,7 +28,15 @@
                 <a asp-page="./ItemNew" class="stretched-link"></a>
             </div>
         </div>
-    </div>
+    </div>*@
+    @if ((Model.q != null || Model.l != null) && Model.Items.Count==0)
+    {
+        <div class="col">
+            <div class="alert alert-warning" role="alert">
+                No items match search criteria
+            </div>
+        </div>
+    }
     @foreach (var item in Model.Items)
     {
         <div class="col-md-4 mb-2">
