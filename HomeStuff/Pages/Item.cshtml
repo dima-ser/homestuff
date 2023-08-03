@@ -20,22 +20,27 @@
             @Html.DisplayFor(model => model.LocationName)
         </dd>
     </dl>
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Item.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Item.Description)
-        </dd>
-    </dl>
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Item.PurchasePrice)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Item.PurchasePrice)
-        </dd>
-    </dl>
-    
+    @if (!String.IsNullOrEmpty(Model.Item.Description))
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Item.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Item.Description)
+            </dd>
+        </dl>
+    }
+    @if (Model.Item.PurchasePrice != null)
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Item.PurchasePrice)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Item.PurchasePrice)
+            </dd>
+        </dl>
+    }
 </div>
 

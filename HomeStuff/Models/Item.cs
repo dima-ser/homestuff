@@ -12,10 +12,19 @@ namespace HomeStuff.Models
         [Required, DisplayName("Location")]
         public int LocationId {  get; set; }
         public string? Description { get; set; }
+        public string? Manufacturer { get; set; }
+        [DisplayName("Model Number")]
+        public string? ModelNumber { get; set; }
+        [DisplayName("Serial Number")]
+        public string? SerialNumber { get; set; }
 
-        [DisplayName("Purchase Price"), DataType(DataType.Currency)]
+        [DisplayName("Purchase Price")]
         public double? PurchasePrice { get; set; }
-
+        public string? Vendor { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayName("Purchase Date")]
+        public DateOnly? PurchaseDate { get; set; }
+        public string? SKU { get; set; }
 
     }
 }
