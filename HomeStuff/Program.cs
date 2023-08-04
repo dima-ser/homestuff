@@ -37,6 +37,6 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 
-//app.UseRequestLocalization(new string[] { "en-US", });
+app.UseRequestLocalization(new string[] { "en-US", });
 
 app.Run();

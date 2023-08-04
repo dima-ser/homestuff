@@ -20,7 +20,7 @@ namespace HomeStuff.Models
         [DisplayName("Serial Number")]
         public string? SerialNumber { get; set; }
 
-        [DisplayName("Purchase Price")]
+        [DisplayName("Purchase Price"), DataType(DataType.Currency)]
         public double? PurchasePrice { get; set; }
         public string? Vendor { get; set; }
         [DataType(DataType.Date)]
