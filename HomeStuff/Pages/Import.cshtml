@@ -1,0 +1,53 @@
+﻿@page
+@model HomeStuff.Pages.ImportModel
+@{
+    ViewData["Title"] = "Import Items";
+}
+<h1>@ViewData["Title"]</h1>
+<h4>Import file requirements</h4>
+<ul>
+    <li>Must be in the CSV format with UTF-8 encoding</li>
+    <li>Comma-delimited only. Columns can be qualified with double quotes to allow for commas inside the fields</li>
+    <li> Only Name and Location are required for each item, the rest of the fields are optional. Field order doesn't matter</li>
+    <li>The first row must be a header row with field names. The following are allowed field names:<br/>
+        <b>Name</b>, <b>Location</b>, ModelNumber, SKU, PurchasePrice, PurchaseDate, Vendor, Description, Manufacturer, SerialNumber
+    </li>
+    <li>If location doesn't exist, it will be created automatically by the import</li>
+    <li>Extra columns are ignored</li>
+</ul>
+
+<form enctype="multipart/form-data" method="post">
+<div class="mb-3">
+        <dl>
+            <dt>
+                <label asp-for="ImportFile" class="form-label">Select a CSV file</label>
+            </dt>
+            <dd>
+                <input asp-for="ImportFile" type="file" class="form-control" accept=".csv">
+                <span asp-validation-for="ImportFile"></span>
+            </dd>
+        </dl>
+        <input class="btn btn-primary" type="submit" value="Validate & Import" />
+</div>
+    @if (!string.IsNullOrEmpty(Model.ImportValidationError))
+    {
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-danger" role="alert">
+                    <h4>Validation failed. See error below for more details</h4>
+                    @Model.ImportValidationError
+                </div>
+            </div>
+        </div>
+    }
+    @if (Model.ImportValidationSuccess)
+    {
+        <div class="row">
+            <div class="col">
+                <div class="alert alert-success" role="alert">
+                    <h4>File is valid and ready for import</h4>
+                </div>
+            </div>
+        </div>
+    }
+</form>

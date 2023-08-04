@@ -61,7 +61,7 @@ namespace HomeStuff.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Item");
+                    b.ToTable("Item", (string)null);
                 });
 
             modelBuilder.Entity("HomeStuff.Models.Location", b =>
@@ -76,7 +76,7 @@ namespace HomeStuff.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Location");
+                    b.ToTable("Location", (string)null);
                 });
 
             modelBuilder.Entity("HomeStuff.Models.Item", b =>
