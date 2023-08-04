@@ -32,6 +32,7 @@ namespace HomeStuff.Pages
                 var items = from i in _context.Item select i;
                 if (!string.IsNullOrEmpty(q))
                 {
+                    q = q.Trim();
                     items = items.Where(s => s.Name.ToLower().Contains(q.ToLower()) || 
                     (s.Description != null && s.Description.ToLower().Contains(q.ToLower())) ||
                     (s.Manufacturer != null && s.Manufacturer.ToLower().Contains(q.ToLower())) ||
