@@ -7,5 +7,9 @@ namespace HomeStuff.Models
         [Required]
         public required string Name { get; set; }
         public ICollection<Item> Items { get; } = new List<Item>();
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
