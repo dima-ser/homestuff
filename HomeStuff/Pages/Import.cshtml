@@ -24,7 +24,7 @@
             </dt>
             <dd>
                 <input asp-for="ImportFile" type="file" class="form-control" accept=".csv">
-                <span asp-validation-for="ImportFile"></span>
+                <span asp-validation-for="ImportFile" class="text-danger"></span>
             </dd>
         </dl>
         <input class="btn btn-primary" type="submit" value="Validate & Import" />
@@ -45,7 +45,7 @@
         <div class="row">
             <div class="col">
                 <div class="alert alert-success" role="alert">
-                    <h4>Import successfull! See your newly imported items on the <a asp-page="./Index">items</a> page</h4>
+                    <h4>Succesfully imported @Model.NumberOfItems items! See your newly imported items on the <a asp-page="./Index">items</a> page</h4>
                 </div>
             </div>
         </div>

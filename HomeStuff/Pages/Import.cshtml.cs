@@ -8,7 +8,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.Elfie.Model.Map;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+
 
 namespace HomeStuff.Pages
 {
@@ -16,9 +19,11 @@ namespace HomeStuff.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly HomeStuff.Data.SqliteContext _context;
+        [DisplayName("CSV File")]
         public IFormFile ImportFile { get; set; }
         public string? ImportError { get; set; }
         public bool ImportSuccess = false;
+        public int NumberOfItems = 0;
         public ImportModel(ILogger<IndexModel> logger, Data.SqliteContext context)
         {
             _logger = logger;
@@ -45,16 +50,16 @@ namespace HomeStuff.Pages
                         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
                         {
                         };
-                        
+
                         using (var reader = new StreamReader(filePath))
                         using (var csv = new CsvReader(reader, config))
                         {
                             csv.Context.RegisterClassMap(new ItemImportMap());
                             var importItems = csv.GetRecords<ItemImport>().ToList();
-                            
+
                             // check that all Names and Locations are non-empty
                             int i = 1;
-                            Console.WriteLine("Validation started, count is " + importItems.Count);
+                            Console.WriteLine("Validating import file");
                             foreach (ItemImport importItem in importItems)
                             {
                                 if (string.IsNullOrEmpty(importItem.Name.Trim()) || string.IsNullOrEmpty(importItem.Location.Trim()))
@@ -65,11 +70,12 @@ namespace HomeStuff.Pages
                                 i++;
                             }
 
-                            Console.WriteLine("In between, count is " + importItems.Count);
+
                             if (string.IsNullOrEmpty(ImportError))
                             {
                                 // validation succeeded, proceed with import
-                                Console.WriteLine("Import started, count is " + importItems.Count);
+                                Console.WriteLine("Validation successful, " + importItems.Count + " items to import ");
+                                //Console.WriteLine("Import started, count is " + importItems.Count);
                                 foreach (ItemImport importItem in importItems)
                                 {
                                     Console.WriteLine("Importing " + importItem.Name);
@@ -103,21 +109,21 @@ namespace HomeStuff.Pages
                                     if (!string.IsNullOrEmpty(importItem.SKU))
                                         item.SKU = importItem.SKU;
                                     item.LastModifiedUtc = DateTime.UtcNow;
-                                    
+
                                     _context.Item.Add(item);
-                                    Console.WriteLine("Done with " + importItem.Name);
                                 }
                                 _context.SaveChanges();
-                                Console.WriteLine("Saved changes ");
+                                NumberOfItems = importItems.Count;
+                                Console.WriteLine("Import successful");
                                 this.ImportSuccess = true;
                             }
                         }
 
-                    }
+                        }
                     catch (Exception ex)
                     {
-                        throw;
-                        //ImportError = ex.Message;
+                        //throw;
+                        ImportError = ex.Message;
                     }
                    
                 }
