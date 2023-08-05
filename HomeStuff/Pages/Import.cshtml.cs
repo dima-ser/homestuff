@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.Elfie.Model.Map;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 using System.Globalization;
 
 namespace HomeStuff.Pages
@@ -16,8 +17,8 @@ namespace HomeStuff.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly HomeStuff.Data.SqliteContext _context;
         public IFormFile ImportFile { get; set; }
-        public string? ImportValidationError { get; set; }
-        public bool ImportValidationSuccess = false;
+        public string? ImportError { get; set; }
+        public bool ImportSuccess = false;
         public ImportModel(ILogger<IndexModel> logger, Data.SqliteContext context)
         {
             _logger = logger;
@@ -44,33 +45,79 @@ namespace HomeStuff.Pages
                         var config = new CsvConfiguration(CultureInfo.InvariantCulture)
                         {
                         };
+                        
                         using (var reader = new StreamReader(filePath))
                         using (var csv = new CsvReader(reader, config))
                         {
                             csv.Context.RegisterClassMap(new ItemImportMap());
-                            var items = csv.GetRecords<ItemImport>();
+                            var importItems = csv.GetRecords<ItemImport>().ToList();
+                            
                             // check that all Names and Locations are non-empty
                             int i = 1;
-                            foreach (var item in items)
+                            Console.WriteLine("Validation started, count is " + importItems.Count);
+                            foreach (ItemImport importItem in importItems)
                             {
-                                if (string.IsNullOrEmpty(item.Name.Trim()) || string.IsNullOrEmpty(item.Location.Trim()))
+                                if (string.IsNullOrEmpty(importItem.Name.Trim()) || string.IsNullOrEmpty(importItem.Location.Trim()))
                                 {
-                                    ImportValidationError = "Empty Name or Location on line " + (i + 1).ToString();
+                                    ImportError = "Empty Name or Location on line " + (i + 1).ToString();
                                     break;
                                 }
                                 i++;
                             }
-                            if (string.IsNullOrEmpty(ImportValidationError))
-                            {
-                                this.ImportValidationSuccess = true;
 
+                            Console.WriteLine("In between, count is " + importItems.Count);
+                            if (string.IsNullOrEmpty(ImportError))
+                            {
+                                // validation succeeded, proceed with import
+                                Console.WriteLine("Import started, count is " + importItems.Count);
+                                foreach (ItemImport importItem in importItems)
+                                {
+                                    Console.WriteLine("Importing " + importItem.Name);
+                                    //Models.Item item = default!;
+                                    string itemName = importItem.Name;
+                                    if (_context.Location.FirstOrDefault(l => l.Name == importItem.Location.Trim()) == null)
+                                    {
+                                        Console.WriteLine("Adding location " + importItem.Location.Trim());
+                                        _context.Location.Add(new Location { Name = importItem.Location.Trim() });
+                                        _context.SaveChanges();
+                                    }
+                                    Location itemLocation = _context.Location.FirstOrDefault(l => l.Name == importItem.Location.Trim())!;
+                                    Models.Item item = new Models.Item { Name = itemName, Location = itemLocation, LocationId = itemLocation.Id };
+                                    //string? itemDescription, itemManufacturer, itemModelNumber, itemSerialNumber, itemVendor, itemSKU;
+                                    //DateOnly? itemPurchaseDate;
+                                    //double? itemPurchasePrice;
+                                    if (!string.IsNullOrEmpty(importItem.Description))
+                                        item.Description = importItem.Description;
+                                    if (!string.IsNullOrEmpty(importItem.Manufacturer))
+                                        item.Manufacturer = importItem.Manufacturer;
+                                    if (!string.IsNullOrEmpty(importItem.ModelNumber))
+                                        item.ModelNumber = importItem.ModelNumber;
+                                    if (!string.IsNullOrEmpty(importItem.SerialNumber))
+                                        item.SerialNumber = importItem.SerialNumber;
+                                    if (importItem.PurchasePrice != null)
+                                        item.PurchasePrice = importItem.PurchasePrice;
+                                    if (!string.IsNullOrEmpty(importItem.Vendor))
+                                        item.Vendor = importItem.Vendor;
+                                    if (importItem.PurchaseDate != null)
+                                        item.PurchaseDate = importItem.PurchaseDate;
+                                    if (!string.IsNullOrEmpty(importItem.SKU))
+                                        item.SKU = importItem.SKU;
+                                    item.LastModifiedUtc = DateTime.UtcNow;
+                                    
+                                    _context.Item.Add(item);
+                                    Console.WriteLine("Done with " + importItem.Name);
+                                }
+                                _context.SaveChanges();
+                                Console.WriteLine("Saved changes ");
+                                this.ImportSuccess = true;
                             }
                         }
 
                     }
                     catch (Exception ex)
                     {
-                        ImportValidationError = ex.Message;
+                        throw;
+                        //ImportError = ex.Message;
                     }
                    
                 }
