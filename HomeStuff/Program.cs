@@ -6,15 +6,15 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 // Add services to the container.
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AuthorizeFolder("/").AllowAnonymousToPage("/login");
+    options.Conventions.AuthorizeFolder("/").AllowAnonymousToFolder("/Auth");
 });
 builder.Services.AddDbContext<SqliteContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("SqliteContext") ?? throw new InvalidOperationException("Connection string 'SqliteContext' not found.")));
-builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
 // authentication
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
@@ -23,12 +23,9 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(cookieOptions => {
-    cookieOptions.LoginPath = "/login";
+    cookieOptions.LoginPath = "/auth/login";
 });
 
-//builder.Services.AddMvc().AddRazorPagesOptions(options => {
-//    options.Conventions.AuthorizePage("/Index");
-//});
 var app = builder.Build();
 
 // Migrate latest database changes during startup

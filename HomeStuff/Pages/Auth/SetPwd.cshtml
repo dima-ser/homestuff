@@ -1,0 +1,47 @@
+﻿@page
+@model HomeStuff.Pages.Auth.SetPwdModel
+@{
+    ViewData["Title"] = "Create Password";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+    <p>Please create a password to secure HomeStuff</p>
+    <div class="row">
+
+        <div class="col-sm-6 col-md-4">
+            <div class="form-group">
+                <label asp-for="PasswordNew1" class="control-label"></label>
+                <input asp-for="PasswordNew1" class="form-control" type="password" />
+                <span asp-validation-for="PasswordNew1" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-4">
+            <div class="form-group">
+                <label asp-for="PasswordNew2" class="control-label"></label>
+                <input asp-for="PasswordNew2" class="form-control" type="password" />
+                <span asp-validation-for="PasswordNew2" class="text-danger"></span>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-sm-6  col-md-4 mt-2">
+            <input class="btn btn-primary btn-lg" type="submit" value="Set Password" />
+        </div>
+    </div>
+</form>
+
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="row">
+        <div class="col-sm-6  col-md-4">
+            <div class="alert alert-danger mt-2">
+                @Model.ErrorMessage
+            </div>
+        </div>
+    </div>
+}

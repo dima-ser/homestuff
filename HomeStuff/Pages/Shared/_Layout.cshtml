@@ -29,7 +29,7 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
 
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav flex-grow-1 me-auto ">
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-page="/ItemNew">Add Item</a>
                         </li>
@@ -43,6 +43,10 @@
                             <a class="nav-link text-light" asp-area="" asp-page="/Export">Export</a>
                         </li>
                     </ul>
+                    @if (Context.User.Identity.IsAuthenticated)
+                    {
+                        <a class="nav-link text-light" asp-area="" asp-page="">@Context.User.Identity.Name</a>
+                    }
                 </div>
             </div>
         </nav>
