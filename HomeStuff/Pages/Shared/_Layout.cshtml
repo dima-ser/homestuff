@@ -43,7 +43,7 @@
                             <a class="nav-link text-light" asp-area="" asp-page="/Export">Export</a>
                         </li>
                     </ul>
-                    @if (Context.User.Identity.IsAuthenticated)
+                    @if (Context.User.Identity != null && Context.User.Identity.IsAuthenticated)
                     {
                         <a class="nav-link text-light" asp-area="" asp-page="/Auth/SignOut">Sign Out</a>
                     }

@@ -20,7 +20,7 @@ namespace HomeStuff.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly HomeStuff.Data.SqliteContext _context;
         [DisplayName("CSV File")]
-        public IFormFile ImportFile { get; set; }
+        public IFormFile? ImportFile { get; set; }
         public string? ImportError { get; set; }
         public bool ImportSuccess = false;
         public int NumberOfItems = 0;
