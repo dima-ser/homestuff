@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Security.Claims;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using HomeStuff.Models;
 
 namespace HomeStuff.Pages.Auth
 {
@@ -34,7 +35,6 @@ namespace HomeStuff.Pages.Auth
         {
             if (!System.IO.File.Exists(passwordFilePath))
             {
-                Console.WriteLine("file doesn't exist, redirecting to SetPwd");
                 return Redirect("/auth/setpwd");
             }
             else
@@ -43,24 +43,28 @@ namespace HomeStuff.Pages.Auth
 
         public async Task<IActionResult> OnPostAsync()
         {
+            if (!System.IO.File.Exists(passwordFilePath))
+            {
+                return Redirect("/auth/setpwd");
+            }
             if (!ModelState.IsValid)
             {
                 return Page();
             }
-            string correctPassword = string.Empty;
+            string correctHash = string.Empty;
             try
             {
                 using (StreamReader sr = new StreamReader(passwordFilePath))
                 {
-                    correctPassword = sr.ReadLine()!;
+                    correctHash = sr.ReadLine()!;
                 }
-                //var passwordHasher = new PasswordHasher<string>();
-                //if (passwordHasher.VerifyHashedPassword(null, user.Password, Password) == PasswordVerificationResult.Success)
-                if (!string.IsNullOrEmpty(correctPassword) && correctPassword == Password)
+                string hash = Utilities.GetHash(Password);
+                Console.WriteLine("hash  is " + hash + "; correch Hash is " + correctHash);;
+                if (correctHash == hash)
                 {
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, "HomeStuff Admin")
+                        new Claim(ClaimTypes.Name, Utilities.AdminUserName)
                     };
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), new AuthenticationProperties
