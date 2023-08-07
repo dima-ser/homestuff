@@ -126,10 +126,23 @@
 <h2>Attachments</h2>
 @if (Model.Attachments.Count > 0)
 {
-    foreach (var attachment in Model.Attachments)
-    {
-        <a href="@attachment.Url">@attachment.Name</a><br/>
-    }
+    <ul class="list-group">
+        @foreach (var attachment in Model.Attachments)
+        {
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col position-relative">
+              
+                        <a href="@attachment.Url" class="stretched-link ">@attachment.Name [@attachment.Size]</a>
+                  
+                    </div>
+                    <div class="col-auto float-end">
+                        <a href="@attachment.DeleteUrl" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
 }
 else
 {

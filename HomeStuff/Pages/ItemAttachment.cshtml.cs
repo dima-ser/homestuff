@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.StaticFiles;
 using System.Configuration;
+using System.Net.Mail;
 using System.Web;
 
 namespace HomeStuff.Pages
@@ -27,10 +28,8 @@ namespace HomeStuff.Pages
         {
             if (!string.IsNullOrEmpty(ItemID) && !string.IsNullOrEmpty(Name))
             {
-                string attachmentDir = Path.Combine(webHostEnvironment.ContentRootPath, configuration.GetValue<string>("AttachmentDir"));
-                attachmentDir = Path.Combine(attachmentDir, ItemID);
                 string fileName = HttpUtility.UrlDecode(Name);
-                string attachmentPath = Path.Combine(attachmentDir, fileName);
+                string attachmentPath = ItemAttachment.GetPhysicalPath(webHostEnvironment, configuration, ItemID, fileName);
                 if (System.IO.File.Exists(attachmentPath))
                 {
                     var fileProvider = new FileExtensionContentTypeProvider();

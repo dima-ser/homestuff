@@ -15,7 +15,7 @@ namespace HomeStuff.Pages
         private readonly IWebHostEnvironment webHostEnvironment;
         public HomeStuff.Models.Item Item { get; set; } = default!;
         public string LocationName { get; set; } = string.Empty;
-        public List<Attachment> Attachments { get; set; } = new List<Attachment>();
+        public List<ItemAttachment> Attachments { get; set; } = new List<ItemAttachment>();
 
         public ItemModel(HomeStuff.Data.SqliteContext context, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
@@ -49,13 +49,13 @@ namespace HomeStuff.Pages
                     var files = Directory.EnumerateFiles(attachmentDir);
                     foreach (var file in files)
                     {
-                        Attachments.Add(new Attachment(
+                        FileInfo fi = new FileInfo(file);
+                        Attachments.Add(new ItemAttachment(
                             file, 
-                            Url.Content("~/itemattachment?itemid=" + Item.Id + "&name=" + HttpUtility.UrlEncode(Path.GetFileName(file))), 
-                            Path.GetFileName(file)));
-                        //Console.WriteLine(file);
-                        //Console.WriteLine(Path.GetFileName(file));
-                        //Console.WriteLine(Url.Content("~/attachment?itemid="+Item.Id+"&name="+ HttpUtility.UrlEncode(Path.GetFileName(file))));
+                            Url.Content("~/itemattachment?itemid=" + Item.Id + "&name=" + HttpUtility.UrlEncode(fi.Name)),
+                            Url.Content("~/itemattachmentdelete?itemid=" + Item.Id + "&name=" + HttpUtility.UrlEncode(fi.Name)),
+                            fi.Name,
+                            (Math.Ceiling((float)fi.Length / 1024.0)).ToString() + " KB"));
                     }
                 }
             }
