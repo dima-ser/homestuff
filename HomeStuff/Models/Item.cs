@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace HomeStuff.Models
 {
@@ -28,5 +29,12 @@ namespace HomeStuff.Models
         public DateOnly? PurchaseDate { get; set; }
         public string? SKU { get; set; }
         public DateTime LastModifiedUtc { get; set; }
+
+        public static string GetAttachmentDirPhysicalPath(IWebHostEnvironment environment, IConfiguration configuration, string itemId)
+        {
+            string attachmentDir = Path.Combine(environment.ContentRootPath, configuration.GetValue<string>("AttachmentDir"));
+            return Path.Combine(attachmentDir, itemId);
+        }
     }
+
 }

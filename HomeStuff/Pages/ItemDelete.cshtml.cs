@@ -13,10 +13,14 @@ namespace HomeStuff.Pages
     public class ItemDeleteModel : PageModel
     {
         private readonly HomeStuff.Data.SqliteContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IConfiguration _configuration;
 
-        public ItemDeleteModel(HomeStuff.Data.SqliteContext context)
+        public ItemDeleteModel(HomeStuff.Data.SqliteContext context, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
+            _configuration = configuration;
         }
 
         [BindProperty]
@@ -55,6 +59,11 @@ namespace HomeStuff.Pages
                 Item = item;
                 _context.Item.Remove(Item);
                 await _context.SaveChangesAsync();
+                string attachmentDir = Item.GetAttachmentDirPhysicalPath(_webHostEnvironment, _configuration, id.ToString()!);
+                if (Directory.Exists(attachmentDir))
+                {
+                    Directory.Delete(attachmentDir, true);
+                }
             }
 
             return RedirectToPage("./Index");
