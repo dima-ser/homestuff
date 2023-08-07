@@ -2,18 +2,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using HomeStuff.Models;
+using Microsoft.AspNetCore.Hosting;
+using System.Text.Encodings.Web;
+using System.Web;
 
 namespace HomeStuff.Pages
 {
     public class ItemModel : PageModel
     {
         private readonly HomeStuff.Data.SqliteContext _context;
+        private readonly IConfiguration configuration;
+        private readonly IWebHostEnvironment webHostEnvironment;
         public HomeStuff.Models.Item Item { get; set; } = default!;
         public string LocationName { get; set; } = string.Empty;
+        public List<Attachment> Attachments { get; set; } = new List<Attachment>();
 
-        public ItemModel(HomeStuff.Data.SqliteContext context)
+        public ItemModel(HomeStuff.Data.SqliteContext context, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            this.configuration = configuration;
+            this.webHostEnvironment = webHostEnvironment;
         }
 
  
@@ -33,6 +41,23 @@ namespace HomeStuff.Pages
             {
                 Item = item;
                 LocationName = _context.Location.Where(l => l.Id == Item.LocationId).First().Name;
+
+                string attachmentDir = Path.Combine(webHostEnvironment.ContentRootPath, configuration.GetValue<string>("AttachmentDir"));
+                attachmentDir = Path.Combine(attachmentDir, Item.Id.ToString());
+                if (Directory.Exists(attachmentDir))
+                {
+                    var files = Directory.EnumerateFiles(attachmentDir);
+                    foreach (var file in files)
+                    {
+                        Attachments.Add(new Attachment(
+                            file, 
+                            Url.Content("~/itemattachment?itemid=" + Item.Id + "&name=" + HttpUtility.UrlEncode(Path.GetFileName(file))), 
+                            Path.GetFileName(file)));
+                        //Console.WriteLine(file);
+                        //Console.WriteLine(Path.GetFileName(file));
+                        //Console.WriteLine(Url.Content("~/attachment?itemid="+Item.Id+"&name="+ HttpUtility.UrlEncode(Path.GetFileName(file))));
+                    }
+                }
             }
             ViewData["Title"] = Item.Name;
             return Page();

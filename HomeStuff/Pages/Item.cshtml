@@ -123,6 +123,20 @@
         <i>@Model.Item.LastModifiedUtc.ToLocalTime().ToString()</i>
     </dd>
 </dl>
+<h2>Attachments</h2>
+@if (Model.Attachments.Count > 0)
+{
+    foreach (var attachment in Model.Attachments)
+    {
+        <a href="@attachment.Url">@attachment.Name</a><br/>
+    }
+}
+else
+{
+    <div class="alert alert-warning">
+        No attachments
+    </div>
+}
 
 
 
