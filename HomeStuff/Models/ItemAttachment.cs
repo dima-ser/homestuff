@@ -3,7 +3,7 @@ using System.Web;
 
 namespace HomeStuff.Models
 {
-    public class ItemAttachment
+    public class ItemAttachment : IEquatable<ItemAttachment>, IComparable<ItemAttachment>
     {
         public int Id { get; set; }
         public string PhysicalPath { get; set; }
@@ -28,6 +28,29 @@ namespace HomeStuff.Models
             attachmentDir = Path.Combine(attachmentDir, itemId);
             string fileName = HttpUtility.UrlDecode(attachmentName);
             return Path.Combine(attachmentDir, fileName);
+        }
+
+        //public bool Equals(object other)
+        //{
+        //    if (other == null) return false;
+        //    ItemAttachment objAsAttachment = other as ItemAttachment;
+        //    if (objAsAttachment == null) return false;
+        //    else return Equals(objAsAttachment);
+        //}
+        public bool Equals(ItemAttachment? other)
+        {
+            if (other == null) return false;
+            return (this.Name.Equals(other.Name));
+        }
+
+        public int CompareTo(ItemAttachment? other)
+        {
+            // A null value means that this object is greater.
+            if (other == null)
+                return 1;
+
+            else
+                return this.Name.CompareTo(other.Name);
         }
     }
 }

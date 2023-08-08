@@ -61,6 +61,7 @@ namespace HomeStuff.Pages
                             fi.Name,
                             (Math.Ceiling((float)fi.Length / 1024.0)).ToString() + " KB"));
                     }
+                    Attachments.Sort();
                 }
             }
             ViewData["Title"] = Item.Name;
