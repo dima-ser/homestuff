@@ -16,6 +16,8 @@ namespace HomeStuff.Pages
         public SelectList? Locations { get; set; }
         [BindProperty(SupportsGet = true)]
         public string? l { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public double? MinPrice { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger, HomeStuff.Data.SqliteContext context)
         {
@@ -45,7 +47,10 @@ namespace HomeStuff.Pages
                 {
                     items = items.Where(i => i.LocationId.ToString() == l);
                 }
-
+                if (MinPrice != null)
+                {
+                    items = items.Where(i => i.PurchasePrice >= MinPrice);
+                }
                 Items = items.OrderByDescending(i => i.LastModifiedUtc).ToList();
                 foreach (var item in Items)
                 {
