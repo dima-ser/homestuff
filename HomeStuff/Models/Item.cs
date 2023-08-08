@@ -30,9 +30,17 @@ namespace HomeStuff.Models
         public string? SKU { get; set; }
         public DateTime LastModifiedUtc { get; set; }
 
+        /// <summary>
+        /// Returns a physical path of a directory on the server where attachments for the given itemId are located
+        /// </summary>
+        /// <param name="environment"></param>
+        /// <param name="configuration"></param>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
         public static string GetAttachmentDirPhysicalPath(IWebHostEnvironment environment, IConfiguration configuration, string itemId)
         {
-            string attachmentDir = Path.Combine(environment.ContentRootPath, configuration.GetValue<string>("AttachmentDir"));
+            string attachmentDir = Path.Combine(environment.ContentRootPath, configuration.GetValue<string>("UserDataDirectory"));
+            attachmentDir = Path.Combine(attachmentDir, Utilities.AttachmentDirName);
             return Path.Combine(attachmentDir, itemId);
         }
     }

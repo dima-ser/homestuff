@@ -26,7 +26,7 @@ namespace HomeStuff.Pages.Auth
 
         public SetPwdModel(IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
-            this.passwordFilePath = Path.Combine(webHostEnvironment.ContentRootPath, configuration.GetValue<string>("PasswordFilePath"));
+            this.passwordFilePath = Utilities.GetPasswordFilePath(webHostEnvironment, configuration);
 
         }
         public ActionResult OnGet()

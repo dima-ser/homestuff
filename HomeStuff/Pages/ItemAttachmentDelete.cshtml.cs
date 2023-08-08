@@ -12,12 +12,14 @@ namespace HomeStuff.Pages
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _configuration;
+        private readonly Data.SqliteContext _context;
         [BindProperty(SupportsGet =true)]
-        public string? ItemId { get; set; }
+        public int? ItemId { get; set; }
         [BindProperty(SupportsGet = true)]
         public string? Name { get; set; }
-        public ItemAttachmentDeleteModel(IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+        public ItemAttachmentDeleteModel(Data.SqliteContext context, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
+            _context = context;
             _webHostEnvironment= webHostEnvironment;
             _configuration= configuration;
         }
@@ -25,18 +27,30 @@ namespace HomeStuff.Pages
         {
 
         }
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPost()
         {
-            if (string.IsNullOrEmpty(ItemId) || string.IsNullOrEmpty(Name))
+            if (ItemId == null || string.IsNullOrEmpty(Name))
             {
                 return NotFound();
             }
             string fileName = HttpUtility.UrlDecode(Name);
-            string attachmentPath = ItemAttachment.GetPhysicalPath(_webHostEnvironment, _configuration, ItemId, fileName);
+            string attachmentPath = ItemAttachment.GetPhysicalPath(_webHostEnvironment, _configuration, ItemId.ToString()!, fileName);
             Console.WriteLine("physical path: " + attachmentPath);
             if (System.IO.File.Exists(attachmentPath))
             {
                 System.IO.File.Delete(attachmentPath);
+                var item = _context.Item.FirstOrDefault(i => i.Id == ItemId);
+                if (item != null)
+                {
+                    item.LastModifiedUtc = DateTime.UtcNow;
+                    _context.SaveChangesAsync();
+                }
+                // if this was the last attachment, also delete the directory
+                string attachmentDir = Item.GetAttachmentDirPhysicalPath(_webHostEnvironment, _configuration, ItemId.ToString()!);
+                if (Directory.EnumerateFiles(attachmentDir).Count() == 0)
+                {
+                    Directory.Delete(attachmentDir);
+                }
                 return Redirect("./Item?id=" + ItemId);
             }
             else

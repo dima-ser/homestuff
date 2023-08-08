@@ -124,12 +124,13 @@
     </dd>
 </dl>
 <h2>Attachments</h2>
+
 @if (Model.Attachments.Count > 0)
 {
     <ul class="list-group">
         @foreach (var attachment in Model.Attachments)
         {
-            <li class="list-group-item">
+            <li class="list-group-item list-group-item-secondary">
                 <div class="row">
                     <div class="col position-relative">
               
@@ -137,7 +138,7 @@
                   
                     </div>
                     <div class="col-auto float-end">
-                        <a href="@attachment.DeleteUrl" class="btn btn-danger">Delete</a>
+                        <a href="@attachment.DeleteUrl" class="btn btn-sm btn-danger">Delete</a>
                     </div>
                 </div>
             </li>
@@ -146,10 +147,34 @@
 }
 else
 {
-    <div class="alert alert-warning">
+    <div class="alert alert-secondary">
         No attachments
     </div>
 }
+<form enctype="multipart/form-data" method="post">
+    <div class="mb-3">
+        <dl>
+            <dt>
+                <label asp-for="AttachmentFile" class="form-label">Upload an attachment (photo, manual, receipt, etc.)</label>
+            </dt>
+            <dd>
+                <div class="input-group">
+                    <input asp-for="AttachmentFile" type="file" class="form-control">
+                    <div class="input-group-append">
+                        <input class="btn btn-primary" type="submit" value="Upload" />
+                    </div>
 
+                </div>
+            </dd>
+        </dl>
+        <span asp-validation-for="AttachmentFile" class="text-danger"></span>
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">
+                @Model.ErrorMessage
+            </div>
+        }
+    </div>
+</form>
 
 

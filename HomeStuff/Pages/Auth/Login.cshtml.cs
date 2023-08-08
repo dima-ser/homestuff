@@ -27,8 +27,9 @@ namespace HomeStuff.Pages.Auth
 
         public LoginModel(IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
-            this.passwordFilePath = Path.Combine(webHostEnvironment.ContentRootPath, configuration.GetValue<string>("PasswordFilePath"));
-            Console.WriteLine(passwordFilePath);
+            this.passwordFilePath = Utilities.GetPasswordFilePath(webHostEnvironment, configuration);
+
+            
            
         }
         public ActionResult OnGet()
@@ -59,7 +60,7 @@ namespace HomeStuff.Pages.Auth
                     correctHash = sr.ReadLine()!;
                 }
                 string hash = Utilities.GetHash(Password);
-                Console.WriteLine("hash  is " + hash + "; correch Hash is " + correctHash);;
+
                 if (correctHash == hash)
                 {
                     var claims = new List<Claim>

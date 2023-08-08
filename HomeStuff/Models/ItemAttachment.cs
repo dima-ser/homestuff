@@ -23,7 +23,8 @@ namespace HomeStuff.Models
         }   
         public static string GetPhysicalPath(IWebHostEnvironment environment, IConfiguration configuration, string itemId, string attachmentName)
         {
-            string attachmentDir = Path.Combine(environment.ContentRootPath, configuration.GetValue<string>("AttachmentDir"));
+            string attachmentDir = Path.Combine(environment.ContentRootPath, configuration.GetValue<string>("UserDataDirectory"));
+            attachmentDir = Path.Combine(attachmentDir, Utilities.AttachmentDirName);
             attachmentDir = Path.Combine(attachmentDir, itemId);
             string fileName = HttpUtility.UrlDecode(attachmentName);
             return Path.Combine(attachmentDir, fileName);
