@@ -31,6 +31,7 @@ namespace HomeStuff.Pages
                 return NotFound();
             }
             Maintenances = _context.Maintenance.Where(i => i.Item.Id == ItemId).ToList();
+            ViewData["Title"] = Item.Name;
             return Page();
         }
     }

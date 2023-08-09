@@ -13,8 +13,8 @@
             <a href="#" class="btn btn-primary active" aria-current="page">Details</a>
             <a asp-page="./ItemEdit" asp-route-id="@Model.Item?.Id" class="btn btn-primary">Edit</a>
             <a asp-page="./ItemMaint" asp-route-itemid="@Model.Item?.Id" class="btn btn-primary">Maintenance</a>
-            &nbsp;&nbsp;&nbsp;
-            <i class="d-block mt-2" title="@Model.Item!.LastModifiedUtc.ToLocalTime()">Last Modified: @Model.Item.LastModifiedUtc.ToLocalTime().ToShortDateString()</i>
+@*            &nbsp;&nbsp;&nbsp;
+            <i class="d-block mt-2" title="@Model.Item!.LastModifiedUtc.ToLocalTime()">Last Modified: @Model.Item.LastModifiedUtc.ToLocalTime().ToShortDateString()</i>*@
         </div>
     </div>
     <div class="col-auto float-end">
@@ -118,6 +118,14 @@
         </dd>
     </dl>
 }
+<dl class="row">
+    <dt class="col-sm-2">
+        <i>Last Modified</i>
+    </dt>
+    <dd class="col-sm-10">
+        <i>@Model.Item.LastModifiedUtc.ToLocalTime().ToString()</i>
+    </dd>
+</dl>
 <h2>Attachments</h2>
 
 @if (Model.Attachments.Count > 0)
