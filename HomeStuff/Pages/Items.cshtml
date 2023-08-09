@@ -22,18 +22,20 @@
 </form>
 @if (Model.Count > Model.PageSize)
 {
-    <nav aria-label="Page">
-        <div class="row">
-            <ul class="pagination justify-content-center mt-2">
-                @for (var i = 1; i <= Model.TotalPages; i++)
-                {
-                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                        <a asp-page="/Items" asp-route-currentpage="@i" asp-route-q="@Model.q" asp-route-l="@Model.l" asp-route-minprice="@Model.MinPrice" class="page-link">@i</a>
-                    </li>
-                }
-            </ul>
+    <div class="row">
+        <div class="col">
+            <nav aria-label="Page">
+                <ul class="pagination">
+                    @for (var i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a asp-page="/Items" asp-route-currentpage="@i" asp-route-q="@Model.q" asp-route-l="@Model.l" asp-route-minprice="@Model.MinPrice" class="page-link">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
         </div>
-    </nav>
+    </div>
 }
 <div class="row">
 @*    <div class="col-md-4 mb-2">
@@ -79,18 +81,20 @@
         </div>
     }
 </div>
-@if (Model.Count> Model.PageSize)
+@if (Model.Count > Model.PageSize)
 {
-<nav aria-label="Page">
-<div class="row">
-    <ul class="pagination justify-content-center mt-2">
-        @for (var i = 1; i <= Model.TotalPages; i++)
-        {
-            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                <a asp-page="/Items" asp-route-currentpage="@i" asp-route-q="@Model.q" asp-route-l="@Model.l" asp-route-minprice="@Model.MinPrice" class="page-link">@i</a>
-            </li>
-        }
-    </ul>
-</div>
-</nav>
+    <div class="row">
+        <div class="col">
+            <nav aria-label="Page">
+                <ul class="pagination">
+                    @for (var i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                            <a asp-page="/Items" asp-route-currentpage="@i" asp-route-q="@Model.q" asp-route-l="@Model.l" asp-route-minprice="@Model.MinPrice" class="page-link">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
 }
