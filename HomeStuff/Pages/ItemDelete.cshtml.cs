@@ -66,7 +66,7 @@ namespace HomeStuff.Pages
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Items");
         }
     }
 }

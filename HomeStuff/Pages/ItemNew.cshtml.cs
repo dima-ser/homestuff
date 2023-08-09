@@ -42,7 +42,7 @@ namespace HomeStuff.Pages
             _context.Item.Add(Item);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Items");
         }
     }
 }

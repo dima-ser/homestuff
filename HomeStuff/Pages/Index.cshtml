@@ -1,66 +1,6 @@
 ﻿@page
-@model IndexModel
+@model HomeStuff.Pages.IndexModel
 @{
-    ViewData["Title"] = "Items";
+    ViewData["Title"] = "Home";
 }
-<h1>@ViewData["Title"]</h1>
-@*<div class="row">
-    <div class="col-md-4 mb-2">
-    <a href="./ItemNew" class="btn btn-success btn-lg w-100">Add Item</a>
-    </div>
-</div>*@
-<form>
-<div class="row no-gutters mb-3">
-    <div class="col input-group">
-        <input class="form-control" type="search" placeholder="Search items" asp-for="q">
-            <select class="form-control" asp-for="l" asp-items="Model.Locations">
-                <option value="">All Locations</option>
-            </select>
-        <button class="btn btn-primary" type="submit">Search</button>
-    </div>
-</div>
-</form>
-<div class="row">
-@*    <div class="col-md-4 mb-2">
-        <div class="card h-100 card-hover  border-success">
-            <h5 class="card-header bg-success text-light">Add New Item</h5>
-            <div class="card-body">
-                <p class="card-text"> Click here to add a new item</p>
-                <a asp-page="./ItemNew" class="stretched-link"></a>
-            </div>
-        </div>
-    </div>*@
-    @if ((Model.q != null || Model.l != null) && Model.Items.Count==0)
-    {
-        <div class="col">
-            <div class="alert alert-warning" role="alert">
-                No items match search criteria
-            </div>
-        </div>
-    }
-    else if (Model.Items.Count == 0)
-    {
-        <div class="col">
-            <div class="alert alert-warning" role="alert">
-                No items in the database. Add or import items using the menu.
-            </div>
-        </div>
-    }
-    @foreach (var item in Model.Items)
-    {
-        <div class="col-md-4 mb-2">
-            <div class="card h-100 card-hover">
-                <h5 class="card-header bg-primary text-light">@(item.Name.Length > 50 ? item.Name.Substring(0, 50) + "..." : item.Name)</h5>
-                <div class="card-body border-primary">
-                    <p class="card-text"> @(item.Description != null && item.Description.Length > 135 ? item.Description.Substring(0, 135) + "..." : item.Description)</p>
-                    <span class="badge bg-dark align-bottom">@item.Location!.Name</span>
-                    @if (item.PurchasePrice != null)
-                    {
-                        <span class="badge bg-success align-bottom">@Html.DisplayFor(model => item.PurchasePrice)</span>
-                    }
-                    <a asp-page="./Item" asp-route-id="@item.Id" class="stretched-link"></a>
-                </div>
-            </div>
-        </div>
-    }
-</div>
+<h1>Welcome</h1>

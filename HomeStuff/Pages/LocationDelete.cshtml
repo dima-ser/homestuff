@@ -9,7 +9,7 @@
 <hr />
 @if (Model.Items.Count>0)
 {
-    <p>Deleting this location also deletes all items in it (currently <a title="Show items in this location" href="./index?l=@Model.Location.Id">@Model.Items.Count items</a> ). If you'd like to retain them, please move them to another location first.</p>
+    <p>Deleting this location also deletes all items in it (currently <a title="Show items in this location" href="./items?l=@Model.Location.Id">@Model.Items.Count items</a> ). If you'd like to retain them, please move them to another location first.</p>
 }
 <p> Are you sure you want to delete this location?</p>
 <div>
