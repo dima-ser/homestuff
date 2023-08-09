@@ -19,8 +19,8 @@ namespace HomeStuff.Pages
         public List<ItemAttachment> Attachments { get; set; } = new List<ItemAttachment>();
         [DisplayName("Attachment")]
         public IFormFile? AttachmentFile { get; set; }
-        [BindProperty(SupportsGet =true)]
-        public string ErrorMessage { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string ErrorMessage { get; set; } = string.Empty;
 
         public ItemModel(HomeStuff.Data.SqliteContext context, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
@@ -53,7 +53,7 @@ namespace HomeStuff.Pages
                     var files = Directory.EnumerateFiles(attachmentDir);
                     foreach (var file in files)
                     {
-                        FileInfo fi = new FileInfo(file);
+                        FileInfo fi = new(file);
                         Attachments.Add(new ItemAttachment(
                             file,
                             Url.Content("~/itemattachment?itemid=" + Item.Id + "&name=" + HttpUtility.UrlEncode(fi.Name)),

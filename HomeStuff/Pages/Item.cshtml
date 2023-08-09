@@ -27,7 +27,7 @@
         @Html.DisplayFor(model => model.LocationName)
     </dd>
 </dl>
-@if (!String.IsNullOrEmpty(Model.Item.Description))
+@if (!String.IsNullOrEmpty(Model.Item!.Description))
 {
     <dl class="row">
         <dt class="col-sm-2">

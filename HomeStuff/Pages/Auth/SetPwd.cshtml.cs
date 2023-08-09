@@ -20,13 +20,13 @@ namespace HomeStuff.Pages.Auth
         public string PasswordNew2 { get; set; } = string.Empty;
 
         public string? ErrorMessage { get; set; }
-        public string passwordFilePath { get; set; }
+        public string PasswordFilePath { get; set; }
 
 
 
         public SetPwdModel(IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
-            this.passwordFilePath = Utilities.GetPasswordFilePath(webHostEnvironment, configuration);
+            this.PasswordFilePath = Utilities.GetPasswordFilePath(webHostEnvironment, configuration);
 
         }
         public ActionResult OnGet()
@@ -50,7 +50,7 @@ namespace HomeStuff.Pages.Auth
                 return Page();
             }
             string hashedPassword = Utilities.GetHash(PasswordNew1);
-            using (StreamWriter outputFile = new StreamWriter(passwordFilePath))
+            using (StreamWriter outputFile = new(PasswordFilePath))
             {
                 outputFile.WriteLine(hashedPassword);
             }
@@ -66,7 +66,7 @@ namespace HomeStuff.Pages.Auth
 
         bool PasswordFileExists()
         {
-            return System.IO.File.Exists(passwordFilePath);
+            return System.IO.File.Exists(PasswordFilePath);
         }
     }
 }

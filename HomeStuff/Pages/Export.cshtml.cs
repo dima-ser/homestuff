@@ -18,25 +18,23 @@ namespace HomeStuff.Pages
 {
     public class ExportModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
         private readonly HomeStuff.Data.SqliteContext _context;
         [BindProperty(SupportsGet = true)]
-        public string? run { get; set; }
+        public string? Run { get; set; }
 
-        public ExportModel(ILogger<IndexModel> logger, Data.SqliteContext context)
+        public ExportModel(Data.SqliteContext context)
         {
-            _logger = logger;
             _context = context;
         }
 
         public ActionResult OnGet()
         {
-            if (!string.IsNullOrEmpty(run))
+            if (!string.IsNullOrEmpty(Run))
             {
-                List<ItemImport> itemsForExport = new List<ItemImport>();
+                List<ItemImport> itemsForExport = new();
                 foreach (var item in _context.Item)
                 {
-                    ItemImport itemImport = new ItemImport
+                    ItemImport itemImport = new()
                     {
                         Name = item.Name,
                         Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId)!.Name,

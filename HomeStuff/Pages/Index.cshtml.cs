@@ -8,7 +8,6 @@ namespace HomeStuff.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
         private readonly HomeStuff.Data.SqliteContext _context;
         public IList<HomeStuff.Models.Item> Items { get; set; } = default!;
         [BindProperty(SupportsGet = true)]
@@ -19,9 +18,8 @@ namespace HomeStuff.Pages
         [BindProperty(SupportsGet = true)]
         public double? MinPrice { get; set; }
 
-        public IndexModel(ILogger<IndexModel> logger, HomeStuff.Data.SqliteContext context)
+        public IndexModel(HomeStuff.Data.SqliteContext context)
         {
-            _logger = logger;
             _context = context;
             Locations = new SelectList(context.Location, nameof(Location.Id), nameof(Location.Name));
         }

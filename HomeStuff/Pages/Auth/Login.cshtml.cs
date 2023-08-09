@@ -21,20 +21,20 @@ namespace HomeStuff.Pages.Auth
         public bool RememberMe { get; set; } = false;
 
         public string? ErrorMessage { get; set; }
-        public string passwordFilePath { get; set; }
+        public string PasswordFilePath { get; set; }
 
 
 
         public LoginModel(IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
-            this.passwordFilePath = Utilities.GetPasswordFilePath(webHostEnvironment, configuration);
+            this.PasswordFilePath = Utilities.GetPasswordFilePath(webHostEnvironment, configuration);
 
             
            
         }
         public ActionResult OnGet()
         {
-            if (!System.IO.File.Exists(passwordFilePath))
+            if (!System.IO.File.Exists(PasswordFilePath))
             {
                 return Redirect("/auth/setpwd");
             }
@@ -44,7 +44,7 @@ namespace HomeStuff.Pages.Auth
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!System.IO.File.Exists(passwordFilePath))
+            if (!System.IO.File.Exists(PasswordFilePath))
             {
                 return Redirect("/auth/setpwd");
             }
@@ -55,7 +55,7 @@ namespace HomeStuff.Pages.Auth
             string correctHash = string.Empty;
             try
             {
-                using (StreamReader sr = new StreamReader(passwordFilePath))
+                using (StreamReader sr = new(PasswordFilePath))
                 {
                     correctHash = sr.ReadLine()!;
                 }
