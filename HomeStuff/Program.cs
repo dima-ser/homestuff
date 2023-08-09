@@ -4,6 +4,7 @@ using HomeStuff.Data;
 using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using HomeStuff.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
@@ -14,6 +15,7 @@ builder.Services.AddRazorPages(options =>
 });
 builder.Services.AddDbContext<SqliteContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("SqliteContext") ?? throw new InvalidOperationException("Connection string 'SqliteContext' not found.")));
+builder.Services.AddTransient<IItemService, ItemService>();
 
 // authentication
 builder.Services.Configure<CookiePolicyOptions>(options =>

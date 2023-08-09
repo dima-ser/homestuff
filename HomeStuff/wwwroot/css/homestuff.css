@@ -48,3 +48,7 @@
 .card-hover:hover {
     opacity:0.9;
 }
+.page-item.active .page-link {
+    background-color: #2b87a5;
+    border-color: #2b87a5;
+}

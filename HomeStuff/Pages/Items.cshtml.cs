@@ -18,48 +18,31 @@ namespace HomeStuff.Pages
         [BindProperty(SupportsGet = true)]
         public double? MinPrice { get; set; }
 
-        public ItemsModel(HomeStuff.Data.SqliteContext context)
+        [BindProperty(SupportsGet = true)]
+        public int CurrentPage { get; set; } = 1;
+        public int Count { get; set; }
+        public int PageSize { get; set; } = 50;
+        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
+        private readonly IItemService _itemService;
+
+        public ItemsModel(HomeStuff.Data.SqliteContext context, IItemService itemService)
         {
             _context = context;
+            _itemService = itemService;
             Locations = new SelectList(context.Location, nameof(Location.Id), nameof(Location.Name));
         }
 
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
             if (_context.Item != null)
             {
-                var items = from i in _context.Item select i;
-                if (!string.IsNullOrEmpty(q))
-                {
-                    q = q.Trim();
-                    items = items.Where(s => s.Name.ToLower().Contains(q.ToLower()) || 
-                    (s.Description != null && s.Description.ToLower().Contains(q.ToLower())) ||
-                    (s.Manufacturer != null && s.Manufacturer.ToLower().Contains(q.ToLower())) ||
-                    (s.ModelNumber != null && s.ModelNumber.ToLower().Contains(q.ToLower())) ||
-                    (s.SerialNumber != null && s.SerialNumber.ToLower().Contains(q.ToLower())) ||
-                    (s.Vendor != null && s.Vendor.ToLower().Contains(q.ToLower())) ||
-                    (s.SKU != null && s.SKU.ToLower().Contains(q.ToLower())));
-                }
-                if (!string.IsNullOrEmpty(l))
-                {
-                    items = items.Where(i => i.LocationId.ToString() == l);
-                }
-                if (MinPrice != null)
-                {
-                    items = items.Where(i => i.PurchasePrice >= MinPrice);
-                }
-                Items = items.OrderByDescending(i => i.LastModifiedUtc).ToList();
-                foreach (var item in Items)
-                {
-                    item.Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId);
-                }
+                Items = await _itemService.GetPaginatedResult(CurrentPage, q, l, MinPrice, PageSize);
+                Count = await _itemService.GetCount(q, l, MinPrice);
+
+               
             }
         }
 
-        public void OnPostSearch()
-        {
-
-        }
     }
 }
