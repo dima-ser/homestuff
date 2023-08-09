@@ -12,6 +12,7 @@
         <div class="btn-group mb-3" role="toolbar" aria-label="Item navigation">
             <a asp-page="./Item" asp-route-id="@Model.Item?.Id" class="btn btn-primary">Details</a>
             <a href="#" class="btn btn-primary active" aria-current="page">Edit</a>
+            <a asp-page="./ItemMaint" asp-route-itemid="@Model.Item?.Id" class="btn btn-primary">Maintenance</a>
         </div>
     </div>
     <div class="col-auto float-end">

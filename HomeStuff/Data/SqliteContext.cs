@@ -17,5 +17,7 @@ namespace HomeStuff.Data
         public DbSet<HomeStuff.Models.Item> Item { get; set; } = default!;
 
         public DbSet<HomeStuff.Models.Location> Location { get; set; } = default!;
+
+        public DbSet<HomeStuff.Models.Maintenance> Maintenance { get; set; } = default!;
     }
 }

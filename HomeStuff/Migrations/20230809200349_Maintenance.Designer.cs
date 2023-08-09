@@ -3,6 +3,7 @@ using System;
 using HomeStuff.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeStuff.Migrations
 {
     [DbContext(typeof(SqliteContext))]
-    partial class SqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20230809200349_Maintenance")]
+    partial class Maintenance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.9");
@@ -82,35 +85,6 @@ namespace HomeStuff.Migrations
                     b.ToTable("Location");
                 });
 
-            modelBuilder.Entity("HomeStuff.Models.Maintenance", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Completed")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("Maintenance");
-                });
-
             modelBuilder.Entity("HomeStuff.Models.Item", b =>
                 {
                     b.HasOne("HomeStuff.Models.Location", "Location")
@@ -120,22 +94,6 @@ namespace HomeStuff.Migrations
                         .IsRequired();
 
                     b.Navigation("Location");
-                });
-
-            modelBuilder.Entity("HomeStuff.Models.Maintenance", b =>
-                {
-                    b.HasOne("HomeStuff.Models.Item", "Item")
-                        .WithMany("Maintenances")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Item");
-                });
-
-            modelBuilder.Entity("HomeStuff.Models.Item", b =>
-                {
-                    b.Navigation("Maintenances");
                 });
 
             modelBuilder.Entity("HomeStuff.Models.Location", b =>

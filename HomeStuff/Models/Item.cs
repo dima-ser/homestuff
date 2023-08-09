@@ -29,6 +29,8 @@ namespace HomeStuff.Models
         public DateOnly? PurchaseDate { get; set; }
         public string? SKU { get; set; }
         public DateTime LastModifiedUtc { get; set; }
+        public string? MaintenanceNotes { get; set; }
+        public ICollection<Maintenance> Maintenances { get;} = new List<Maintenance>();
 
         /// <summary>
         /// Returns a physical path of a directory on the server where attachments for the given itemId are located
