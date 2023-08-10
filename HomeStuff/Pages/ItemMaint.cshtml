@@ -20,24 +20,26 @@
 <form method="post">
     <input type="hidden" asp-for="NewMaintenance.ItemId" />
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="NewMaintenance.Date" class="control-label"></label>
                 <input asp-for="NewMaintenance.Date" class="form-control" />
                 <span asp-validation-for="NewMaintenance.Date" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-9">
             <div class="form-group">
                 <label asp-for="NewMaintenance.Description" class="control-label"></label>
                 <input asp-for="NewMaintenance.Description" class="form-control" />
                 <span asp-validation-for="NewMaintenance.Description" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-4">
+    </div>
+    <div class="row">
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="NewMaintenance.Completed" class="control-label"></label>
-                <select asp-for="NewMaintenance.Completed" class="form-control">
+                <select asp-for="NewMaintenance.Completed" class="form-control" onchange="toggleCompleted()">
                     <option value="false" selected="true">Scheduled</option>
                     <option value="true">Completed</option>
                 </select>
@@ -51,35 +53,69 @@
                 <label asp-for="NewMaintenance.Completed" class="form-check-label"></label>
             </div>*@
         </div>
-
+        <div class="col-md-3" id="divRecurring">
+            <div class="form-group">
+                <label asp-for="NewMaintRecurring" class="control-label"></label>
+                <select asp-for="NewMaintRecurring" class="form-control" onchange="toggleRecurrence()">
+                    <option value="false" selected="true">One-time</option>
+                    <option value="true">Recurring</option>
+                </select>
+                <span asp-validation-for="NewMaintRecurring" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3" id="divRecurringDays" style="display:none">
+            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="NewMaintRecurringDays" class="control-label"></label>
+                    <input asp-for="NewMaintRecurringDays" class="form-control" min="1" max="10000" />
+                    <span asp-validation-for="NewMaintRecurringDays" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3" id="divNumOccurences" style="display:none">
+            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="NewMaintNumOccurences" class="control-label"></label>
+                    <input asp-for="NewMaintNumOccurences" class="form-control" min="1" max="100" />
+                    <span asp-validation-for="NewMaintNumOccurences" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <input type="submit" value="Log/Schedule Maintenance" class="btn btn-success mt-3" />
+                <input id="btnNewMaintenance" type="submit" value="Schedule Maintenance" class="btn btn-success mt-3 mb-3" />
             </div>
         </div>
     </div>
-    <div asp-validation-summary="All" class="text-danger mt-1"></div>
+    @*<div asp-validation-summary="All" class="text-danger mt-1"></div>*@
 </form>
-@if (Model.Maintenances.Count > 0)
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
+    <div class="alert alert-danger">
+        @Model.ErrorMessage
+    </div>
+}
+@if (Model.OverdueMaintenances.Count > 0)
+{
+    <h4>Overdue Maintenance</h4>
     <div class="table-responsive">
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Title</th>
-                <th scope="col">Completed</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.OverdueMaintenances[0].Date)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.OverdueMaintenances[0].Description)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.OverdueMaintenances[0].Completed)</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var maint in Model.Maintenances)
+                @foreach (var maint in Model.OverdueMaintenances)
                 {
-                    <tr>
+                    <tr class="table-danger">
                         <th scope="row">@maint.Date</th>
                         <td>@maint.Description</td>
-                        <td>@maint.Completed</td>
+                        <td>@(maint.Completed ? "Completed" : "Scheduled")</td>
                     </tr>
                 }
             
@@ -87,14 +123,98 @@
     </table>
     </div>
 }
-else
+@if (Model.UpcomingMaintenances.Count > 0)
+{
+    <h4>Upcoming Maintenance</h4>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">@Html.DisplayNameFor(model => model.UpcomingMaintenances[0].Date)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.UpcomingMaintenances[0].Description)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.UpcomingMaintenances[0].Completed)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var maint in Model.UpcomingMaintenances)
+                {
+                    <tr class="table-warning">
+                        <th scope="row">@maint.Date</th>
+                        <td>@maint.Description</td>
+                        <td>@(maint.Completed ? "Completed" : "Scheduled")</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+}
+@if (Model.CompletedMaintenances.Count > 0)
+{
+    <h4>Completed Maintenance</h4>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">@Html.DisplayNameFor(model => model.CompletedMaintenances[0].Date)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.CompletedMaintenances[0].Description)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.CompletedMaintenances[0].Completed)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var maint in Model.CompletedMaintenances)
+                {
+                    <tr class="table-success">
+                        <th scope="row">@maint.Date</th>
+                        <td>@maint.Description</td>
+                        <td>@(maint.Completed ? "Completed" : "Scheduled")</td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+}
+@if (Model.OverdueMaintenances.Count == 0 && Model.UpcomingMaintenances.Count == 0 && Model.CompletedMaintenances.Count == 0)
 {
     <div class="col">
         <div class="alert alert-warning" role="alert">
-            Maintenance log is empty. Add or schedule a maintenance entry to see the maintenance log for this item.
+            Maintenance log is empty. Log or schedule maintenance to see the maintenance log for this item.
         </div>
     </div>
 }
+<script type="text/javascript">
+    function toggleCompleted() {
+        var value = $("#NewMaintenance_Completed").val();
+        if (value == "true"){
+            $("#divRecurring").hide();
+            $("#divRecurringDays").hide();
+            $("#divNumOccurences").hide();  
+            $("#NewMaintRecurring").val("false");
+            $("#btnNewMaintenance").val("Log Maintenance");
+        }
+        else {
+            $("#divRecurring").show();
+            //$("#divRecurringDays").show();
+            //$("#divNumOccurences").show();
+            $("#btnNewMaintenance").val("Schedule Maintenance");
+        }
+        toggleRecurrence();
+    }
+    function toggleRecurrence() {
+        var value = $("#NewMaintRecurring").val();
+        if (value == "true") {
+            $("#divRecurringDays").show();
+            $("#divNumOccurences").show();
+
+        }
+        else {
+            $("#divRecurringDays").hide();
+            $("#divNumOccurences").hide();
+
+        }
+    }
+</script>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
