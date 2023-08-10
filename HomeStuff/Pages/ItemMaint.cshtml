@@ -17,3 +17,73 @@
         <a asp-page="./ItemDelete" asp-route-id="@Model.Item?.Id" class="btn btn-danger">Delete</a>
     </div>
 </div>
+<form method="post">
+    <input type="hidden" asp-for="NewMaintenance.ItemId" />
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="NewMaintenance.Date" class="control-label"></label>
+                <input asp-for="NewMaintenance.Date" class="form-control" />
+                <span asp-validation-for="NewMaintenance.Date" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="NewMaintenance.Title" class="control-label"></label>
+                <input asp-for="NewMaintenance.Title" class="form-control" />
+                <span asp-validation-for="NewMaintenance.Title" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-check">
+           @*     <input class="form-check-input" type="checkbox" asp-for="NewMaintenance.Completed">
+                <label class="form-check-label" asp-for="NewMaintenance.Completed">
+                </label>*@
+                @Html.CheckBoxFor(model => model.NewMaintenance.Completed, new {@class="form-check-input align-middle"})
+                <label asp-for="NewMaintenance.Completed" class="form-check-label"></label>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <input type="submit" value="Add Maintenance Entry" class="btn btn-success mt-3" />
+            </div>
+        </div>
+    </div>
+    <div asp-validation-summary="All" class="text-danger mt-1"></div>
+</form>
+@if (Model.Maintenances.Count > 0)
+{
+    <div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Title</th>
+                <th scope="col">Completed</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var maint in Model.Maintenances)
+                {
+                    <tr>
+                        <th scope="row">@maint.Date</th>
+                        <td>@maint.Title</td>
+                        <td>@maint.Completed</td>
+                    </tr>
+                }
+            
+        </tbody>
+    </table>
+    </div>
+}
+else
+{
+    <div class="col">
+        <div class="alert alert-warning" role="alert">
+            Maintenance log is empty. Add or schedule a maintenance entry to see the maintenance log for this item.
+        </div>
+    </div>
+}

@@ -3,6 +3,7 @@ using HomeStuff.Migrations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 namespace HomeStuff.Pages
 {
@@ -10,29 +11,59 @@ namespace HomeStuff.Pages
     {
         private readonly SqliteContext _context;
         [BindProperty(SupportsGet = true)]
-        public int ItemId { get; set; }
+        public int? ItemId { get; set; }
         public List<Models.Maintenance> Maintenances { get; set; } = new List<Models.Maintenance>();
-        public Models.Item Item = default!;
+        public Models.Item? Item;
+
+        [BindProperty]
+        public Models.Maintenance NewMaintenance { get; set; } = new Models.Maintenance();
 
         public ItemMaintModel(SqliteContext context) 
         { 
             _context = context;
         }
 
-        public async Task<IActionResult> OnGetAsync(int? ItemId)
+        public async Task<IActionResult> OnGetAsync(int ItemId)
+        {
+            //if (ItemId == null)
+            //{
+            //    return NotFound();
+            //}
+            Item = _context.Item.FirstOrDefault(i => i.Id == ItemId)!;
+            if (Item == null)
+            {
+                return NotFound();
+            }
+            Maintenances = _context.Maintenance.Where(i => i.Item!.Id == ItemId).ToList();
+            NewMaintenance.ItemId = Item.Id;
+            ViewData["Title"] = Item.Name;
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
         {
             if (ItemId == null)
             {
                 return NotFound();
             }
             Item = _context.Item.FirstOrDefault(i => i.Id == ItemId)!;
-            if (Item == null)
+            if (NewMaintenance == null || Item == null)
             {
-                return NotFound();
+                return Page();
             }
-            Maintenances = _context.Maintenance.Where(i => i.Item.Id == ItemId).ToList();
-            ViewData["Title"] = Item.Name;
-            return Page();
+            //NewMaintenance.Item = Item;
+            if (!ModelState.IsValid)
+            {
+                Console.WriteLine("got to model valid check");
+                Console.WriteLine(Item.Id);
+                return Page();
+            }
+            _context.Maintenance.Add(NewMaintenance);
+            Item.LastModifiedUtc = DateTime.UtcNow;
+            
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./ItemMaint", new { ItemId = ItemId.ToString() });
         }
     }
 }
