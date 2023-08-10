@@ -11,7 +11,7 @@ namespace HomeStuff.Pages
     {
         private readonly SqliteContext _context;
         [BindProperty(SupportsGet = true)]
-        public int? ItemId { get; set; }
+        public int ItemId { get; set; }
         public List<Models.Maintenance> Maintenances { get; set; } = new List<Models.Maintenance>();
         public Models.Item? Item;
 
@@ -21,6 +21,7 @@ namespace HomeStuff.Pages
         public ItemMaintModel(SqliteContext context) 
         { 
             _context = context;
+            NewMaintenance.Date = DateOnly.FromDateTime(DateTime.Now);
         }
 
         public async Task<IActionResult> OnGetAsync(int ItemId)
@@ -42,10 +43,10 @@ namespace HomeStuff.Pages
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (ItemId == null)
-            {
-                return NotFound();
-            }
+            //if (ItemId == null)
+            //{
+            //    return NotFound();
+            //}
             Item = _context.Item.FirstOrDefault(i => i.Id == ItemId)!;
             if (NewMaintenance == null || Item == null)
             {

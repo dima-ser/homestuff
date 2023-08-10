@@ -29,26 +29,34 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label asp-for="NewMaintenance.Title" class="control-label"></label>
-                <input asp-for="NewMaintenance.Title" class="form-control" />
-                <span asp-validation-for="NewMaintenance.Title" class="text-danger"></span>
+                <label asp-for="NewMaintenance.Description" class="control-label"></label>
+                <input asp-for="NewMaintenance.Description" class="form-control" />
+                <span asp-validation-for="NewMaintenance.Description" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="form-check">
-           @*     <input class="form-check-input" type="checkbox" asp-for="NewMaintenance.Completed">
+            <div class="form-group">
+                <label asp-for="NewMaintenance.Completed" class="control-label"></label>
+                <select asp-for="NewMaintenance.Completed" class="form-control">
+                    <option value="false" selected="true">Scheduled</option>
+                    <option value="true">Completed</option>
+                </select>
+                <span asp-validation-for="NewMaintenance.Completed" class="text-danger"></span>
+            </div>
+            @* <div class="form-check">
+                <input class="form-check-input" type="checkbox" asp-for="NewMaintenance.Completed">
                 <label class="form-check-label" asp-for="NewMaintenance.Completed">
-                </label>*@
+                </label>
                 @Html.CheckBoxFor(model => model.NewMaintenance.Completed, new {@class="form-check-input align-middle"})
                 <label asp-for="NewMaintenance.Completed" class="form-check-label"></label>
-            </div>
+            </div>*@
         </div>
 
     </div>
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <input type="submit" value="Add Maintenance Entry" class="btn btn-success mt-3" />
+                <input type="submit" value="Log/Schedule Maintenance" class="btn btn-success mt-3" />
             </div>
         </div>
     </div>
@@ -70,7 +78,7 @@
                 {
                     <tr>
                         <th scope="row">@maint.Date</th>
-                        <td>@maint.Title</td>
+                        <td>@maint.Description</td>
                         <td>@maint.Completed</td>
                     </tr>
                 }
@@ -86,4 +94,9 @@ else
             Maintenance log is empty. Add or schedule a maintenance entry to see the maintenance log for this item.
         </div>
     </div>
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
