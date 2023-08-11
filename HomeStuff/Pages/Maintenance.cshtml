@@ -17,8 +17,9 @@
         <a asp-page="./ItemDelete" asp-route-id="@Model.Item?.Id" class="btn btn-danger">Delete</a>
     </div>
 </div>
-<form method="post">
+<form method="post" asp-page-handler="add">
     <input type="hidden" asp-for="NewMaintenance.ItemId" />
+    <input type="hidden" asp-for="ItemId" />
     <div class="row">
         <div class="col-md-3">
             <div class="form-group">
@@ -99,7 +100,7 @@
 }
 @if (Model.ScheduledMaintenances.Count > 0)
 {
-    <h4>Upcoming Maintenance</h4>
+    <h4>Scheduled Maintenance</h4>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
@@ -107,6 +108,8 @@
                     <th scope="col">@Html.DisplayNameFor(model => model.ScheduledMaintenances[0].Date)</th>
                     <th scope="col">@Html.DisplayNameFor(model => model.ScheduledMaintenances[0].Description)</th>
                     <th scope="col">@Html.DisplayNameFor(model => model.ScheduledMaintenances[0].Completed)</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -116,6 +119,11 @@
                         <th scope="row">@maint.Date</th>
                         <td>@maint.Description</td>
                         <td>@(maint.Completed ? "Completed" : (maint.Date <= DateOnly.FromDateTime(DateTime.Now) ? "Overdue" : "Scheduled"))</td>
+                        <td><a asp-page="./MaintEdit" asp-route-id="@maint.Id">Edit</a></td>
+                        <td>
+                             
+                            <a asp-page="./MaintDelete" asp-route-id="@maint.Id">Delete</a>
+                        </td>
                     </tr>
                 }
 
@@ -133,6 +141,8 @@
                     <th scope="col">@Html.DisplayNameFor(model => model.CompletedMaintenances[0].Date)</th>
                     <th scope="col">@Html.DisplayNameFor(model => model.CompletedMaintenances[0].Description)</th>
                     <th scope="col">@Html.DisplayNameFor(model => model.CompletedMaintenances[0].Completed)</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -141,7 +151,17 @@
                     <tr class="table-success">
                         <th scope="row">@maint.Date</th>
                         <td>@maint.Description</td>
-                        <td>@(maint.Completed ? "Completed" : "Scheduled")</td>
+                        <td>Completed</td>
+                 @*       <td>
+                            <form method="post" asp-page-handler="togglecomplete">
+                                <input type="hidden" name="id" asp-for="@maint.Id" />
+                                <input type="submit" value="Uncomplete" class="btn btn-primary btn-sm" />
+                            </form>
+                        </td>*@
+                        <td><a asp-page="./MaintEdit" asp-route-id="@maint.Id">Edit</a></td>
+                        <td>
+                            <a asp-page="./MaintDelete" asp-route-id="@maint.Id" >Delete</a>
+                        </td>
                     </tr>
                 }
 
@@ -164,7 +184,7 @@
             $("#divRecurring").hide();
             $("#divRecurringDays").hide();
             $("#divNumOccurences").hide();  
-            $("#NewMaintRecurring").val("false");
+            $("#NewMaintIsRecurring").val("false");
             $("#btnNewMaintenance").val("Log Maintenance");
         }
         else {

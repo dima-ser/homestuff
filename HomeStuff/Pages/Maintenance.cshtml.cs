@@ -51,14 +51,43 @@ namespace HomeStuff.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostToggleCompleteAsync(int? id)
         {
+            Models.Maintenance maintenance = _context.Maintenance.FirstOrDefault(i => i.Id == id)!;
+            Item = _context.Item.FirstOrDefault(i => i.Id == maintenance.ItemId)!;
+            if (maintenance == null || Item == null)
+            {
+                return NotFound();
+            }
+            maintenance.Completed = !maintenance.Completed;
+            Item.LastModifiedUtc = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+            return RedirectToPage("./Maintenance", new { itemid = maintenance.ItemId.ToString() });
+        }
+
+        //public async Task<IActionResult> OnPostUncompleteAsync(int? id)
+        //{
+        //    Models.Maintenance maintenance = _context.Maintenance.FirstOrDefault(i => i.Id == id)!;
+        //    Item = _context.Item.FirstOrDefault(i => i.Id == maintenance.ItemId)!;
+        //    if (maintenance == null || Item == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    maintenance.Completed = false;
+        //    Item.LastModifiedUtc = DateTime.UtcNow;
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToPage("./Maintenance", new { itemid = maintenance.ItemId.ToString() });
+        //}
+
+        public async Task<IActionResult> OnPostAddAsync()
+        {
+
             Item = _context.Item.FirstOrDefault(i => i.Id == ItemId)!;
             if (NewMaintenance == null || Item == null)
             {
                 return Page();
             }
-            //NewMaintenance.Item = Item;
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -71,9 +100,6 @@ namespace HomeStuff.Pages
                 }
                 else
                 {
-                    //List<Models.Maintenance> schedule = new List<Models.Maintenance>((int)NewMaintNumOccurences);
-                    //Models.Maintenance maintenance = NewMaintenance;
-                    //schedule.Add(maintenance);
                     DateOnly maxDate = NewMaintenance.Date.AddYears((int)NewMaintRecurrenceDuration);
                     DateOnly occurenceDate = NewMaintenance.Date;
                     int i = 0;
