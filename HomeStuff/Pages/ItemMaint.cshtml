@@ -55,29 +55,29 @@
         </div>
         <div class="col-md-3" id="divRecurring">
             <div class="form-group">
-                <label asp-for="NewMaintRecurring" class="control-label"></label>
-                <select asp-for="NewMaintRecurring" class="form-control" onchange="toggleRecurrence()">
+                <label asp-for="NewMaintIsRecurring" class="control-label"></label>
+                <select asp-for="NewMaintIsRecurring" class="form-control" onchange="toggleRecurrence()">
                     <option value="false" selected="true">One-time</option>
                     <option value="true">Recurring</option>
                 </select>
-                <span asp-validation-for="NewMaintRecurring" class="text-danger"></span>
+                <span asp-validation-for="NewMaintIsRecurring" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-3" id="divRecurringDays" style="display:none">
             <div class="form-group">
                 <div class="form-group">
-                    <label asp-for="NewMaintRecurringDays" class="control-label"></label>
-                    <input asp-for="NewMaintRecurringDays" class="form-control" min="1" max="10000" />
-                    <span asp-validation-for="NewMaintRecurringDays" class="text-danger"></span>
+                    <label asp-for="NewMaintRecurrenceFrequency" class="control-label"></label>
+                    <input asp-for="NewMaintRecurrenceFrequency" class="form-control" min="1" max="10000" />
+                    <span asp-validation-for="NewMaintRecurrenceFrequency" class="text-danger"></span>
                 </div>
             </div>
         </div>
         <div class="col-md-3" id="divNumOccurences" style="display:none">
             <div class="form-group">
                 <div class="form-group">
-                    <label asp-for="NewMaintNumOccurences" class="control-label"></label>
-                    <input asp-for="NewMaintNumOccurences" class="form-control" min="1" max="100" />
-                    <span asp-validation-for="NewMaintNumOccurences" class="text-danger"></span>
+                    <label asp-for="NewMaintRecurrenceDuration" class="control-label"></label>
+                    <input asp-for="NewMaintRecurrenceDuration" class="form-control" min="1" max="100" />
+                    <span asp-validation-for="NewMaintRecurrenceDuration" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -97,51 +97,25 @@
         @Model.ErrorMessage
     </div>
 }
-@if (Model.OverdueMaintenances.Count > 0)
-{
-    <h4>Overdue Maintenance</h4>
-    <div class="table-responsive">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                    <th scope="col">@Html.DisplayNameFor(model => model.OverdueMaintenances[0].Date)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.OverdueMaintenances[0].Description)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.OverdueMaintenances[0].Completed)</th>
-            </tr>
-        </thead>
-        <tbody>
-                @foreach (var maint in Model.OverdueMaintenances)
-                {
-                    <tr class="table-danger">
-                        <th scope="row">@maint.Date</th>
-                        <td>@maint.Description</td>
-                        <td>@(maint.Completed ? "Completed" : "Scheduled")</td>
-                    </tr>
-                }
-            
-        </tbody>
-    </table>
-    </div>
-}
-@if (Model.UpcomingMaintenances.Count > 0)
+@if (Model.ScheduledMaintenances.Count > 0)
 {
     <h4>Upcoming Maintenance</h4>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">@Html.DisplayNameFor(model => model.UpcomingMaintenances[0].Date)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.UpcomingMaintenances[0].Description)</th>
-                    <th scope="col">@Html.DisplayNameFor(model => model.UpcomingMaintenances[0].Completed)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.ScheduledMaintenances[0].Date)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.ScheduledMaintenances[0].Description)</th>
+                    <th scope="col">@Html.DisplayNameFor(model => model.ScheduledMaintenances[0].Completed)</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var maint in Model.UpcomingMaintenances)
+                @foreach (var maint in Model.ScheduledMaintenances)
                 {
-                    <tr class="table-warning">
+                    <tr @(maint.Date <= DateOnly.FromDateTime(DateTime.Now) ? "class=table-danger" : "")>
                         <th scope="row">@maint.Date</th>
                         <td>@maint.Description</td>
-                        <td>@(maint.Completed ? "Completed" : "Scheduled")</td>
+                        <td>@(maint.Completed ? "Completed" : (maint.Date <= DateOnly.FromDateTime(DateTime.Now) ? "Overdue" : "Scheduled"))</td>
                     </tr>
                 }
 
@@ -175,7 +149,7 @@
         </table>
     </div>
 }
-@if (Model.OverdueMaintenances.Count == 0 && Model.UpcomingMaintenances.Count == 0 && Model.CompletedMaintenances.Count == 0)
+@if (Model.ScheduledMaintenances.Count == 0 && Model.CompletedMaintenances.Count == 0)
 {
     <div class="col">
         <div class="alert alert-warning" role="alert">
@@ -202,7 +176,7 @@
         toggleRecurrence();
     }
     function toggleRecurrence() {
-        var value = $("#NewMaintRecurring").val();
+        var value = $("#NewMaintIsRecurring").val();
         if (value == "true") {
             $("#divRecurringDays").show();
             $("#divNumOccurences").show();
