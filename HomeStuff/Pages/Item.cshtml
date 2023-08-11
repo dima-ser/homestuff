@@ -12,7 +12,7 @@
         <div class="btn-group mb-3" role="toolbar" aria-label="Item navigation">
             <a href="#" class="btn btn-primary active" aria-current="page">Details</a>
             <a asp-page="./ItemEdit" asp-route-id="@Model.Item?.Id" class="btn btn-primary">Edit</a>
-            <a asp-page="./ItemMaint" asp-route-itemid="@Model.Item?.Id" class="btn btn-primary">Maintenance</a>
+            <a asp-page="./Maintenance" asp-route-itemid="@Model.Item?.Id" class="btn btn-primary">Maintenance</a>
 @*            &nbsp;&nbsp;&nbsp;
             <i class="d-block mt-2" title="@Model.Item!.LastModifiedUtc.ToLocalTime()">Last Modified: @Model.Item.LastModifiedUtc.ToLocalTime().ToShortDateString()</i>*@
         </div>

@@ -10,7 +10,7 @@ using System.Security.Cryptography;
 
 namespace HomeStuff.Pages
 {
-    public class ItemMaintModel : PageModel
+    public class MaintenanceModel : PageModel
     {
         private readonly SqliteContext _context;
         [BindProperty(SupportsGet = true)]
@@ -30,7 +30,7 @@ namespace HomeStuff.Pages
         [BindProperty(SupportsGet = true)]
         public string? ErrorMessage { get; set; } = string.Empty;
 
-        public ItemMaintModel(SqliteContext context) 
+        public MaintenanceModel(SqliteContext context) 
         { 
             _context = context;
             NewMaintenance.Date = DateOnly.FromDateTime(DateTime.Now);
@@ -67,7 +67,7 @@ namespace HomeStuff.Pages
             {
                 if (NewMaintRecurrenceFrequency == null || NewMaintRecurrenceDuration == null)
                 {
-                    return RedirectToPage("./ItemMaint", new { itemid = ItemId.ToString() , errormessage = "Please provide recurrence frequency and duration" });
+                    return RedirectToPage("./Maintenance", new { itemid = ItemId.ToString() , errormessage = "Please provide recurrence frequency and duration" });
                 }
                 else
                 {
@@ -97,7 +97,7 @@ namespace HomeStuff.Pages
             Item.LastModifiedUtc = DateTime.UtcNow;
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./ItemMaint", new { itemid = ItemId.ToString() });
+            return RedirectToPage("./Maintenance", new { itemid = ItemId.ToString() });
         }
     }
 }
