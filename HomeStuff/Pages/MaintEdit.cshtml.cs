@@ -40,7 +40,7 @@ namespace HomeStuff.Pages
             }
             Maintenance = maintenance;
             ViewData["ItemId"] = new SelectList(_context.Item, "Id", "Name");
-            ItemName = _context.Item.FirstOrDefault(i => i.Id == maintenance!.ItemId).Name;
+            ItemName = _context.Item.FirstOrDefault(i => i.Id == maintenance!.ItemId)!.Name;
             return Page();
         }
 
