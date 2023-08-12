@@ -102,10 +102,9 @@ namespace HomeStuff.Pages
                 {
                     DateOnly maxDate = NewMaintenance.Date.AddYears((int)NewMaintRecurrenceDuration);
                     DateOnly occurenceDate = NewMaintenance.Date;
-                    int i = 0;
-                    do
+                    //int i = 0;
+                    while (occurenceDate <= maxDate)
                     {
-                        occurenceDate = occurenceDate.AddDays(i * (int)NewMaintRecurrenceFrequency);
                         Models.Maintenance maintenance = new()
                         {
                             ItemId = NewMaintenance.ItemId,
@@ -114,8 +113,8 @@ namespace HomeStuff.Pages
                             Completed = NewMaintenance.Completed
                         };
                         _context.Maintenance.Add(maintenance);
-                        i++;
-                    } while (occurenceDate <= maxDate);
+                        occurenceDate = occurenceDate.AddDays((int)NewMaintRecurrenceFrequency);
+                    } 
                 }
             }
             else

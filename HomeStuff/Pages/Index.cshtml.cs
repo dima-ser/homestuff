@@ -9,8 +9,11 @@ namespace HomeStuff.Pages
     {
         private readonly Data.SqliteContext _context;
         public IList<Models.Item> RecentItems { get; set; } = default!;
-        public IList<Models.Maintenance> OverdueMaintenance { get; set; } = default!;
+        //public IList<Models.Maintenance> OverdueMaintenance { get; set; } = default!;
         public IList<Models.Maintenance> UpcomingMaintenance { get; set; } = default!;
+        public IList<Models.Maintenance> CompletedMaintenance { get; set; } = default!;
+        public const int UPCOMING_MAINTENANCE_DAYS = 14;
+        public const int COMPLETED_MAINTENANCE_DAYS = 14;
 
         public IndexModel(Data.SqliteContext context)
         {
@@ -24,13 +27,18 @@ namespace HomeStuff.Pages
                 item.Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId);
             }
             DateOnly today = DateOnly.FromDateTime(DateTime.Now);
-            OverdueMaintenance = _context.Maintenance.Where(x => x.Completed == false && x.Date <= today).OrderBy(x => x.Date).ToList();
-            foreach (var maintenance in OverdueMaintenance)
+            //OverdueMaintenance = _context.Maintenance.Where(x => x.Completed == false && x.Date <= today).OrderBy(x => x.Date).ToList();
+            //foreach (var maintenance in OverdueMaintenance)
+            //{
+            //    maintenance.Item = _context.Item.FirstOrDefault(i => i.Id == maintenance.ItemId);
+            //}
+            UpcomingMaintenance = _context.Maintenance.Where(x => x.Completed == false && x.Date <= today.AddDays(UPCOMING_MAINTENANCE_DAYS)).OrderBy(x => x.Date).ToList();
+            foreach (var maintenance in UpcomingMaintenance)
             {
                 maintenance.Item = _context.Item.FirstOrDefault(i => i.Id == maintenance.ItemId);
             }
-            UpcomingMaintenance = _context.Maintenance.Where(x => x.Completed == false && x.Date > today && x.Date <= today.AddDays(7)).OrderBy(x => x.Date).ToList();
-            foreach (var maintenance in UpcomingMaintenance)
+            CompletedMaintenance = _context.Maintenance.Where(x => x.Completed == true && x.Date <= today && x.Date >= today.AddDays(-COMPLETED_MAINTENANCE_DAYS)).OrderByDescending(x => x.Date).ToList();
+            foreach (var maintenance in CompletedMaintenance)
             {
                 maintenance.Item = _context.Item.FirstOrDefault(i => i.Id == maintenance.ItemId);
             }

@@ -36,44 +36,8 @@
     }
 </div>
 <div class="d-flex justify-content-center"><a class="btn btn-primary btn-lg" href="/items">See All Items</a></div>
-<h2>Overdue Maintenance</h2>
-<div class="row">
-    @if (Model.OverdueMaintenance.Count > 0)
-    {
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Item</th>
-                        <th scope="col">Due Date</th>
-                        <th scope="col">@Html.DisplayNameFor(model => model.OverdueMaintenance[0].Description)</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var maint in Model.OverdueMaintenance)
-                    {
-                        <tr class="table-danger position-relative">
-                            <th scope="row">@maint.Item!.Name</th>
-                            <td>@maint.Date</td>
-                            <td>@maint.Description</td>
-                            <td><a class="stretched-link" asp-page="./Maintenance" asp-route-itemid="@maint.ItemId"></a></td>
-                        </tr>
-                    }
 
-                </tbody>
-            </table>
-        </div>
-    }
-    else
-    {
-        <div class="col">
-            <div class="alert alert-success" role="alert">
-                No items are overdue for maintenance :)
-            </div>
-        </div>
-    }
-</div>
+
 <h2>Upcoming Maintenance</h2>
 <div class="row">
     @if (Model.UpcomingMaintenance.Count > 0)
@@ -84,14 +48,54 @@
                     <tr>
                         <th scope="col">Item</th>
                         <th scope="col">Scheduled Date</th>
-                        <th scope="col">@Html.DisplayNameFor(model => model.OverdueMaintenance[0].Description)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.UpcomingMaintenance[0].Description)</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.UpcomingMaintenance[0].Completed)</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var maint in Model.UpcomingMaintenance)
                     {
-                        <tr class="position-relative">
+                        <tr class="position-relative  @(maint.Date <= DateOnly.FromDateTime(DateTime.Now) ? "table-danger" : "")">
+                            <th scope="row">@maint.Item!.Name</th>
+                            <td>@maint.Date</td>
+                            <td>@maint.Description</td>
+                            <td>@(maint.Date <= DateOnly.FromDateTime(DateTime.Now) ? "Overdue" : "Scheduled")</td>
+                            <td><a class="stretched-link" asp-page="./Maintenance" asp-route-itemid="@maint.ItemId"></a></td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="col">
+            <div class="alert alert-success" role="alert">
+                No maintenance in the next @IndexModel.UPCOMING_MAINTENANCE_DAYS days.
+            </div>
+        </div>
+    }
+</div>
+<h2>Recently Completed Maintenance</h2>
+<div class="row">
+    @if (Model.CompletedMaintenance.Count > 0)
+    {
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Completed Date</th>
+                        <th scope="col">@Html.DisplayNameFor(model => model.CompletedMaintenance[0].Description)</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var maint in Model.CompletedMaintenance)
+                    {
+                        <tr class="position-relative table-success">
                             <th scope="row">@maint.Item!.Name</th>
                             <td>@maint.Date</td>
                             <td>@maint.Description</td>
@@ -107,7 +111,7 @@
     {
         <div class="col">
             <div class="alert alert-success" role="alert">
-                No maintenance in the coming week.
+                No maintenance completed the past @IndexModel.COMPLETED_MAINTENANCE_DAYS days.
             </div>
         </div>
     }
