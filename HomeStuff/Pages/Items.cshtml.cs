@@ -21,8 +21,8 @@ namespace HomeStuff.Pages
         [BindProperty(SupportsGet = true)]
         public int CurrentPage { get; set; } = 1;
         public int Count { get; set; }
-        public int PageSize { get; set; } = 50;
-        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
+        public const int PAGE_SIZE = 48;
+        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PAGE_SIZE));
         private readonly IItemService _itemService;
 
         public ItemsModel(HomeStuff.Data.SqliteContext context, IItemService itemService)
@@ -37,7 +37,7 @@ namespace HomeStuff.Pages
         {
             if (_context.Item != null)
             {
-                Items = await _itemService.GetPaginatedResult(CurrentPage, q, l, MinPrice, PageSize);
+                Items = await _itemService.GetPaginatedResult(CurrentPage, q, l, MinPrice, PAGE_SIZE);
                 Count = await _itemService.GetCount(q, l, MinPrice);
 
                
