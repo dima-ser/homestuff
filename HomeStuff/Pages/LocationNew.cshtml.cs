@@ -13,6 +13,8 @@ namespace HomeStuff.Pages
     public class LocationNewModel : PageModel
     {
         private readonly HomeStuff.Data.SqliteContext _context;
+        [BindProperty(SupportsGet = true)]
+        public string? RedirectUrl { get; set; } = null;
 
         public LocationNewModel(HomeStuff.Data.SqliteContext context)
         {
@@ -38,8 +40,10 @@ namespace HomeStuff.Pages
 
             _context.Location.Add(Location);
             await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Locations");
+            if (string.IsNullOrEmpty(RedirectUrl))
+                return RedirectToPage("./Locations");
+            else
+                return Redirect(RedirectUrl);
         }
     }
 }

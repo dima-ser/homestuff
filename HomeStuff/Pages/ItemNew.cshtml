@@ -20,7 +20,12 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Item.LocationId" class="control-label"></label>
-                <select asp-for="Item.LocationId" asp-items="Model.Locations" class="form-control"></select>
+                <div class="input-group">
+                    <select asp-for="Item.LocationId" asp-items="Model.Locations" class="form-control"></select>
+                    <div class="input-group-append">
+                        <a class="btn btn-primary" asp-page="LocationNew" asp-route-redirecturl="itemnew">Add New</a>
+                    </div>
+                </div>
                 <span asp-validation-for="Item.LocationId" class="text-danger"></span>
             </div>
         </div>
