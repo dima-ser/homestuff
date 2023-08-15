@@ -362,7 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Database and data
+# Database and data (but keep the db fodler itself)
 /HomeStuff/db/
-/HomeStuff/db/homestuff.db
-/HomeStuff/db/homestuff.db
+!/HomeStuff/db/.gitkeep
