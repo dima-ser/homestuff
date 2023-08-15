@@ -8,9 +8,9 @@
 
 @if (Model.RecentItems.Count > 0)
 {
-    @foreach (var item in Model.RecentItems)
-    {
-        <div class="row">
+    <div class="row">
+        @foreach (var item in Model.RecentItems)
+        {
             <div class="col-md-4 mb-2">
                 <div class="card h-100 card-hover">
                     <h5 class="card-header bg-primary text-light">@(item.Name.Length > 50 ? item.Name.Substring(0, 50) + "..." : item.Name)</h5>
@@ -25,9 +25,10 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="d-flex justify-content-center"><a class="btn btn-primary btn-lg" asp-page="Items">See All Items</a></div>
-    }
+
+        }
+    </div>
+    <div class="d-flex justify-content-center"><a class="btn btn-primary btn-lg" asp-page="Items">See All Items</a></div>
 }
 else
 {
