@@ -22,10 +22,13 @@ HomeStuff is a basic home inventory management solution.
 # Installation (Docker)
 Docker image hosted on DockerHub (private repo). To pull, use `docker pull dimaser/homestuff` You may need to first log in to DockerHub since it's a private repo. To log in, use `docker login`
 
-## Docker parameters
+### Docker parameters
 `-p [any port you want]:80`
 
 `-v /path/to/yourdatadir:/db`
 
 `-e TZ=America/Los_Angeles`
+
+### First run/config
+You'll be asked to provide an admin password. Should you forget this password in the future, simply delete the `password.txt` file in the app's data directory to reset the password.
 
