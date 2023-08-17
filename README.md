@@ -18,3 +18,14 @@ HomeStuff is a basic home inventory management solution.
 - No labels/barcodes/QR codes
 - No multi-user support, one user only
 - US-focused only (no multi-currency or localization support)
+
+# Installation (Docker)
+Docker image hosted on DockerHub (private repo). To pull, use `docker pull dimaser/homestuff` You may need to first log in to DockerHub since it's a private repo. To log in, use `docker login`
+
+## Docker parameters
+`-p [any port you want]:80`
+
+`-v /path/to/yourdatadir:/db`
+
+`-e TZ=America/Los_Angeles`
+
