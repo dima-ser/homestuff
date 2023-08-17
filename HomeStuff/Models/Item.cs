@@ -51,6 +51,12 @@ namespace HomeStuff.Models
             return Path.Combine(attachmentDir, itemId);
         }
 
+        public static bool HasAttachments(IWebHostEnvironment environment, IConfiguration configuration, int itemId)
+        {
+            string attachmentDir = GetAttachmentDirPhysicalPath(environment, configuration, itemId.ToString());
+            return Directory.Exists(attachmentDir) && Directory.EnumerateFiles(attachmentDir).Any();
+        }
+
         public static List<ItemAttachment> GetAttachments(IWebHostEnvironment environment, IConfiguration configuration, PageModel pageModel, int itemId)
         {
             List<ItemAttachment> attachments = new List<ItemAttachment>();

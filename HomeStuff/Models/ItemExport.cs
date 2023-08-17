@@ -17,7 +17,9 @@ namespace HomeStuff.Models
         public string? Vendor { get; set; }
         public DateOnly? PurchaseDate { get; set; }
         public string? SKU { get; set; }
-        public string[]? AttachmentUrls { get; set; }
+        //public List<string>? AttachmentUrls { get; set; }
+        public bool HasAttachments { get; set; }
+        public string ItemUrl { get; set; }
     }
     public sealed class ItemExportMap : ClassMap<ItemExport>
     {
@@ -33,7 +35,9 @@ namespace HomeStuff.Models
             Map(m => m.Vendor).Optional();
             Map(m => m.PurchaseDate).Optional();
             Map(m => m.SKU).Optional();
-            Map(m => m.AttachmentUrls).Optional();
+            //Map(m => m.AttachmentUrls).Optional().Convert(row => string.Join(", ", row.Value.AttachmentUrls));
+            Map(m => m.HasAttachments);
+            Map(m => m.ItemUrl);
         }
     }
 

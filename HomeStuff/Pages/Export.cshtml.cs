@@ -1,8 +1,10 @@
+using Azure.Core;
 using CsvHelper;
 using CsvHelper.Configuration;
 using HomeStuff.Migrations;
 using HomeStuff.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,6 +16,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using System.Globalization;
 using System.IO;
+using System.Net.Mail;
 
 
 namespace HomeStuff.Pages
@@ -26,6 +29,8 @@ namespace HomeStuff.Pages
 
         [BindProperty(SupportsGet = true)]
         public string? Run { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public bool IncludeAttachmentUrls { get; set; }
 
         public ExportModel(Data.SqliteContext context, IWebHostEnvironment environment, IConfiguration configuration)
         {
@@ -36,8 +41,13 @@ namespace HomeStuff.Pages
 
         public ActionResult OnGet()
         {
+            //Console.WriteLine(UriHelper.BuildAbsolute(Request.Scheme, Request.Host));
+            //Console.WriteLine(Url.Link("Index", new { itemid = "test", name = "test" }));
+            Console.WriteLine(Url.PageLink("ItemAttachment", null, new { itemid = "test", name = "test" }));
+            //Console.WriteLine(Request.Scheme+ Request.Host);
             if (!string.IsNullOrEmpty(Run))
             {
+                
                 List<ItemExport> itemsForExport = new();
                 foreach (var item in _context.Item)
                 {
@@ -53,27 +63,25 @@ namespace HomeStuff.Pages
                         Vendor = item.Vendor,
                         PurchaseDate = item.PurchaseDate,
                         SKU = item.SKU,
-                        AttachmentUrls = null
+                        HasAttachments = Item.HasAttachments(_webHostEnvironment, _configuration, item.Id),
+                        ItemUrl = Url.PageLink("Item", null, new { id = item.Id})
                     };
-                    List<ItemAttachment> attachments = Item.GetAttachments(_webHostEnvironment, _configuration, this, item.Id);
-                    if (attachments.Count > 0)
-                    {
-                        itemExport.AttachmentUrls = new string[attachments.Count];
-                        for (int i = 0; i < attachments.Count; i++)
-                        {
-                            itemExport.AttachmentUrls[i] = attachments[i].Url;
-                        }
-                    }
-                    if (itemExport.AttachmentUrls != null)
-                        Console.WriteLine(itemExport.AttachmentUrls.ToString());
-                    //string attachmentDir = Item.GetAttachmentDirPhysicalPath(_webHostEnvironment, _configuration, item.Id.ToString());
-                    //if (Directory.Exists(attachmentDir))
+
+                    
+                    //if (IncludeAttachmentUrls)
                     //{
-                    //    var files = Directory.EnumerateFiles(attachmentDir);
-                    //    foreach (var file in files)
+                    //    itemExport.AttachmentUrls = new List<string>();
+                    //    List<ItemAttachment> attachments = Item.GetAttachments(_webHostEnvironment, _configuration, this, item.Id);
+                    //    if (attachments.Count > 0)
                     //    {
-                    //       Uri uri = new Uri(file);
+                    //        foreach (var attachment in attachments)
+                    //        {
+                    //            string fullUrl = Url.PageLink("ItemAttachment", null, new { itemid = item.Id, name = attachment.Name });
+                    //            itemExport.AttachmentUrls.Add(fullUrl);
+                    //        }
                     //    }
+                    //    if (itemExport.AttachmentUrls != null)
+                    //        Console.WriteLine(itemExport.AttachmentUrls.ToString());
                     //}
                     itemsForExport.Add(itemExport);
                 }
@@ -85,7 +93,6 @@ namespace HomeStuff.Pages
                     csv.Context.RegisterClassMap(new ItemExportMap());
                     csv.WriteRecords(itemsForExport);
                 }
-
                 return File(System.IO.File.OpenRead(filePath), "application/octet-stream", "homestuff-exported-items.csv");
             }
             else
