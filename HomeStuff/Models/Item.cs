@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Configuration;
+using System.Net.Mail;
+using System.Security.Policy;
 using System.Web;
 
 namespace HomeStuff.Models
@@ -44,6 +49,28 @@ namespace HomeStuff.Models
             string attachmentDir = Path.Combine(environment.ContentRootPath, configuration.GetValue<string>(Utilities.ConfigUserDataDirectory));
             attachmentDir = Path.Combine(attachmentDir, Utilities.AttachmentDirName);
             return Path.Combine(attachmentDir, itemId);
+        }
+
+        public static List<ItemAttachment> GetAttachments(IWebHostEnvironment environment, IConfiguration configuration, PageModel pageModel, int itemId)
+        {
+            List<ItemAttachment> attachments = new List<ItemAttachment>();
+            string attachmentDir = GetAttachmentDirPhysicalPath(environment, configuration, itemId.ToString());
+            if (Directory.Exists(attachmentDir))
+            {
+                var files = Directory.EnumerateFiles(attachmentDir);
+                foreach (var file in files)
+                {
+                    FileInfo fi = new(file);
+                    attachments.Add(new ItemAttachment(
+                        file,
+                        pageModel.Url.Content("~/itemattachment?itemid=" + itemId + "&name=" + HttpUtility.UrlEncode(fi.Name)),
+                        pageModel.Url.Content("~/itemattachmentdelete?itemid=" + itemId + "&name=" + HttpUtility.UrlEncode(fi.Name)),
+                    fi.Name,
+                        (Math.Ceiling((float)fi.Length / 1024.0)).ToString() + " KB"));
+                }
+                attachments.Sort();
+            }
+            return attachments;
         }
     }
 

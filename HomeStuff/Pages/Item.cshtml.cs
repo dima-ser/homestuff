@@ -46,23 +46,8 @@ namespace HomeStuff.Pages
             {
                 Item = item;
                 LocationName = _context.Location.Where(l => l.Id == Item.LocationId).First().Name;
-
-                string attachmentDir = Item.GetAttachmentDirPhysicalPath(webHostEnvironment, configuration, item.Id.ToString());
-                if (Directory.Exists(attachmentDir))
-                {
-                    var files = Directory.EnumerateFiles(attachmentDir);
-                    foreach (var file in files)
-                    {
-                        FileInfo fi = new(file);
-                        Attachments.Add(new ItemAttachment(
-                            file,
-                            Url.Content("~/itemattachment?itemid=" + Item.Id + "&name=" + HttpUtility.UrlEncode(fi.Name)),
-                            Url.Content("~/itemattachmentdelete?itemid=" + Item.Id + "&name=" + HttpUtility.UrlEncode(fi.Name)),
-                            fi.Name,
-                            (Math.Ceiling((float)fi.Length / 1024.0)).ToString() + " KB"));
-                    }
-                    Attachments.Sort();
-                }
+                Attachments = Item.GetAttachments(webHostEnvironment, configuration, this, item.Id);
+               
             }
             ViewData["Title"] = Item.Name;
             return Page();
