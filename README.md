@@ -13,7 +13,8 @@ HomeStuff is a basic home inventory management solution.
 - Keep track of maintenance for your items
 - Password-protected so that the app can be accessible from the Internet, if so desired
 
-# What This Project Is NOT For
+# Limitations/What This Project Is NOT For
 - This is not a comprehensive IT asset management tool, for that there's Snipe-IT. HomeStuff is for basic home use only. 
 - No labels/barcodes/QR codes
 - No multi-user support, one user only
+- US-focused only (no multi-currency or localization support)
