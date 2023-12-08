@@ -24,10 +24,13 @@ Docker image hosted on DockerHub (private repo). To pull, use `docker pull dimas
 
 ### Docker parameters
 `-p [any port you want]:80`
+This is the port on Docker host you want to run the application on.
 
-`-v /path/to/yourdatadir:/db`
+`-v [/path/to/yourdatadir]:/db`
+Directory on the host where you want to store the application data (database and attachments). Keep this backed up.
 
-`-e TZ=America/Los_Angeles`
+`-e TZ=[your time zone]`
+A string representing your time zone as per https://en.wikipedia.org/wiki/List_of_tz_database_time_zones (e.g., `America/Los_Angeles`). Used to make sure the application handles dates/time correctly.
 
 ### First run/config
 You'll be asked to provide an admin password. Should you forget this password in the future, simply delete the `password.txt` file in the app's data directory to reset the password.
