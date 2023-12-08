@@ -17,7 +17,7 @@ HomeStuff is a basic home inventory management solution.
 - This is not a comprehensive IT asset management tool, for that there's Snipe-IT. HomeStuff is for basic home use only. 
 - No labels/barcodes/QR codes
 - No multi-user support, one user only
-- US-focused only (no multi-currency or localization support)
+- US-centric (no multi-currency or localization support).
 
 # Installation (Docker)
 Docker image hosted on DockerHub (private repo). To pull, use `docker pull dimaser/homestuff` You may need to first log in to DockerHub since it's a private repo. To log in, use `docker login`
