@@ -2,6 +2,8 @@ using HomeStuff.Migrations;
 using HomeStuff.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace HomeStuff.Pages
 {
@@ -14,6 +16,11 @@ namespace HomeStuff.Pages
         public IList<Models.Maintenance> CompletedMaintenance { get; set; } = default!;
         public const int UPCOMING_MAINTENANCE_DAYS = 14;
         public const int COMPLETED_MAINTENANCE_DAYS = 14;
+
+        [DataType(DataType.Currency)]
+        public double? TotalValue = 0;
+        public List<Location> ValueLocations {  get; set; } = new List<Location>();
+        public List<double?> ValueNumbers { get; set; } = new List<double?>();
 
         public IndexModel(Data.SqliteContext context)
         {
@@ -41,6 +48,13 @@ namespace HomeStuff.Pages
             foreach (var maintenance in CompletedMaintenance)
             {
                 maintenance.Item = _context.Item.FirstOrDefault(i => i.Id == maintenance.ItemId);
+            }
+
+            TotalValue = _context.Item.Sum(i => i.PurchasePrice);
+            foreach (var location in _context.Location)
+            {
+                ValueLocations.Add(location);
+                ValueNumbers.Add(_context.Item.Where(i => i.LocationId == location.Id).Sum(i => i.PurchasePrice));
             }
         }
     }
