@@ -35,3 +35,11 @@ A string representing your time zone as per https://en.wikipedia.org/wiki/List_o
 ### First run/config
 You'll be asked to provide an admin password. Should you forget this password in the future, simply delete the `password.txt` file in the app's data directory to reset the password.
 
+# Upgrade
+To upgrade
+- Stop container
+- Clear/reset container
+- Download updated image with `docker pull dimaser/homestuff`
+- Start container
+
+If application is still showing the old version, you may need to stop, reset and restart the container again.
