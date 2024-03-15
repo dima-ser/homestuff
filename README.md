@@ -38,8 +38,5 @@ You'll be asked to provide an admin password. Should you forget this password in
 # Upgrade
 To upgrade
 - Stop container
-- Clear/reset container
 - Download updated image with `docker pull dimaser/homestuff`
-- Start container
-
-If application is still showing the old version, you may need to stop, reset and restart the container again.
+- Start new container (or Reset container if using Synology NAS. That recreates it with fresh image)
