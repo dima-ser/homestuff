@@ -29,7 +29,7 @@ namespace HomeStuff.Pages
         {
             _context = context;
             _itemService = itemService;
-            Locations = new SelectList(context.Location, nameof(Location.Id), nameof(Location.Name));
+            Locations = new SelectList(context.Location.OrderBy(i => i.Name), nameof(Location.Id), nameof(Location.Name));
         }
 
 
