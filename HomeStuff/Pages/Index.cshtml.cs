@@ -51,7 +51,7 @@ namespace HomeStuff.Pages
             }
 
             TotalValue = _context.Item.Sum(i => i.PurchasePrice);
-            foreach (var location in _context.Location)
+            foreach (var location in _context.Location.OrderBy(i => i.Name))
             {
                 ValueLocations.Add(location);
                 ValueNumbers.Add(_context.Item.Where(i => i.LocationId == location.Id).Sum(i => i.PurchasePrice));

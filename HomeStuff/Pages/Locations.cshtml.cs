@@ -25,7 +25,7 @@ namespace HomeStuff.Pages
         {
             if (_context.Location != null)
             {
-                Location = await _context.Location.ToListAsync();
+                Location = await _context.Location.OrderBy(i => i.Name).ToListAsync();
             }
         }
     }
