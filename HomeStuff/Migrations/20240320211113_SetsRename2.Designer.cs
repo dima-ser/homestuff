@@ -3,6 +3,7 @@ using System;
 using HomeStuff.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeStuff.Migrations
 {
     [DbContext(typeof(SqliteContext))]
-    partial class SqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20240320211113_SetsRename2")]
+    partial class SetsRename2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
@@ -69,7 +72,7 @@ namespace HomeStuff.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Item", (string)null);
+                    b.ToTable("Item");
                 });
 
             modelBuilder.Entity("HomeStuff.Models.ItemSet", b =>
@@ -84,7 +87,7 @@ namespace HomeStuff.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ItemSet", (string)null);
+                    b.ToTable("ItemSet");
                 });
 
             modelBuilder.Entity("HomeStuff.Models.Location", b =>
@@ -99,7 +102,7 @@ namespace HomeStuff.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Location", (string)null);
+                    b.ToTable("Location");
                 });
 
             modelBuilder.Entity("HomeStuff.Models.Maintenance", b =>
@@ -125,7 +128,7 @@ namespace HomeStuff.Migrations
 
                     b.HasIndex("ItemId");
 
-                    b.ToTable("Maintenance", (string)null);
+                    b.ToTable("Maintenance");
                 });
 
             modelBuilder.Entity("HomeStuff.Models.Item", b =>
