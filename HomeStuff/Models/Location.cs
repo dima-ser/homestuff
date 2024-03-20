@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 namespace HomeStuff.Models
 {
     public class Location
     {
         public int Id { get; set; }
+        [DisplayName("Parent Location")]
+        public int? ParentId { get; set; }
         [Required]
         public required string Name { get; set; }
         public ICollection<Item> Items { get; } = new List<Item>();

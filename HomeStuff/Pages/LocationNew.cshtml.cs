@@ -15,10 +15,13 @@ namespace HomeStuff.Pages
         private readonly HomeStuff.Data.SqliteContext _context;
         [BindProperty(SupportsGet = true)]
         public string? RedirectUrl { get; set; } = null;
+        public SelectList RootLocations { get; set; }
 
         public LocationNewModel(HomeStuff.Data.SqliteContext context)
         {
             _context = context;
+            RootLocations = new SelectList(_context.Location.Where(i => i.ParentId == null).OrderBy(i => i.Name), nameof(Location.Id), nameof(Location.Name));
+
         }
 
         public IActionResult OnGet()
