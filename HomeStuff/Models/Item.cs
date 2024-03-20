@@ -19,7 +19,7 @@ namespace HomeStuff.Models
         public int LocationId {  get; set; }
         // need to make this nullable to get binding to work. It doesn't affect db anyway as only LocationID goes into db
         public Location? Location { get; set; }
-
+        [DisplayName("Set")]
         public int? ItemSetId {  get; set; }
         public ItemSet? ItemSet { get; set; } // EF is stupid, need both SetId and Set
         public string? Description { get; set; }
