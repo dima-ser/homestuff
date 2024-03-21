@@ -29,7 +29,7 @@
                 else
                 {
                     <select asp-for="Location.ParentId" class="form-control" disabled>
-                        <option value="">[Already contains sub-locations]</option>
+                        <option value="">[Remove sub-locations before changing]</option>
                     </select>
                 }
                 <span asp-validation-for="Location.ParentId" class="text-danger"></span>
