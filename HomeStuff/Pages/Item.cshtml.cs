@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Text.Encodings.Web;
 using System.Web;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace HomeStuff.Pages
 {
@@ -21,6 +22,10 @@ namespace HomeStuff.Pages
         public IFormFile? AttachmentFile { get; set; }
         [BindProperty(SupportsGet = true)]
         public string ErrorMessage { get; set; } = string.Empty;
+        public ItemSet? ItemSet { get; set; }
+        public List<Item>? SetItems { get; set; }
+        [DataType(DataType.Currency)]
+        public double? TotalSetValue { get; set; }
 
         public ItemModel(HomeStuff.Data.SqliteContext context, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
@@ -47,7 +52,12 @@ namespace HomeStuff.Pages
                 Item = item;
                 LocationName = _context.Location.Where(l => l.Id == Item.LocationId).First().Name;
                 Attachments = Item.GetAttachments(webHostEnvironment, configuration, this, item.Id);
-               
+                ItemSet = _context.ItemSet.Where(i=>i.Id == Item.ItemSetId).FirstOrDefault();
+                if (ItemSet != null)
+                {
+                    SetItems = _context.Item.Where(i=>i.ItemSetId == Item.ItemSetId).OrderBy(i=>i.Name).ToList();
+                    TotalSetValue = _context.Item.Where(i => i.ItemSetId == Item.ItemSetId).Sum(i => i.PurchasePrice);
+                }
             }
             ViewData["Title"] = Item.Name;
             return Page();

@@ -126,6 +126,7 @@
         <i>@Model.Item.LastModifiedUtc.ToLocalTime().ToString()</i>
     </dd>
 </dl>
+
 <h2>Attachments</h2>
 
 @if (Model.Attachments.Count > 0)
@@ -180,4 +181,27 @@ else
     </div>
 </form>
 
+@if (Model.ItemSet != null)
+{
+    <h2>Set: @Model.ItemSet.Name</h2>
 
+    <div class="alert alert-secondary">
+        <p>This item is part of the set "@Model.ItemSet.Name" (total value: @Html.DisplayFor(model => model.TotalSetValue))</p>
+        <h4>All Items in the Set</h4>
+        <ul class="list-group list-group-flush">
+        @foreach (var item in Model.SetItems!)
+        {
+            <li class="list-group-item list-group-item-secondary">
+                @if (item.Id == Model.Item.Id)
+                {
+                    @("This item: " + item.Name)
+                }
+                else
+                {
+                    <a asp-page="item" asp-route-id="@item.Id">@item.Name</a>
+                }
+            </li>
+        }
+    </ul>
+    </div>
+}
