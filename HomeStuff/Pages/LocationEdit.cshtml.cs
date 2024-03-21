@@ -24,6 +24,7 @@ namespace HomeStuff.Pages
         [BindProperty]
         public Location Location { get; set; } = default!;
         public SelectList RootLocations { get; set; }= default!;
+        public bool ParentReadOnly = false;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -39,6 +40,10 @@ namespace HomeStuff.Pages
             }
             Location = location;
             RootLocations = new SelectList(_context.Location.Where(l=>l.ParentId==null).OrderBy(i => i.Name), nameof(Location.Id), nameof(Location.Name));
+            if (_context.Location.Where(l=>l.ParentId==Location.Id).Any())
+            {
+                ParentReadOnly = true;
+            }
             return Page();
         }
 

@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Location.ParentId" class="control-label"></label>
-                @if (Model.Location.ParentId != null)
+                @if (!Model.ParentReadOnly)
                 {
                     <select asp-for="Location.ParentId" asp-items="Model.RootLocations" class="form-control">
                         <option value="">None [root location]</option>
@@ -29,7 +29,7 @@
                 else
                 {
                     <select asp-for="Location.ParentId" class="form-control" disabled>
-                        <option value="">[Root locations cannot be moved]</option>
+                        <option value="">[Already contains sub-locations]</option>
                     </select>
                 }
                 <span asp-validation-for="Location.ParentId" class="text-danger"></span>
