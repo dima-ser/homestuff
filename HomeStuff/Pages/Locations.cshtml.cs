@@ -19,13 +19,20 @@ namespace HomeStuff.Pages
             _context = context;
         }
 
-        public IList<Location> Location { get;set; } = default!;
-
-        public async Task OnGetAsync()
+        public IList<Location> RootLocations { get;set; } = default!;
+        public List<Location>[] Sublocations { get;set; } = default!;
+        public async void OnGet()
         {
             if (_context.Location != null)
             {
-                Location = await _context.Location.OrderBy(i => i.Name).ToListAsync();
+                RootLocations =  _context.Location.Where(i=>i.ParentId==null).OrderBy(i => i.Name).ToList();
+                Sublocations = new List<Location>[RootLocations.Count];
+                for (int i = 0; i < RootLocations.Count; i++)
+                {
+                    Sublocations[i] = new List<Location>();
+                    if (_context.Location.Where(l => l.ParentId == RootLocations[i].Id).Any())
+                        Sublocations[i] =  _context.Location.Where(l => l.ParentId == RootLocations[i].Id).OrderBy(l => l.Name).ToList();
+                }
             }
         }
     }
