@@ -186,7 +186,7 @@ else
     <h2>Set: @Model.ItemSet.Name</h2>
 
     <div class="alert alert-secondary">
-        <p>This item is part of the set "@Model.ItemSet.Name" (total value: @Html.DisplayFor(model => model.TotalSetValue))</p>
+        <p>This item is part of the set <b>"@Model.ItemSet.Name"</b> (total value: <b>@Html.DisplayFor(model => model.TotalSetValue))</b></p>
         <h4>All Items in the Set</h4>
         <ul class="list-group list-group-flush">
         @foreach (var item in Model.SetItems!)
