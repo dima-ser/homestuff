@@ -20,7 +20,7 @@
             <div class="form-group">
                 <label asp-for="Location.ParentId" class="control-label"></label>
                 <select asp-for="Location.ParentId" asp-items="Model.RootLocations" class="form-control">
-                    <option value="">None</option>
+                    <option value="">None [root location]</option>
                 </select>
                 <span asp-validation-for="Location.ParentId" class="text-danger"></span>
             </div>
