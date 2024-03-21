@@ -36,11 +36,14 @@ namespace HomeStuff.Pages
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Location == null || Location == null)
+            if (!ModelState.IsValid || _context.Location == null || Location == null)
             {
                 return Page();
             }
-
+            if (Location.ParentId == null)
+                Location.FullName = Location.Name;
+            else
+                Location.FullName = _context.Location.Where(l => l.Id == Location.ParentId).First().Name + " > " + Location.Name;
             _context.Location.Add(Location);
             await _context.SaveChangesAsync();
             if (string.IsNullOrEmpty(RedirectUrl))

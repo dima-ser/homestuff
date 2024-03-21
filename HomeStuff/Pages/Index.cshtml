@@ -152,7 +152,11 @@ else
                     for (int i = 0; i < Model.ValueLocations.Count; i++)
                     {
                         <tr class="position-relative table-secondary">
-                            <th scope="row">@Model.ValueLocations[i].Name</th>
+                            <th scope="row">@if(Model.ValueLocations[i].ParentId != null)
+                                {
+                                    @Html.Raw("&nbsp;&nbsp;&nbsp;&nbsp;")
+                                }
+                                @Model.ValueLocations[i].Name</th>
                             <td>@String.Format("{0:C}", Model.ValueNumbers[i]) </td>
                               <td><a class="stretched-link" asp-page="./Items" asp-route-l="@Model.ValueLocations[i].Id"></a></td>  
                         </tr>

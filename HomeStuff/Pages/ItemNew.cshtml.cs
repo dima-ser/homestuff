@@ -20,7 +20,7 @@ namespace HomeStuff.Pages
         public ItemNewModel(HomeStuff.Data.SqliteContext context)
         {
             _context = context;
-            Locations = new SelectList(context.Location.OrderBy(i => i.Name), nameof(Location.Id), nameof(Location.Name));
+            Locations = new SelectList(context.Location.OrderBy(i => i.FullName), nameof(Location.Id), nameof(Location.FullName));
         }
 
         public IActionResult OnGet()

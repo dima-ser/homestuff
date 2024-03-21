@@ -15,7 +15,7 @@ namespace HomeStuff.Pages
         private readonly IConfiguration configuration;
         private readonly IWebHostEnvironment webHostEnvironment;
         public HomeStuff.Models.Item Item { get; set; } = default!;
-        public string LocationName { get; set; } = string.Empty;
+        public string LocationFullName { get; set; } = string.Empty;
         public List<ItemAttachment> Attachments { get; set; } = new List<ItemAttachment>();
         [DisplayName("Attachment")]
         public IFormFile? AttachmentFile { get; set; }
@@ -45,7 +45,7 @@ namespace HomeStuff.Pages
             else
             {
                 Item = item;
-                LocationName = _context.Location.Where(l => l.Id == Item.LocationId).First().Name;
+                LocationFullName = _context.Location.Where(l => l.Id == Item.LocationId).First().FullName;
                 Attachments = Item.GetAttachments(webHostEnvironment, configuration, this, item.Id);
                
             }

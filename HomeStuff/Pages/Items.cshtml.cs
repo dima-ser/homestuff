@@ -39,7 +39,7 @@ namespace HomeStuff.Pages
             //            select new { l1.Id, Breadcrumb = subgroup.Name != null ? $"{subgroup.Name} -> {l1.Name}" : l1.Name };
             //FormattableString rawSql = $"select l1.Id, case when l2.Name is not null then l2.Name || '->' || l1.Name else l1.Name end as Name, null as ParentId from Location l1 left join Location l2 on l1.ParentId=l2.Id order by case when l2.Name is not null then l2.Name || '->' || l1.Name else l1.Name end";
             //Locations = new SelectList(context.Location.FromSql(rawSql), nameof(Location.Id), nameof(Location.Name));
-            Locations = new SelectList(context.Location.OrderBy(l=>l.Name), nameof(Location.Id), nameof(Location.Name));
+            Locations = new SelectList(context.Location.OrderBy(l=>l.FullName), nameof(Location.Id), nameof(Location.FullName));
 
         }
 

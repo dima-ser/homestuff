@@ -51,10 +51,15 @@ namespace HomeStuff.Pages
             }
 
             TotalValue = _context.Item.Sum(i => i.PurchasePrice);
-            foreach (var location in _context.Location.OrderBy(i => i.Name))
+            foreach (var location in _context.Location.OrderBy(i => i.FullName))
             {
                 ValueLocations.Add(location);
-                ValueNumbers.Add(_context.Item.Where(i => i.LocationId == location.Id).Sum(i => i.PurchasePrice));
+                double? sublocationsTotal = 0;
+                foreach (var sublocation in _context.Location.Where(l=>l.ParentId== location.Id))
+                {
+                    sublocationsTotal += _context.Item.Where(i => i.LocationId == sublocation.Id).Sum(i => i.PurchasePrice);
+                }
+                ValueNumbers.Add(_context.Item.Where(i => i.LocationId == location.Id).Sum(i => i.PurchasePrice) + sublocationsTotal);
             }
         }
     }
