@@ -37,6 +37,10 @@ namespace HomeStuff.Pages
             {
                 return NotFound();
             }
+            else if (_context.Location.Where(l=>l.ParentId==location.Id).Any()) // if this location contains any sublocations, disallow deleting
+            {
+                return BadRequest();
+            }
             else 
             {
                 Location = location;

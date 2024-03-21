@@ -28,7 +28,10 @@
                 </td>
                 <td>
                     <a class="btn btn-primary" asp-page="./LocationEdit" asp-route-id="@Model.RootLocations[i].Id">Edit</a>
-                    <a class="btn btn-danger" asp-page="./LocationDelete" asp-route-id="@Model.RootLocations[i].Id">Delete</a>
+                    @if (Model.Sublocations != null && Model.Sublocations[i].Count == 0)
+                    {
+                        <a class="btn btn-danger" asp-page="./LocationDelete" asp-route-id="@Model.RootLocations[i].Id">Delete</a>
+                    }
                 </td>
             </tr>
             @if (Model.Sublocations != null && Model.Sublocations[i] != null)
