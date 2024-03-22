@@ -14,8 +14,7 @@ namespace HomeStuff.Migrations
                 name: "ParentId",
                 table: "Location",
                 type: "INTEGER",
-                nullable: false,
-                defaultValue: 0);
+                nullable: true);
         }
 
         /// <inheritdoc />

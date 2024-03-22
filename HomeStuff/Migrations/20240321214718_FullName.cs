@@ -15,7 +15,7 @@ namespace HomeStuff.Migrations
                 table: "Location",
                 type: "TEXT",
                 nullable: false,
-                defaultValue: "");
+                defaultValue: "UpdateLocationToSeeFullName");
         }
 
         /// <inheritdoc />
