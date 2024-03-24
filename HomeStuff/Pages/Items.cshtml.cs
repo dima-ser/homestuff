@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using HomeStuff.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.AccessControl;
 
 namespace HomeStuff.Pages
 {
@@ -29,7 +30,17 @@ namespace HomeStuff.Pages
         {
             _context = context;
             _itemService = itemService;
-            Locations = new SelectList(context.Location.OrderBy(i => i.Name), nameof(Location.Id), nameof(Location.Name));
+
+            //var query = from l1 in context.Location
+            //            join l2 in context.Location on l1.ParentId equals l2.Id 
+            //            into gj
+            //            from subgroup in gj.DefaultIfEmpty()
+            //            orderby subgroup.Name, l1.Name
+            //            select new { l1.Id, Breadcrumb = subgroup.Name != null ? $"{subgroup.Name} -> {l1.Name}" : l1.Name };
+            //FormattableString rawSql = $"select l1.Id, case when l2.Name is not null then l2.Name || '->' || l1.Name else l1.Name end as Name, null as ParentId from Location l1 left join Location l2 on l1.ParentId=l2.Id order by case when l2.Name is not null then l2.Name || '->' || l1.Name else l1.Name end";
+            //Locations = new SelectList(context.Location.FromSql(rawSql), nameof(Location.Id), nameof(Location.Name));
+            Locations = new SelectList(context.Location.OrderBy(l=>l.FullName), nameof(Location.Id), nameof(Location.FullName));
+
         }
 
 

@@ -3,6 +3,7 @@ using System;
 using HomeStuff.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HomeStuff.Migrations
 {
     [DbContext(typeof(SqliteContext))]
-    partial class SqliteContextModelSnapshot : ModelSnapshot
+    [Migration("20240321222648_FullName2")]
+    partial class FullName2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
@@ -25,9 +28,6 @@ namespace HomeStuff.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
-
-                    b.Property<int?>("ItemSetId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("LastModifiedUtc")
                         .HasColumnType("TEXT");
@@ -65,26 +65,9 @@ namespace HomeStuff.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ItemSetId");
-
                     b.HasIndex("LocationId");
 
                     b.ToTable("Item");
-                });
-
-            modelBuilder.Entity("HomeStuff.Models.ItemSet", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ItemSet", (string)null);
                 });
 
             modelBuilder.Entity("HomeStuff.Models.Location", b =>
@@ -136,10 +119,6 @@ namespace HomeStuff.Migrations
 
             modelBuilder.Entity("HomeStuff.Models.Item", b =>
                 {
-                    b.HasOne("HomeStuff.Models.ItemSet", "Set")
-                        .WithMany()
-                        .HasForeignKey("ItemSetId");
-
                     b.HasOne("HomeStuff.Models.Location", "Location")
                         .WithMany("Items")
                         .HasForeignKey("LocationId")
@@ -147,8 +126,6 @@ namespace HomeStuff.Migrations
                         .IsRequired();
 
                     b.Navigation("Location");
-
-                    b.Navigation("Set");
                 });
 
             modelBuilder.Entity("HomeStuff.Models.Maintenance", b =>

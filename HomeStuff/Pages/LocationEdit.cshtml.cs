@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HomeStuff.Data;
 using HomeStuff.Models;
+using HomeStuff.Migrations;
 
 namespace HomeStuff.Pages
 {
@@ -22,6 +23,8 @@ namespace HomeStuff.Pages
 
         [BindProperty]
         public Location Location { get; set; } = default!;
+        public SelectList RootLocations { get; set; }= default!;
+        public bool ParentReadOnly = false;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,6 +39,11 @@ namespace HomeStuff.Pages
                 return NotFound();
             }
             Location = location;
+            RootLocations = new SelectList(_context.Location.Where(l=>l.ParentId==null).OrderBy(i => i.Name), nameof(Location.Id), nameof(Location.Name));
+            if (_context.Location.Where(l=>l.ParentId==Location.Id).Any())
+            {
+                ParentReadOnly = true;
+            }
             return Page();
         }
 
@@ -47,6 +55,10 @@ namespace HomeStuff.Pages
             {
                 return Page();
             }
+            if (Location.ParentId == null)
+                Location.FullName = Location.Name;
+            else
+                Location.FullName = _context.Location.Where(l => l.Id == Location.ParentId).First().Name + " > " + Location.Name;
 
             _context.Attach(Location).State = EntityState.Modified;
 

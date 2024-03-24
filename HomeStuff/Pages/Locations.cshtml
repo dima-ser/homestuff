@@ -6,7 +6,7 @@
 }
 
 <h1>Locations</h1>
-<p>A location represents a physical location where item is located (e.g., bedroom, garage, etc.)</p>
+<p>Represents a physical location where items can be stored. Can be nested up to 2 levels.</p>
 <p>
     <a class="btn btn-success" asp-page="LocationNew">Add New Location</a>
 </p>
@@ -14,22 +14,41 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Location[0].Name)
+                @Html.DisplayNameFor(model => model.RootLocations[0].Name)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Location) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a class="btn btn-primary" asp-page="./LocationEdit" asp-route-id="@item.Id">Edit</a> 
-                <a class="btn btn-danger"  asp-page="./LocationDelete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @for (int i = 0; i < Model.RootLocations.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.RootLocations[i].Name)
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-page="./LocationEdit" asp-route-id="@Model.RootLocations[i].Id">Edit</a>
+                    @if (Model.Sublocations != null && Model.Sublocations[i].Count == 0)
+                    {
+                        <a class="btn btn-danger" asp-page="./LocationDelete" asp-route-id="@Model.RootLocations[i].Id">Delete</a>
+                    }
+                </td>
+            </tr>
+            @if (Model.Sublocations != null && Model.Sublocations[i] != null)
+            {
+                foreach (var item in Model.Sublocations[i])
+                {
+                    <tr>
+                        <td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;@Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" asp-page="./LocationEdit" asp-route-id="@item.Id">Edit</a>
+                            <a class="btn btn-danger" asp-page="./LocationDelete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+        }
     </tbody>
 </table>

@@ -15,10 +15,13 @@ namespace HomeStuff.Pages
         private readonly HomeStuff.Data.SqliteContext _context;
         [BindProperty(SupportsGet = true)]
         public string? RedirectUrl { get; set; } = null;
+        public SelectList RootLocations { get; set; }
 
         public LocationNewModel(HomeStuff.Data.SqliteContext context)
         {
             _context = context;
+            RootLocations = new SelectList(_context.Location.Where(i => i.ParentId == null).OrderBy(i => i.Name), nameof(Location.Id), nameof(Location.Name));
+
         }
 
         public IActionResult OnGet()
@@ -33,11 +36,14 @@ namespace HomeStuff.Pages
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Location == null || Location == null)
+            if (!ModelState.IsValid || _context.Location == null || Location == null)
             {
                 return Page();
             }
-
+            if (Location.ParentId == null)
+                Location.FullName = Location.Name;
+            else
+                Location.FullName = _context.Location.Where(l => l.Id == Location.ParentId).First().Name + " > " + Location.Name;
             _context.Location.Add(Location);
             await _context.SaveChangesAsync();
             if (string.IsNullOrEmpty(RedirectUrl))

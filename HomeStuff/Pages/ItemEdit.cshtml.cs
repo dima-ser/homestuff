@@ -22,7 +22,7 @@ namespace HomeStuff.Pages
         public ItemEditModel(HomeStuff.Data.SqliteContext context)
         {
             _context = context;
-            Locations = new SelectList(context.Location.OrderBy(i => i.Name), nameof(Location.Id), nameof(Location.Name));
+            Locations = new SelectList(context.Location.OrderBy(i => i.FullName), nameof(Location.Id), nameof(Location.FullName));
             Sets = new SelectList(context.ItemSet.OrderBy(i => i.Name), nameof(ItemSet.Id), nameof(ItemSet.Name));
         }
 

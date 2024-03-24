@@ -82,7 +82,7 @@ namespace HomeStuff.Pages
                                         if (_context.Location.FirstOrDefault(l => l.Name == importItem.Location.Trim()) == null)
                                         {
                                             Console.WriteLine("Adding location " + importItem.Location.Trim());
-                                            _context.Location.Add(new Location { Name = importItem.Location.Trim() });
+                                            _context.Location.Add(new Location { Name = importItem.Location.Trim(), FullName = importItem.Location.Trim() });
                                             _context.SaveChanges();
                                         }
                                         Location itemLocation = _context.Location.FirstOrDefault(l => l.Name == importItem.Location.Trim())!;
