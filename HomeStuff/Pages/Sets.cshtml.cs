@@ -19,13 +19,18 @@ namespace HomeStuff.Pages
             _context = context;
         }
 
-        public IList<ItemSet> ItemSet { get;set; } = default!;
-
+        public IList<ItemSet> ItemSets { get;set; } = default!;
+        public bool[] HasItems { get; set; }
         public async Task OnGetAsync()
         {
             if (_context.ItemSet != null)
             {
-                ItemSet = await _context.ItemSet.ToListAsync();
+                ItemSets = await _context.ItemSet.OrderBy(i=>i.Name).ToListAsync();
+                HasItems = new bool[ItemSets.Count];
+                for (int i = 0; i < ItemSets.Count; i++)
+                {
+                    HasItems[i] = _context.Item.Where(m => m.ItemSetId == ItemSets[i].Id).Any();
+                }
             }
         }
     }
