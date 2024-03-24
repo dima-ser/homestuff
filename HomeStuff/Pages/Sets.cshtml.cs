@@ -29,6 +29,7 @@ namespace HomeStuff.Pages
                 HasItems = new bool[ItemSets.Count];
                 for (int i = 0; i < ItemSets.Count; i++)
                 {
+                    ItemSets[i].Location = _context.Location.Where(l => l.Id == ItemSets[i].LocationId).FirstOrDefault();
                     HasItems[i] = _context.Item.Where(m => m.ItemSetId == ItemSets[i].Id).Any();
                 }
             }

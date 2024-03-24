@@ -19,6 +19,13 @@
                 <span asp-validation-for="ItemSet.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="ItemSet.LocationId" class="control-label"></label>
+                <div class="input-group">
+                    <select asp-for="ItemSet.LocationId" asp-items="Model.Locations" class="form-control"></select>
+                </div>
+                <span asp-validation-for="ItemSet.LocationId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-success btn-lg mt-3" />
             </div>
         </form>

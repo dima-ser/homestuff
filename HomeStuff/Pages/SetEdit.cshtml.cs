@@ -22,6 +22,7 @@ namespace HomeStuff.Pages
 
         [BindProperty]
         public ItemSet ItemSet { get; set; } = default!;
+        public SelectList Locations { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,6 +37,7 @@ namespace HomeStuff.Pages
                 return NotFound();
             }
             ItemSet = itemSet;
+            Locations = new SelectList(_context.Location.OrderBy(i => i.FullName), nameof(Location.Id), nameof(Location.FullName));
             return Page();
         }
 

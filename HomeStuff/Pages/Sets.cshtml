@@ -16,6 +16,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.ItemSets[0].Name)
             </th>
+            <th>
+                Location
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -25,6 +28,9 @@
         <tr>
             <td>
                     @Html.DisplayFor(modelItem => Model.ItemSets[i].Name)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => Model.ItemSets[i].Location.FullName)
             </td>
             <td>
                     <a class="btn btn-primary" asp-page="./SetEdit" asp-route-id="@Model.ItemSets[i].Id">Edit</a>
