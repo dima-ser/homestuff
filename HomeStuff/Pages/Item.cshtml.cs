@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.Text.Encodings.Web;
 using System.Web;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace HomeStuff.Pages
 {
@@ -15,12 +16,17 @@ namespace HomeStuff.Pages
         private readonly IConfiguration configuration;
         private readonly IWebHostEnvironment webHostEnvironment;
         public HomeStuff.Models.Item Item { get; set; } = default!;
-        public string LocationFullName { get; set; } = string.Empty;
+        //public string LocationFullName { get; set; } = string.Empty;
+        public Location Location { get; set; } = default!;
         public List<ItemAttachment> Attachments { get; set; } = new List<ItemAttachment>();
         [DisplayName("Attachment")]
         public IFormFile? AttachmentFile { get; set; }
         [BindProperty(SupportsGet = true)]
         public string ErrorMessage { get; set; } = string.Empty;
+
+        public List<Item>? NeighborItems { get; set; }
+        [DataType(DataType.Currency)]
+        public double? TotalSublocationValue { get; set; }
 
         public ItemModel(HomeStuff.Data.SqliteContext context, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
@@ -45,7 +51,14 @@ namespace HomeStuff.Pages
             else
             {
                 Item = item;
-                LocationFullName = _context.Location.Where(l => l.Id == Item.LocationId).First().FullName;
+                Location = _context.Location.Where(l => l.Id == Item.LocationId).FirstOrDefault()!;
+                // = _context.Location.Where(l => l.Id == Item.LocationId).First().FullName;
+                if (Location.ParentId != null) // only show neighbor items for sublocations
+                {
+                    NeighborItems = _context.Item.Where(i => i.LocationId == Location.Id).OrderBy(i => i.Name).ToList();
+                    TotalSublocationValue = _context.Item.Where(i => i.LocationId == Location.Id).Sum(i => i.PurchasePrice);
+                }
+
                 Attachments = Item.GetAttachments(webHostEnvironment, configuration, this, item.Id);
                
             }
