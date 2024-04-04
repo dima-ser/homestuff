@@ -24,7 +24,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => Model.RootLocations[i].Name)
+                    <a asp-page="./Items" asp-route-l="@Model.RootLocations[i].Id">@Html.DisplayFor(modelItem => Model.RootLocations[i].Name) </a>
                 </td>
                 <td>
                     <a class="btn btn-primary" asp-page="./LocationEdit" asp-route-id="@Model.RootLocations[i].Id">Edit</a>
@@ -36,15 +36,15 @@
             </tr>
             @if (Model.Sublocations != null && Model.Sublocations[i] != null)
             {
-                foreach (var item in Model.Sublocations[i])
+                foreach (var sublocation in Model.Sublocations[i])
                 {
                     <tr>
                         <td>
-                            &nbsp;&nbsp;&nbsp;&nbsp;@Html.DisplayFor(modelItem => item.Name)
+                            &nbsp;&nbsp;&nbsp;&nbsp;<a asp-page="./Items" asp-route-l="@sublocation.Id">@Html.DisplayFor(modelItem => sublocation.Name)</a>
                         </td>
                         <td>
-                            <a class="btn btn-primary" asp-page="./LocationEdit" asp-route-id="@item.Id">Edit</a>
-                            <a class="btn btn-danger" asp-page="./LocationDelete" asp-route-id="@item.Id">Delete</a>
+                            <a class="btn btn-primary" asp-page="./LocationEdit" asp-route-id="@sublocation.Id">Edit</a>
+                            <a class="btn btn-danger" asp-page="./LocationDelete" asp-route-id="@sublocation.Id">Delete</a>
                         </td>
                     </tr>
                 }
