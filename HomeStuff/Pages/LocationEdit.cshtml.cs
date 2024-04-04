@@ -58,7 +58,7 @@ namespace HomeStuff.Pages
             if (Location.ParentId == null)
                 Location.FullName = Location.Name;
             else
-                Location.FullName = _context.Location.Where(l => l.Id == Location.ParentId).First().Name + " > " + Location.Name;
+                Location.FullName = _context.Location.Where(l => l.Id == Location.ParentId).First().Name + " / " + Location.Name;
 
             _context.Attach(Location).State = EntityState.Modified;
 
