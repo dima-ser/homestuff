@@ -15,5 +15,6 @@ namespace HomeStuff.Models
         //{
         //    return Name;
         //}
+        public static string SUBLOCATION_DIVIDER = " / ";
     }
 }

@@ -43,7 +43,7 @@ namespace HomeStuff.Pages
             if (Location.ParentId == null)
                 Location.FullName = Location.Name;
             else
-                Location.FullName = _context.Location.Where(l => l.Id == Location.ParentId).First().Name + " > " + Location.Name;
+                Location.FullName = _context.Location.Where(l => l.Id == Location.ParentId).First().Name + Location.SUBLOCATION_DIVIDER + Location.Name;
             _context.Location.Add(Location);
             await _context.SaveChangesAsync();
             if (string.IsNullOrEmpty(RedirectUrl))
