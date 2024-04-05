@@ -21,7 +21,9 @@
             <div class="form-group">
                 <label asp-for="Item.LocationId" class="control-label"></label>
                 <div class="input-group">
-                    <select asp-for="Item.LocationId" asp-items="Model.Locations" class="form-control"></select>
+                    <select asp-for="Item.LocationId" asp-items="Model.Locations" class="form-control">
+                        <option value="">---Please select---</option>
+                    </select>
                     <div class="input-group-append">
                         <a class="btn btn-primary" asp-page="LocationNew" asp-route-redirecturl="itemnew">Add New</a>
                     </div>
