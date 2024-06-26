@@ -21,6 +21,7 @@ namespace HomeStuff.Pages
         public double? TotalValue = 0;
         public List<Location> ValueLocations {  get; set; } = new List<Location>();
         public List<double?> ValueNumbers { get; set; } = new List<double?>();
+        public IList<Models.Item> MissingItems { get; set; } = default!;
 
         public IndexModel(Data.SqliteContext context)
         {
@@ -61,6 +62,11 @@ namespace HomeStuff.Pages
                 }
                 ValueNumbers.Add(_context.Item.Where(i => i.LocationId == location.Id && i.Status == Item.ItemStatus.Active).Sum(i => i.PurchasePrice) + sublocationsTotal);
             }
+            MissingItems = _context.Item.Where(i=>i.Status == Item.ItemStatus.Missing).OrderBy(i => i.Name).ToList();
+            //foreach (var item in MissingItems)
+            //{
+            //    item.Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId);
+            //}
         }
     }
 }
