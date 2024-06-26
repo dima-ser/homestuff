@@ -27,10 +27,14 @@ namespace HomeStuff.Pages
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _configuration;
 
-        [BindProperty(SupportsGet = true)]
-        public string? Run { get; set; }
-        [BindProperty(SupportsGet = true)]
-        public bool IncludeAttachmentUrls { get; set; }
+        [BindProperty]
+        public bool ExportItems { get; set; }
+        [BindProperty]
+        public bool ExportMaintenance { get; set; }
+        [BindProperty]
+        public bool MaintCompletedOnly { get; set; }
+        //[BindProperty(SupportsGet = true)]
+        //public bool IncludeAttachmentUrls { get; set; }
 
         public ExportModel(Data.SqliteContext context, IWebHostEnvironment environment, IConfiguration configuration)
         {
@@ -39,10 +43,10 @@ namespace HomeStuff.Pages
             _configuration = configuration;
         }
 
-        public ActionResult OnGet()
+        public ActionResult OnPost()
         {
 
-            if (!string.IsNullOrEmpty(Run))
+            if (ExportItems)
             {
                 
                 List<ItemExport> itemsForExport = new();
@@ -64,8 +68,6 @@ namespace HomeStuff.Pages
                         ItemUrl = Url.PageLink("Item", null, new { id = item.Id}),
                         Status = item.Status.ToString()
                     };
-
-                    
                     itemsForExport.Add(itemExport);
                 }
 
@@ -77,6 +79,33 @@ namespace HomeStuff.Pages
                     csv.WriteRecords(itemsForExport);
                 }
                 return File(System.IO.File.OpenRead(filePath), "application/octet-stream", "homestuff-exported-items.csv");
+            }
+            else if (ExportMaintenance)
+            {
+                List<MaintenanceExport> maintenanceForExport = new();
+                foreach (var maint in _context.Maintenance)
+                {
+                    if (maint.Completed || (!maint.Completed && !MaintCompletedOnly))
+                    {
+                        MaintenanceExport maintenanceExport = new()
+                        {
+                            ItemName = _context.Item.Where(i => i.Id == maint.ItemId).FirstOrDefault().Name,
+                            MaintenanceDescription = maint.Description,
+                            Date = maint.Date,
+                            Completed = maint.Completed ? "Yes" : "No"
+                        };
+                        maintenanceForExport.Add(maintenanceExport);
+                    }
+                }
+
+                var filePath = Path.GetTempFileName();
+                using (var writer = new StreamWriter(filePath))
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    csv.Context.RegisterClassMap(new MaintenanceExportMap());
+                    csv.WriteRecords(maintenanceForExport);
+                }
+                return File(System.IO.File.OpenRead(filePath), "application/octet-stream", "homestuff-exported-maintenance.csv");
             }
             else
                 return Page();
