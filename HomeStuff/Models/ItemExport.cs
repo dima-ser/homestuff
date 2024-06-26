@@ -20,6 +20,7 @@ namespace HomeStuff.Models
         //public List<string>? AttachmentUrls { get; set; }
         public bool HasAttachments { get; set; }
         public string ItemUrl { get; set; }
+        public string? Status { get; set; }
     }
     public sealed class ItemExportMap : ClassMap<ItemExport>
     {
@@ -38,6 +39,7 @@ namespace HomeStuff.Models
             //Map(m => m.AttachmentUrls).Optional().Convert(row => string.Join(", ", row.Value.AttachmentUrls));
             Map(m => m.HasAttachments);
             Map(m => m.ItemUrl);
+            Map(m => m.Status);
         }
     }
 

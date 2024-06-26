@@ -1,16 +1,21 @@
 ﻿@page
 @model HomeStuff.Pages.ExportModel
 @{
-    ViewData["Title"] = "Export Items";
+    ViewData["Title"] = "Export";
 }
 <h1>@ViewData["Title"]</h1>
 
-
+<h3>Export Items</h3>
+<div class="alert alert-dark" role="alert">
+    Use this to export items to a .CSV file. Location hierarchy will be flattened. Will not export attachments.
+</div>
 <div class="row">
     <div class="col">
         <form>
             <input type="hidden" name="run" value="1" />
-            <input type="submit" class="btn btn-primary btn-lg mt-3" value="Export to CSV" />
+            <input type="submit" class="btn btn-primary btn-lg mt-3" value="Export Items" />
         </form>
     </div>
 </div>
+<br/><br/>
+<h3>Export Maintenance Log</h3>

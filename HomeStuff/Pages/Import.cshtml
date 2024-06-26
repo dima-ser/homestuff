@@ -4,6 +4,10 @@
     ViewData["Title"] = "Import Items";
 }
 <h1>@ViewData["Title"]</h1>
+<div class="alert alert-dark" role="alert">
+    Please note that this feature is not meant for data migration between Homestuff instances as it won't import all the fields Homestuff supports. It's meant to be used by new Homestuff users who 
+    want to populate the database from existing source (Excel spreadsheet or another software). To migrate entire datadase, simply copy your database folder to the new instance.
+</div>
 <h4>Import file requirements</h4>
 <ul>
     <li>Must be in the CSV format with UTF-8 encoding</li>

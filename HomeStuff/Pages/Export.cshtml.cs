@@ -41,10 +41,7 @@ namespace HomeStuff.Pages
 
         public ActionResult OnGet()
         {
-            //Console.WriteLine(UriHelper.BuildAbsolute(Request.Scheme, Request.Host));
-            //Console.WriteLine(Url.Link("Index", new { itemid = "test", name = "test" }));
-            Console.WriteLine(Url.PageLink("ItemAttachment", null, new { itemid = "test", name = "test" }));
-            //Console.WriteLine(Request.Scheme+ Request.Host);
+
             if (!string.IsNullOrEmpty(Run))
             {
                 
@@ -64,25 +61,11 @@ namespace HomeStuff.Pages
                         PurchaseDate = item.PurchaseDate,
                         SKU = item.SKU,
                         HasAttachments = Item.HasAttachments(_webHostEnvironment, _configuration, item.Id),
-                        ItemUrl = Url.PageLink("Item", null, new { id = item.Id})
+                        ItemUrl = Url.PageLink("Item", null, new { id = item.Id}),
+                        Status = item.Status.ToString()
                     };
 
                     
-                    //if (IncludeAttachmentUrls)
-                    //{
-                    //    itemExport.AttachmentUrls = new List<string>();
-                    //    List<ItemAttachment> attachments = Item.GetAttachments(_webHostEnvironment, _configuration, this, item.Id);
-                    //    if (attachments.Count > 0)
-                    //    {
-                    //        foreach (var attachment in attachments)
-                    //        {
-                    //            string fullUrl = Url.PageLink("ItemAttachment", null, new { itemid = item.Id, name = attachment.Name });
-                    //            itemExport.AttachmentUrls.Add(fullUrl);
-                    //        }
-                    //    }
-                    //    if (itemExport.AttachmentUrls != null)
-                    //        Console.WriteLine(itemExport.AttachmentUrls.ToString());
-                    //}
                     itemsForExport.Add(itemExport);
                 }
 
