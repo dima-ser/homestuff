@@ -30,10 +30,10 @@ namespace HomeStuff.Pages
         public void OnGet()
         {
             RecentItems = _context.Item.OrderByDescending(x => x.LastModifiedUtc).Take(6).ToList();
-            foreach (var item in RecentItems)
-            {
-                item.Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId);
-            }
+            //foreach (var item in RecentItems)
+            //{
+            //    item.Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId);
+            //}
             DateOnly today = DateOnly.FromDateTime(DateTime.Now);
             //OverdueMaintenance = _context.Maintenance.Where(x => x.Completed == false && x.Date <= today).OrderBy(x => x.Date).ToList();
             //foreach (var maintenance in OverdueMaintenance)
