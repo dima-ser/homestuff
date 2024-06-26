@@ -45,7 +45,7 @@ To upgrade
 
 # Migration
 To migrate or move to another system
-- Copy the entire database folder (by default "db") from the old system
+- Copy the entire data folder from the old system
 - Install Homestuff on the new system (follow the Installation instructions above)
-- Move the content of the "db" folder from the old system to the new system
+- Move the content of the data folder from the old system to the new system
 - Run Homestuff on the new system. 
