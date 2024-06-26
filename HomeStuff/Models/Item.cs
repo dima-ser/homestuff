@@ -36,7 +36,13 @@ namespace HomeStuff.Models
         public DateTime LastModifiedUtc { get; set; }
         public string? MaintenanceNotes { get; set; }
         public ICollection<Maintenance> Maintenances { get;} = new List<Maintenance>();
-
+        public enum ItemStatus 
+        {
+            Active = 0, // item is currently in posession and can be located
+            Missing = 1, // item is missing/cannot be found at its last known location
+            Gone = 2 // item is gone/sold/gifted
+        }
+        public ItemStatus Status { get; set; } = ItemStatus.Active;
         /// <summary>
         /// Returns a physical path of a directory on the server where attachments for the given itemId are located
         /// </summary>

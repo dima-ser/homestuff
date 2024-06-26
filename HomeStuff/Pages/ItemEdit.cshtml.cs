@@ -22,9 +22,11 @@ namespace HomeStuff.Pages
         {
             _context = context;
             Locations = new SelectList(context.Location.OrderBy(i => i.FullName), nameof(Location.Id), nameof(Location.FullName));
+            ItemStatuses = new SelectList(Enum.GetValues(typeof(Item.ItemStatus)));
+            
         }
 
-       
+       public SelectList ItemStatuses { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

@@ -75,6 +75,14 @@
                     {
                         <span class="badge bg-success align-bottom">@Html.DisplayFor(model => item.PurchasePrice)</span>
                     }
+                    @if (item.Status == Models.Item.ItemStatus.Missing)
+                    {
+                        <span class="badge bg-danger align-bottom">@Html.DisplayFor(model => item.Status)</span>
+                    }
+                    @if (item.Status == Models.Item.ItemStatus.Gone)
+                    {
+                        <span class="badge bg-warning align-bottom">@Html.DisplayFor(model => item.Status)</span>
+                    }
                     <a asp-page="./Item" asp-route-id="@item.Id" class="stretched-link"></a>
                 </div>
             </div>
