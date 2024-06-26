@@ -40,3 +40,10 @@ To upgrade
 - Stop container
 - Download updated image with `docker pull dimaser/homestuff`
 - Start new container (or Reset container if using Synology NAS. That recreates it with fresh image)
+
+# Migration
+To migrate or move to another system
+- Copy the entire database folder (by default "db") from the old system
+- Install Homestuff on the new system (follow the Installation instructions above)
+- Move the content of the "db" folder from the old system to the new system
+- Run Homestuff on the new system. 
