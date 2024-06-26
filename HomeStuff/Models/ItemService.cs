@@ -5,8 +5,8 @@ namespace HomeStuff.Models
 {
     public interface IItemService
     {
-        Task<List<Item>> GetPaginatedResult(int currentPage, string? q, string? l, double? MinPrice, int pageSize = 10);
-        Task<int> GetCount(string? q, string? l, double? MinPrice);
+        Task<List<Item>> GetPaginatedResult(int currentPage, string? q, string? l, double? MinPrice, int? status, int pageSize = 10);
+        Task<int> GetCount(string? q, string? l, double? MinPrice, int? status);
     }
 
     public class ItemService : IItemService
@@ -17,19 +17,19 @@ namespace HomeStuff.Models
             _context = context;
         }
 
-        public async Task<List<Item>> GetPaginatedResult(int currentPage, string? q, string? l, double? MinPrice, int pageSize = 10)
+        public async Task<List<Item>> GetPaginatedResult(int currentPage, string? q, string? l, double? MinPrice, int? status, int pageSize = 10)
         {
-            var data = await GetData(q,l,MinPrice);
+            var data = await GetData(q,l,MinPrice, status);
             return data.OrderByDescending(i => i.LastModifiedUtc).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
         }
 
-        public async Task<int> GetCount(string? q, string? l, double? MinPrice)
+        public async Task<int> GetCount(string? q, string? l, double? MinPrice, int? status)
         {
-            var data = await GetData(q,l,MinPrice);
+            var data = await GetData(q,l,MinPrice, status);
             return data.Count;
         }
 
-        private async Task<List<Item>> GetData(string? q, string? l, double? MinPrice)
+        private async Task<List<Item>> GetData(string? q, string? l, double? MinPrice, int? status)
         {
             var items = from i in _context.Item select i;
             if (!string.IsNullOrEmpty(q))
@@ -51,7 +51,10 @@ namespace HomeStuff.Models
             {
                 items = items.Where(i => i.PurchasePrice >= MinPrice);
             }
-
+            if (status != null)
+            {
+                items = items.Where(i => i.Status == (Item.ItemStatus)status);
+            }
             foreach (var item in items)
             {
                 item.Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId);

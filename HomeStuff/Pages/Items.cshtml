@@ -16,6 +16,9 @@
             <select class="form-control" asp-for="l" asp-items="Model.Locations">
                 <option value="">All Locations</option>
             </select>
+            <select class="form-control" asp-for="s" asp-items="Model.ItemStatuses">
+                <option value="">Any Status</option>
+            </select>
         <button class="btn btn-primary" type="submit">Search</button>
     </div>
 </div>

@@ -4,6 +4,7 @@ using HomeStuff.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.AccessControl;
+using static HomeStuff.Models.Item;
 
 namespace HomeStuff.Pages
 {
@@ -16,6 +17,9 @@ namespace HomeStuff.Pages
         public SelectList? Locations { get; set; }
         [BindProperty(SupportsGet = true)]
         public string? l { get; set; }
+        public SelectList? ItemStatuses { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public int? s { get; set; }
         [BindProperty(SupportsGet = true)]
         public double? MinPrice { get; set; }
 
@@ -40,7 +44,9 @@ namespace HomeStuff.Pages
             //FormattableString rawSql = $"select l1.Id, case when l2.Name is not null then l2.Name || '->' || l1.Name else l1.Name end as Name, null as ParentId from Location l1 left join Location l2 on l1.ParentId=l2.Id order by case when l2.Name is not null then l2.Name || '->' || l1.Name else l1.Name end";
             //Locations = new SelectList(context.Location.FromSql(rawSql), nameof(Location.Id), nameof(Location.Name));
             Locations = new SelectList(context.Location.OrderBy(l=>l.FullName), nameof(Location.Id), nameof(Location.FullName));
-
+            var statuses = from ItemStatus d in Enum.GetValues(typeof(Item.ItemStatus))
+                             select new { ID = (int)d, Name = d.ToString() };
+            ItemStatuses = new SelectList(statuses, "ID", "Name");
         }
 
 
@@ -48,8 +54,8 @@ namespace HomeStuff.Pages
         {
             if (_context.Item != null)
             {
-                Items = await _itemService.GetPaginatedResult(CurrentPage, q, l, MinPrice, PAGE_SIZE);
-                Count = await _itemService.GetCount(q, l, MinPrice);
+                Items = await _itemService.GetPaginatedResult(CurrentPage, q, l, MinPrice, s, PAGE_SIZE);
+                Count = await _itemService.GetCount(q, l, MinPrice, s);
 
                
             }
