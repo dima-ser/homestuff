@@ -4,11 +4,12 @@
     ViewData["Title"] = "Export";
 }
 <h1>@ViewData["Title"]</h1>
-
-<h3>Export Items</h3>
-<div class="alert alert-dark" role="alert">
-    Use this to export items to a .CSV file. Location hierarchy will be flattened. Will not export attachments.
+<hr />
+<div class="alert alert-warning" role="alert">
+    This feature is limited and is not intended for data migration between Homestuff instances. Location hierarchy will be flattened. Will not export attachments.
+    To migrate entire database, simply copy your database folder to the new instance.
 </div>
+<h3>Export Items</h3>
 <div class="row">
     <div class="col">
         <form method="post">
@@ -17,7 +18,8 @@
         </form>
     </div>
 </div>
-<br/><br/>
+<br />
+<hr />
 <h3>Export Maintenance Log</h3>
 <div class="row">
     <div class="col">
