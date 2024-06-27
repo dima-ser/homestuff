@@ -10,18 +10,22 @@
     </div>
 </div>*@
 <form>
-<div class="row no-gutters mb-3">
-    <div class="col input-group">
-        <input class="form-control" type="search" placeholder="Search items" asp-for="q">
+    <div class="row g-0 mb-3">
+        <div class="col-sm">
+            <input class="form-control" type="search" placeholder="Keyword(s)" asp-for="q">
+        </div>
+        <div class="col-sm">
             <select class="form-control" asp-for="l" asp-items="Model.Locations">
                 <option value="">All Locations</option>
             </select>
+        </div>
+        <div class="col-sm input-group">
             <select class="form-control" asp-for="s" asp-items="Model.ItemStatuses">
                 <option value="">Any Status</option>
             </select>
-        <button class="btn btn-primary" type="submit">Search</button>
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
     </div>
-</div>
 </form>
 @if (Model.Count > ItemsModel.PAGE_SIZE)
 {
