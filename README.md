@@ -1,6 +1,7 @@
 # HomeStuff
 HomeStuff is a basic home inventory management solution.
 
+![Homestuff Main Screen](homestuff-screenshot.png?raw=true "Title")
 ## Primary Focus
 - Keep track of items/assets at home for insurance claim purposes (make, model, description, purchase price, proof of purchase, etc.)
 - Simple, mobile-friendly web interface
@@ -8,10 +9,11 @@ HomeStuff is a basic home inventory management solution.
   
 
 ## Secondary Features
-- Import items from a CSV file
+- Import items from a .CSV file
 - Ability to attach files to items (photos, receipts, manuals, etc)
 - Keep track of maintenance for your items
 - Password-protected so that the app can be accessible from the Internet, if so desired
+- Basic value report to see the total value of items in your home/each location
 
 # Limitations/What This Project Is NOT For
 - This is not a comprehensive IT asset management tool, for that there's Snipe-IT. HomeStuff is for basic home use only. 
@@ -43,7 +45,7 @@ To upgrade
 
 # Migration
 To migrate or move to another system
-- Copy the entire database folder (by default "db") from the old system
+- Copy the entire data folder from the old system
 - Install Homestuff on the new system (follow the Installation instructions above)
-- Move the content of the "db" folder from the old system to the new system
+- Move the content of the data folder from the old system to the new system
 - Run Homestuff on the new system. 
