@@ -13,8 +13,8 @@ namespace HomeStuff.Pages
     public class ItemModel : PageModel
     {
         private readonly HomeStuff.Data.SqliteContext _context;
-        private readonly IConfiguration configuration;
-        private readonly IWebHostEnvironment webHostEnvironment;
+        public readonly IConfiguration configuration;
+        public readonly IWebHostEnvironment webHostEnvironment;
         public HomeStuff.Models.Item Item { get; set; } = default!;
         //public string LocationFullName { get; set; } = string.Empty;
         public Location Location { get; set; } = default!;

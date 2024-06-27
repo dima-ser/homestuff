@@ -91,7 +91,7 @@ namespace HomeStuff.Models
                     {
                         foreach (string ext in fileExtensions)
                         {
-                            if (file.EndsWith(ext))
+                            if (file.ToLower().EndsWith(ext.ToLower()))
                             {
                                 return Path.GetFileName(file);
                             }
