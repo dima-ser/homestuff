@@ -2,13 +2,17 @@ using HomeStuff.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Build.Framework;
+using NuGet.Protocol;
 using System.Configuration;
 using System.Net.Mail;
 using System.Web;
 
 namespace HomeStuff.Pages
 {
+    [ResponseCache(Duration =3600)]
     public class ItemAttachmentModel : PageModel
     {
         private readonly IConfiguration configuration;
@@ -23,6 +27,7 @@ namespace HomeStuff.Pages
             this.configuration = configuration;
             this.webHostEnvironment = webHostEnvironment;
         }
+
 
         public ActionResult OnGet()
         {

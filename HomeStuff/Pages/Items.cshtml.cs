@@ -11,6 +11,8 @@ namespace HomeStuff.Pages
     public class ItemsModel : PageModel
     {
         private readonly HomeStuff.Data.SqliteContext _context;
+        public IConfiguration Configuration { get; set; }
+        public IWebHostEnvironment WebHostEnvironment { get; set; }
         public IList<HomeStuff.Models.Item> Items { get; set; } = default!;
         [BindProperty(SupportsGet = true)]
         public string? q { get; set; }
@@ -30,10 +32,12 @@ namespace HomeStuff.Pages
         public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PAGE_SIZE));
         private readonly IItemService _itemService;
 
-        public ItemsModel(HomeStuff.Data.SqliteContext context, IItemService itemService)
+        public ItemsModel(HomeStuff.Data.SqliteContext context, IItemService itemService, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _itemService = itemService;
+            Configuration = configuration;
+            WebHostEnvironment = webHostEnvironment;
 
             //var query = from l1 in context.Location
             //            join l2 in context.Location on l1.ParentId equals l2.Id 

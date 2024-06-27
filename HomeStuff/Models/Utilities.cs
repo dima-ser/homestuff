@@ -10,6 +10,7 @@ namespace HomeStuff.Models
         public static readonly byte[] Salt = Encoding.ASCII.GetBytes("LemonTree");
         public static readonly string AttachmentDirName = "attachments";
         public static readonly string ConfigUserDataDirectory = "UserDataDirectory";
+        public static readonly string ConfigAvatarFileExtensions = "AvatarFileExtensions";
 
         private static readonly string passwordFileName = "password.txt";
 

@@ -42,6 +42,7 @@ namespace HomeStuff.Models
             Missing = 1, // item is missing/cannot be found at its last known location
             Gone = 2 // item is gone/sold/gifted
         }
+        //static string[] AVATAR_FILE_EXTENSIONS = { ".jpg", ".jpeg", ".png", ".bmp" };
         public ItemStatus Status { get; set; } = ItemStatus.Active;
         /// <summary>
         /// Returns a physical path of a directory on the server where attachments for the given itemId are located
@@ -52,15 +53,53 @@ namespace HomeStuff.Models
         /// <returns></returns>
         public static string GetAttachmentDirPhysicalPath(IWebHostEnvironment environment, IConfiguration configuration, string itemId)
         {
-            string attachmentDir = Path.Combine(environment.ContentRootPath, configuration.GetValue<string>(Utilities.ConfigUserDataDirectory));
-            attachmentDir = Path.Combine(attachmentDir, Utilities.AttachmentDirName);
-            return Path.Combine(attachmentDir, itemId);
+            string? dataDir = configuration.GetValue<string>(Utilities.ConfigUserDataDirectory);
+            if (dataDir != null)
+            {
+                string attachmentDir = Path.Combine(environment.ContentRootPath, dataDir);
+                attachmentDir = Path.Combine(attachmentDir, Utilities.AttachmentDirName);
+                return Path.Combine(attachmentDir, itemId);
+            }
+            else
+            {
+                throw new Exception("Missing config \"" + Utilities.ConfigUserDataDirectory + "\" in appsettings.json");
+            }
         }
 
         public static bool HasAttachments(IWebHostEnvironment environment, IConfiguration configuration, int itemId)
         {
             string attachmentDir = GetAttachmentDirPhysicalPath(environment, configuration, itemId.ToString());
             return Directory.Exists(attachmentDir) && Directory.EnumerateFiles(attachmentDir).Any();
+        }
+        /// <summary>
+        /// Returns attachment name of avatar if item has one or empty string if item doesn't have an avatar
+        /// </summary>
+        /// <param name="environment"></param>
+        /// <param name="configuration"></param>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        public static string GetAvatarFileName(IWebHostEnvironment environment, IConfiguration configuration, int itemId)
+        {
+            string attachmentDir = GetAttachmentDirPhysicalPath(environment, configuration, itemId.ToString());
+            if (Directory.Exists(attachmentDir))
+            {
+                var files = Directory.EnumerateFiles(attachmentDir);
+                string[]? fileExtensions = configuration.GetSection(Utilities.ConfigAvatarFileExtensions).Get<string[]>();
+                if (fileExtensions != null)
+                {
+                    foreach (string file in files)
+                    {
+                        foreach (string ext in fileExtensions)
+                        {
+                            if (file.EndsWith(ext))
+                            {
+                                return Path.GetFileName(file);
+                            }
+                        }
+                    }
+                }
+            }
+            return String.Empty;
         }
 
         public static List<ItemAttachment> GetAttachments(IWebHostEnvironment environment, IConfiguration configuration, PageModel pageModel, int itemId)
@@ -84,6 +123,7 @@ namespace HomeStuff.Models
             }
             return attachments;
         }
+
     }
 
 }

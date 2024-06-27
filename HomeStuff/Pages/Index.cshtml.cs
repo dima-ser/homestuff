@@ -10,6 +10,8 @@ namespace HomeStuff.Pages
     public class IndexModel : PageModel
     {
         private readonly Data.SqliteContext _context;
+        public IConfiguration Configuration { get; set; }
+        public IWebHostEnvironment WebHostEnvironment { get; set; }
         public IList<Models.Item> RecentItems { get; set; } = default!;
         //public IList<Models.Maintenance> OverdueMaintenance { get; set; } = default!;
         public IList<Models.Maintenance> UpcomingMaintenance { get; set; } = default!;
@@ -23,9 +25,11 @@ namespace HomeStuff.Pages
         public List<double?> ValueNumbers { get; set; } = new List<double?>();
         public IList<Models.Item> MissingItems { get; set; } = default!;
 
-        public IndexModel(Data.SqliteContext context)
+        public IndexModel(Data.SqliteContext context, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            this.Configuration = configuration;
+            this.WebHostEnvironment = webHostEnvironment;
         }
         public void OnGet()
         {
