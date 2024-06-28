@@ -46,13 +46,6 @@
                 </select>
                 <span asp-validation-for="NewMaintenance.Completed" class="text-danger"></span>
             </div>
-            @* <div class="form-check">
-                <input class="form-check-input" type="checkbox" asp-for="NewMaintenance.Completed">
-                <label class="form-check-label" asp-for="NewMaintenance.Completed">
-                </label>
-                @Html.CheckBoxFor(model => model.NewMaintenance.Completed, new {@class="form-check-input align-middle"})
-                <label asp-for="NewMaintenance.Completed" class="form-check-label"></label>
-            </div>*@
         </div>
         <div class="col-md-3" id="divRecurring">
             <div class="form-group">
@@ -90,7 +83,6 @@
             </div>
         </div>
     </div>
-    @*<div asp-validation-summary="All" class="text-danger mt-1"></div>*@
 </form>
 @if (!string.IsNullOrEmpty(Model.ErrorMessage))
 {
@@ -152,12 +144,6 @@
                         <th scope="row">@maint.Date</th>
                         <td>@maint.Description</td>
                         <td>Completed</td>
-                 @*       <td>
-                            <form method="post" asp-page-handler="togglecomplete">
-                                <input type="hidden" name="id" asp-for="@maint.Id" />
-                                <input type="submit" value="Uncomplete" class="btn btn-primary btn-sm" />
-                            </form>
-                        </td>*@
                         <td><a asp-page="./MaintEdit" asp-route-id="@maint.Id">Edit</a></td>
                         <td>
                             <a asp-page="./MaintDelete" asp-route-id="@maint.Id" >Delete</a>
@@ -189,8 +175,6 @@
         }
         else {
             $("#divRecurring").show();
-            //$("#divRecurringDays").show();
-            //$("#divNumOccurences").show();
             $("#btnNewMaintenance").val("Schedule Maintenance");
         }
         toggleRecurrence();

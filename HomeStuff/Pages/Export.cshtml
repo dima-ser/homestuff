@@ -25,7 +25,6 @@
     <div class="col">
         <form method="post">
             <input asp-for="@Model.ExportMaintenance" type="hidden" value="true" />
-@*             <input asp-for="@Model.MaintCompletedOnly" type="checkbox" checked /> *@
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" asp-for="@Model.MaintCompletedOnly" checked>
                 <label class="form-check-label" asp-for="@Model.MaintCompletedOnly">

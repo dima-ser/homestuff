@@ -4,11 +4,6 @@
     ViewData["Title"] = "Items";
 }
 <h1>@ViewData["Title"]</h1>
-@*<div class="row">
-    <div class="col-md-4 mb-2">
-    <a href="./ItemNew" class="btn btn-success btn-lg w-100">Add Item</a>
-    </div>
-</div>*@
 <hr />
 <form>
     <div class="row g-1 gy-1 mb-3">
@@ -46,15 +41,6 @@
     </div>
 }
 <div class="row">
-@*    <div class="col-md-4 mb-2">
-        <div class="card h-100 card-hover  border-success">
-            <h5 class="card-header bg-success text-light">Add New Item</h5>
-            <div class="card-body">
-                <p class="card-text"> Click here to add a new item</p>
-                <a asp-page="./ItemNew" class="stretched-link"></a>
-            </div>
-        </div>
-    </div>*@
     @if ((Model.q != null || Model.l != null) && Model.Items.Count==0)
     {
         <div class="col">

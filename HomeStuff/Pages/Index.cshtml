@@ -32,9 +32,6 @@
                             <img src="/itemattachment?itemid=@item.Id&name=@Models.Item.GetAvatarFileName(Model.WebHostEnvironment, Model.Configuration, item.Id)" 
                             class="float-start avatar-image rounded" alt="Avatar image for @item.Name">
                         }
-                        @* <p class="card-text" style="font-size:0.9em">
-                            @(item.Description != null && item.Description.Length > 135 ? item.Description.Substring(0, 135) + "..." : item.Description)
-                        </p> *@
                         <p class="card-text card-description" >@item.Description</p>
                         <span class="badge bg-dark align-bottom">@item.Location!.FullName</span>
                         @if (item.PurchasePrice != null)
