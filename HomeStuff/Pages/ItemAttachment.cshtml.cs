@@ -12,7 +12,7 @@ using System.Web;
 
 namespace HomeStuff.Pages
 {
-    [ResponseCache(Duration =3600)]
+    [ResponseCache(Duration = 604800)]
     public class ItemAttachmentModel : PageModel
     {
         private readonly IConfiguration configuration;
