@@ -23,17 +23,19 @@
     <div class="row">
         @foreach (var item in Model.RecentItems)
         {
-            <div class="col-md-4 mb-2">
+            <div class="col-lg-4 col-md-6 col-sm-6 mb-2">
                 <div class="card h-100 card-hover">
-                    <h5 class="card-header bg-primary text-light">@(item.Name.Length > 50 ? item.Name.Substring(0, 50) + "..." : item.Name)</h5>
+                    <h5 class="card-header bg-primary text-light text-truncate">@item.Name</h5>
                     <div class="card-body border-primary">
                         @if (Models.Item.GetAvatarFileName(Model.WebHostEnvironment, Model.Configuration, item.Id) != String.Empty)
                         {
-                            <img src="/itemattachment?itemid=@item.Id&name=@Models.Item.GetAvatarFileName(Model.WebHostEnvironment, Model.Configuration, item.Id)" class="float-start avatar-image rounded" alt="Avatar image for @item.Name">
+                            <img src="/itemattachment?itemid=@item.Id&name=@Models.Item.GetAvatarFileName(Model.WebHostEnvironment, Model.Configuration, item.Id)" 
+                            class="float-start avatar-image rounded" alt="Avatar image for @item.Name">
                         }
-                        <p class="card-text" style="font-size:0.9em">
+                        @* <p class="card-text" style="font-size:0.9em">
                             @(item.Description != null && item.Description.Length > 135 ? item.Description.Substring(0, 135) + "..." : item.Description)
-                        </p>
+                        </p> *@
+                        <p class="card-text card-description" >@item.Description</p>
                         <span class="badge bg-dark align-bottom">@item.Location!.FullName</span>
                         @if (item.PurchasePrice != null)
                         {
