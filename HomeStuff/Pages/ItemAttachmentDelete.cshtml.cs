@@ -33,9 +33,10 @@ namespace HomeStuff.Pages
             {
                 return NotFound();
             }
-            string fileName = HttpUtility.UrlDecode(Name);
-            string attachmentPath = ItemAttachment.GetPhysicalPath(_webHostEnvironment, _configuration, ItemId.ToString()!, fileName);
-            Console.WriteLine("physical path: " + attachmentPath);
+            //string fileName = HttpUtility.UrlDecode(Name);
+            // apparently, Name here is automatically URL decoded by the framework?
+            string attachmentPath = ItemAttachment.GetPhysicalPath(_webHostEnvironment, _configuration, ItemId.ToString()!, Name);
+
             if (System.IO.File.Exists(attachmentPath))
             {
                 System.IO.File.Delete(attachmentPath);

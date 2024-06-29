@@ -101,6 +101,10 @@ namespace HomeStuff.Models
             }
             return String.Empty;
         }
+        public static string GetAvatarFileNameUrlEncoded(IWebHostEnvironment environment, IConfiguration configuration, int itemId)
+        {
+            return HttpUtility.UrlEncode(GetAvatarFileName(environment, configuration, itemId));
+        }
 
         public static List<ItemAttachment> GetAttachments(IWebHostEnvironment environment, IConfiguration configuration, PageModel pageModel, int itemId)
         {

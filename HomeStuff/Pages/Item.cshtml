@@ -28,7 +28,7 @@
             Item Photo
         </dt>
         <dd class="col-sm-10">
-                <img src="/itemattachment?itemid=@Model.Item.Id&name=@Models.Item.GetAvatarFileName(Model.webHostEnvironment, Model.configuration, Model.Item.Id)"
+            <img src="/itemattachment?itemid=@Model.Item.Id&name=@Models.Item.GetAvatarFileNameUrlEncoded(Model.webHostEnvironment, Model.configuration, Model.Item.Id)"
                      class="img-fluid rounded" style="max-height:400px;" alt="Avatar image for @Model.Item.Name">
         </dd>
 

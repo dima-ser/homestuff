@@ -29,7 +29,7 @@
                     <div class="card-body border-primary">
                         @if (Models.Item.GetAvatarFileName(Model.WebHostEnvironment, Model.Configuration, item.Id) != String.Empty)
                         {
-                            <img src="/itemattachment?itemid=@item.Id&name=@Models.Item.GetAvatarFileName(Model.WebHostEnvironment, Model.Configuration, item.Id)" 
+                            <img src="/itemattachment?itemid=@item.Id&name=@Models.Item.GetAvatarFileNameUrlEncoded(Model.WebHostEnvironment, Model.Configuration, item.Id)" 
                             class="float-start avatar-image rounded" alt="Avatar image for @item.Name">
                         }
                         <p class="card-text card-description" >@item.Description</p>

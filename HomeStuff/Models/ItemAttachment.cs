@@ -20,13 +20,20 @@ namespace HomeStuff.Models
             this.Size = size;
 
         }   
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="environment"></param>
+        /// <param name="configuration"></param>
+        /// <param name="itemId"></param>
+        /// <param name="attachmentName">Make sure this is URL decoded before passing</param>
+        /// <returns></returns>
         public static string GetPhysicalPath(IWebHostEnvironment environment, IConfiguration configuration, string itemId, string attachmentName)
         {
             string attachmentDir = Path.Combine(environment.ContentRootPath, configuration.GetValue<string>(Utilities.ConfigUserDataDirectory));
             attachmentDir = Path.Combine(attachmentDir, Utilities.AttachmentDirName);
             attachmentDir = Path.Combine(attachmentDir, itemId);
-            string fileName = HttpUtility.UrlDecode(attachmentName);
-            return Path.Combine(attachmentDir, fileName);
+            return Path.Combine(attachmentDir, attachmentName);
         }
 
         //public bool Equals(object other)

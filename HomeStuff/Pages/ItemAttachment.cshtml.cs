@@ -33,23 +33,29 @@ namespace HomeStuff.Pages
         {
             if (!string.IsNullOrEmpty(ItemID) && !string.IsNullOrEmpty(Name))
             {
-                string fileName = HttpUtility.UrlDecode(Name);
+                //string fileName = HttpUtility.UrlDecode(Name);
+                // apparently, Name here is automatically URL decoded by the framework?
+                string fileName = Name;
                 string attachmentPath = ItemAttachment.GetPhysicalPath(webHostEnvironment, configuration, ItemID, fileName);
                 if (System.IO.File.Exists(attachmentPath))
                 {
+                    Console.WriteLine(fileName + " exists");
                     var fileProvider = new FileExtensionContentTypeProvider();
                     // Figures out what the content type should be based on the file name.  
                     if (!fileProvider.TryGetContentType(fileName, out string? contentType))
                     {
                         Console.WriteLine("Unable to determine attachment's MIME content type, using default \"application/octet-stream\"");
                     }
-                    if (string.IsNullOrEmpty(contentType)) {
+                    if (string.IsNullOrEmpty(contentType))
+                    {
                         contentType = "application/octet-stream";
                     }
                     return File(System.IO.File.OpenRead(attachmentPath), contentType, fileName);
                 }
                 else
+                {
                     return NotFound();
+                }
             }
             return NotFound();
         }
