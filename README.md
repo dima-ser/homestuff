@@ -16,10 +16,13 @@ HomeStuff is a basic home inventory management solution.
 - Basic value report to see the total value of items in your home/each location
 
 # Limitations/What This Project Is NOT For
+  Since the project started for my own use, these features are not of critical use for me and currently not planned to be implemented.
+  
 - This is not a comprehensive IT asset management tool, for that there's Snipe-IT. HomeStuff is for basic home use only. 
-- No labels/barcodes/QR codes
+- No barcode/QR code labels
 - No multi-user support, one user only
 - US-centric (no multi-currency or localization support).
+  
 
 # Installation (Docker)
 Docker image hosted on DockerHub (private repo). To pull, use `docker pull dimaser/homestuff` You may need to first log in to DockerHub since it's a private repo. To log in, use `docker login`
