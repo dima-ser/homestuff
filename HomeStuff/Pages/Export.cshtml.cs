@@ -55,7 +55,7 @@ namespace HomeStuff.Pages
                     ItemExport itemExport = new()
                     {
                         Name = item.Name,
-                        Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId)!.Name,
+                        Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId)!.FullName,
                         Description = item.Description,
                         Manufacturer = item.Manufacturer,
                         ModelNumber = item.ModelNumber,
