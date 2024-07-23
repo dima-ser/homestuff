@@ -1,7 +1,7 @@
 # HomeStuff
 HomeStuff is a basic home inventory management solution.
 
-![Homestuff Main Screen](homestuff-screenshot.png?raw=true "Title")
+![Homestuff Main Screen](screenshot.png?raw=true "Title")
 ## Primary Focus
 - Keep track of items/assets at home for insurance claim purposes (make, model, description, purchase price, proof of purchase, etc.)
 - Simple, mobile-friendly web interface
