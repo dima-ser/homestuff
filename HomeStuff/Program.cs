@@ -5,6 +5,9 @@ using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using HomeStuff.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
@@ -27,7 +30,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(cookieOptions => {
     cookieOptions.LoginPath = "/auth/login";
 });
-
+builder.Configuration.AddJsonFile(@"db\settings.json", optional: true, reloadOnChange: true);
 var app = builder.Build();
 
 // Migrate latest database changes during startup
