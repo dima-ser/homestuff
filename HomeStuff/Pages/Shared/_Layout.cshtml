@@ -60,7 +60,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            HomeStuff - build @(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())
+            HomeStuff - build @(HomeStuff.Models.Utilities.GetVersion().ToString() + " (" + HomeStuff.Models.Utilities.GetBuildDate() + ")")
         </div>
     </footer>
 

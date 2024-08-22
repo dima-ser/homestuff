@@ -29,5 +29,15 @@ namespace HomeStuff.Models
             string passwordFilePath = Path.Combine(environment.ContentRootPath, configuration[ConfigUserDataDirectory]);
             return Path.Combine(passwordFilePath, passwordFileName);
         }
+        public static Version GetVersion()
+        {
+            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+        }
+        public static DateTime GetBuildDate()
+        {
+            Version version = GetVersion();
+            DateTime buildDate = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
+            return buildDate;
+        }
     }
 }
