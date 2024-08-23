@@ -31,13 +31,24 @@ namespace HomeStuff.Models
         }
         public static Version GetVersion()
         {
-            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version!;
         }
         public static DateTime GetBuildDate()
         {
             Version version = GetVersion();
             DateTime buildDate = new DateTime(2000, 1, 1).AddDays(version.Build).AddSeconds(version.Revision * 2);
             return buildDate;
+        }
+        public static bool IsDebugMode
+        {
+            get
+            {
+            #if DEBUG
+                return true;
+            #else
+                return false;
+            #endif
+            }
         }
     }
 }

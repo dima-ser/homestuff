@@ -60,7 +60,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            HomeStuff - build @(HomeStuff.Models.Utilities.GetVersion().ToString() + " (" + HomeStuff.Models.Utilities.GetBuildDate() + ")")
+            HomeStuff - build @(HomeStuff.Models.Utilities.GetVersion().ToString() + " (" + HomeStuff.Models.Utilities.GetBuildDate() + ") " + (HomeStuff.Models.Utilities.IsDebugMode ? "debug" : "release"))
         </div>
     </footer>
 
