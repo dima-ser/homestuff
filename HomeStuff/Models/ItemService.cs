@@ -5,8 +5,8 @@ namespace HomeStuff.Models
 {
     public interface IItemService
     {
-        Task<List<Item>> GetPaginatedResult(int currentPage, string? q, string? l, double? MinPrice, int? status, int pageSize = 10);
-        Task<int> GetCount(string? q, string? l, double? MinPrice, int? status);
+        Task<List<Item>> GetPaginatedResult(int currentPage, string? query, string? locationId, double? minPrice, int? itemStatus, int pageSize = 10);
+        Task<int> GetCount(string? query, string? locationId, double? minPrice, int? itemStatus);
     }
 
     public class ItemService : IItemService
@@ -17,43 +17,43 @@ namespace HomeStuff.Models
             _context = context;
         }
 
-        public async Task<List<Item>> GetPaginatedResult(int currentPage, string? q, string? l, double? MinPrice, int? status, int pageSize = 10)
+        public async Task<List<Item>> GetPaginatedResult(int currentPage, string? query, string? locationId, double? minPrice, int? itemStatus, int pageSize = 10)
         {
-            var data = await GetData(q,l,MinPrice, status);
+            var data = await GetData(query, locationId, minPrice, itemStatus);
             return data.OrderByDescending(i => i.LastModifiedUtc).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
         }
 
-        public async Task<int> GetCount(string? q, string? l, double? MinPrice, int? status)
+        public async Task<int> GetCount(string? query, string? locationId, double? minPrice, int? itemStatus)
         {
-            var data = await GetData(q,l,MinPrice, status);
+            var data = await GetData(query, locationId, minPrice, itemStatus);
             return data.Count;
         }
 
-        private async Task<List<Item>> GetData(string? q, string? l, double? MinPrice, int? status)
+        private async Task<List<Item>> GetData(string? query, string? locationId, double? minPrice, int? itemStatus)
         {
             var items = from i in _context.Item select i;
-            if (!string.IsNullOrEmpty(q))
+            if (!string.IsNullOrEmpty(query))
             {
-                q = q.Trim();
-                items = items.Where(s => s.Name.ToLower().Contains(q.ToLower()) ||
-                (s.Description != null && s.Description.ToLower().Contains(q.ToLower())) ||
-                (s.Manufacturer != null && s.Manufacturer.ToLower().Contains(q.ToLower())) ||
-                (s.ModelNumber != null && s.ModelNumber.ToLower().Contains(q.ToLower())) ||
-                (s.SerialNumber != null && s.SerialNumber.ToLower().Contains(q.ToLower())) ||
-                (s.Vendor != null && s.Vendor.ToLower().Contains(q.ToLower())) ||
-                (s.SKU != null && s.SKU.ToLower().Contains(q.ToLower())));
+                query = query.Trim();
+                items = items.Where(s => s.Name.ToLower().Contains(query.ToLower()) ||
+                (s.Description != null && s.Description.ToLower().Contains(query.ToLower())) ||
+                (s.Manufacturer != null && s.Manufacturer.ToLower().Contains(query.ToLower())) ||
+                (s.ModelNumber != null && s.ModelNumber.ToLower().Contains(query.ToLower())) ||
+                (s.SerialNumber != null && s.SerialNumber.ToLower().Contains(query.ToLower())) ||
+                (s.Vendor != null && s.Vendor.ToLower().Contains(query.ToLower())) ||
+                (s.SKU != null && s.SKU.ToLower().Contains(query.ToLower())));
             }
-            if (!string.IsNullOrEmpty(l))
+            if (!string.IsNullOrEmpty(locationId))
             {
-                items = items.Where(i => i.LocationId.ToString() == l);
+                items = items.Where(i => i.LocationId.ToString() == locationId);
             }
-            if (MinPrice != null)
+            if (minPrice != null)
             {
-                items = items.Where(i => i.PurchasePrice >= MinPrice);
+                items = items.Where(i => i.PurchasePrice >= minPrice);
             }
-            if (status != null)
+            if (itemStatus != null)
             {
-                items = items.Where(i => i.Status == (Item.ItemStatus)status);
+                items = items.Where(i => i.Status == (Item.ItemStatus)itemStatus);
             }
             foreach (var item in items)
             {

@@ -25,7 +25,7 @@
         {
             <tr>
                 <td>
-                    <a asp-page="./Items" asp-route-set="@Model.Sets[i].Id">@Html.DisplayFor(modelItem => Model.Sets[i].Name) </a>
+                    <a asp-page="./Items" asp-route-itemsetid="@Model.Sets[i].Id">@Html.DisplayFor(modelItem => Model.Sets[i].Name) </a>
                 </td>
                 <td>
                     <a class="btn btn-primary" asp-page="./SetEdit" asp-route-id="@Model.Sets[i].Id">Edit</a>

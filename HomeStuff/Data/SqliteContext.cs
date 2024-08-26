@@ -15,6 +15,7 @@ namespace HomeStuff.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // make ItemSet optional so that deleting a set doesn't cascade delete items in it, but instead sets ItemSetId to NULL
             modelBuilder.Entity<Item>()
                 .HasOne(b => b.ItemSet)
                 .WithMany(a => a.Items)

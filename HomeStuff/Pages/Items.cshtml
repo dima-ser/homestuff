@@ -8,15 +8,15 @@
 <form>
     <div class="row g-1 gy-1 mb-3">
         <div class="col-sm">
-            <input class="form-control" type="search" placeholder="Keyword(s)" asp-for="q">
+            <input class="form-control" type="search" placeholder="Keyword(s)" asp-for="Query">
         </div>
         <div class="col-sm">
-            <select class="form-control" asp-for="l" asp-items="Model.Locations">
+            <select class="form-control" asp-for="LocationId" asp-items="Model.Locations">
                 <option value="">All Locations</option>
             </select>
         </div>
         <div class="col-sm input-group">
-            <select class="form-control" asp-for="s" asp-items="Model.ItemStatuses">
+            <select class="form-control" asp-for="Status" asp-items="Model.ItemStatuses">
                 <option value="">Any Status</option>
             </select>
             <button class="btn btn-primary" type="submit">Search</button>
@@ -32,7 +32,7 @@
                     @for (var i = 1; i <= Model.TotalPages; i++)
                     {
                         <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                            <a asp-page="/Items" asp-route-currentpage="@i" asp-route-q="@Model.q" asp-route-l="@Model.l" asp-route-minprice="@Model.MinPrice" class="page-link">@i</a>
+                            <a asp-page="/Items" asp-route-currentpage="@i" asp-route-query="@Model.Query" asp-route-locationid="@Model.LocationId" asp-route-minprice="@Model.MinPrice" class="page-link">@i</a>
                         </li>
                     }
                 </ul>
@@ -41,19 +41,11 @@
     </div>
 }
 <div class="row">
-    @if ((Model.q != null || Model.l != null) && Model.Items.Count==0)
+    @if (Model.Items.Count == 0)
     {
         <div class="col">
             <div class="alert alert-warning" role="alert">
-                No items match search criteria
-            </div>
-        </div>
-    }
-    else if (Model.Items.Count == 0)
-    {
-        <div class="col">
-            <div class="alert alert-warning" role="alert">
-                No items in the database. Add or import items using the menu.
+                No items match search criteria.
             </div>
         </div>
     }
@@ -103,7 +95,7 @@
                     @for (var i = 1; i <= Model.TotalPages; i++)
                     {
                         <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                            <a asp-page="/Items" asp-route-currentpage="@i" asp-route-q="@Model.q" asp-route-l="@Model.l" asp-route-minprice="@Model.MinPrice" class="page-link">@i</a>
+                            <a asp-page="/Items" asp-route-currentpage="@i" asp-route-query="@Model.Query" asp-route-locationid="@Model.LocationId" asp-route-status="@Model.Status" asp-route-minprice="@Model.MinPrice" class="page-link">@i</a>
                         </li>
                     }
                 </ul>

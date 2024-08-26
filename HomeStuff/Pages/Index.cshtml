@@ -207,7 +207,7 @@ else
                                 }
                                 @Model.ValueLocations[i].Name</th>
                             <td>@String.Format("{0:C}", Model.ValueNumbers[i]) </td>
-                              <td><a class="stretched-link" asp-page="./Items" asp-route-l="@Model.ValueLocations[i].Id"></a></td>  
+                              <td><a class="stretched-link" asp-page="./Items" asp-route-locationid="@Model.ValueLocations[i].Id"></a></td>  
                         </tr>
                     }
                 }
