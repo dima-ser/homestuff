@@ -15,6 +15,7 @@ namespace HomeStuff.Pages
     {
         private readonly HomeStuff.Data.SqliteContext _context;
         public SelectList Locations { get; set; }
+        public SelectList Sets { get; set; }
         [BindProperty]
         public HomeStuff.Models.Item Item { get; set; } = default!;
 
@@ -22,6 +23,7 @@ namespace HomeStuff.Pages
         {
             _context = context;
             Locations = new SelectList(context.Location.OrderBy(i => i.FullName), nameof(Location.Id), nameof(Location.FullName));
+            Sets = new SelectList(context.ItemSet.OrderBy(i => i.Name), nameof(ItemSet.Id), nameof(ItemSet.Name));
             ItemStatuses = new SelectList(Enum.GetValues(typeof(Item.ItemStatus)));
             
         }

@@ -16,17 +16,16 @@ namespace HomeStuff.Pages
         public readonly IConfiguration configuration;
         public readonly IWebHostEnvironment webHostEnvironment;
         public HomeStuff.Models.Item Item { get; set; } = default!;
-        //public string LocationFullName { get; set; } = string.Empty;
-        public Location Location { get; set; } = default!;
+
         public List<ItemAttachment> Attachments { get; set; } = new List<ItemAttachment>();
         [DisplayName("Attachment")]
         public IFormFile? AttachmentFile { get; set; }
         [BindProperty(SupportsGet = true)]
         public string ErrorMessage { get; set; } = string.Empty;
 
-        public List<Item>? NeighborItems { get; set; }
+        public List<Item>? AllItemsInSet { get; set; }
         [DataType(DataType.Currency)]
-        public double? TotalSublocationValue { get; set; }
+        public double? TotalSetValue { get; set; }
 
         public ItemModel(HomeStuff.Data.SqliteContext context, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
@@ -51,12 +50,13 @@ namespace HomeStuff.Pages
             else
             {
                 Item = item;
-                Location = _context.Location.Where(l => l.Id == Item.LocationId).FirstOrDefault()!;
+                Item.Location = _context.Location.Where(l => l.Id == Item.LocationId).FirstOrDefault()!;
+                Item.ItemSet = _context.ItemSet.Where(l => l.Id == Item.ItemSetId).FirstOrDefault()!;
                 // = _context.Location.Where(l => l.Id == Item.LocationId).First().FullName;
-                if (Location.ParentId != null) // only show neighbor items for sublocations
+                if (Item.ItemSetId != null) // item belongs to a set
                 {
-                    NeighborItems = _context.Item.Where(i => i.LocationId == Location.Id).OrderBy(i => i.Name).ToList();
-                    TotalSublocationValue = _context.Item.Where(i => i.LocationId == Location.Id).Sum(i => i.PurchasePrice);
+                    AllItemsInSet = _context.Item.Where(i => i.ItemSetId == Item.ItemSetId).OrderBy(i => i.Name).ToList();
+                    TotalSetValue = _context.Item.Where(i => i.ItemSetId == Item.ItemSetId).Sum(i => i.PurchasePrice);
                 }
 
                 Attachments = Item.GetAttachments(webHostEnvironment, configuration, this, item.Id);

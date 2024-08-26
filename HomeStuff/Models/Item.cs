@@ -36,13 +36,23 @@ namespace HomeStuff.Models
         public DateTime LastModifiedUtc { get; set; }
         public string? MaintenanceNotes { get; set; }
         public ICollection<Maintenance> Maintenances { get;} = new List<Maintenance>();
+        [DisplayName("Set")]
         public int? ItemSetId {  get; set; } 
         public ItemSet? ItemSet { get; set; } // set this item is a part of (if any)
         public enum ItemStatus 
         {
-            Active = 0, // item is currently in posession and can be located
-            Missing = 1, // item is missing/cannot be found at its last known location
-            Gone = 2 // item is gone/sold/gifted
+            /// <summary>
+            /// Item is currently in posession and can be located
+            /// </summary>
+            Active = 0,
+            /// <summary>
+            /// Item is missing/cannot be found at its last known location
+            /// </summary>
+            Missing = 1,
+            /// <summary>
+            /// Item is gone/sold/gifted
+            /// </summary>
+            Gone = 2 
         }
         //static string[] AVATAR_FILE_EXTENSIONS = { ".jpg", ".jpeg", ".png", ".bmp" };
         public ItemStatus Status { get; set; } = ItemStatus.Active;

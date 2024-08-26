@@ -72,6 +72,10 @@
                         @item.Description
                     </p>
                     <span class="badge bg-dark align-bottom">@item.Location!.FullName</span>
+                    @if (item.ItemSetId != null)
+                    {
+                        <span class="badge bg-info align-bottom">@Html.DisplayFor(model => item.ItemSet!.Name)</span>
+                    }
                     @if (item.PurchasePrice != null)
                     {
                         <span class="badge bg-success align-bottom">@Html.DisplayFor(model => item.PurchasePrice)</span>

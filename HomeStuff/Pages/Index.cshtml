@@ -34,6 +34,10 @@
                         }
                         <p class="card-text card-description" >@item.Description</p>
                         <span class="badge bg-dark align-bottom">@item.Location!.FullName</span>
+                        @if (item.ItemSet != null)
+                        {
+                            <span class="badge bg-info align-bottom">@item.ItemSet!.Name</span>
+                        }
                         @if (item.PurchasePrice != null)
                         {
                             <span class="badge bg-success align-bottom">@Html.DisplayFor(model => item.PurchasePrice)</span>

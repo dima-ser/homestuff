@@ -31,9 +31,27 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
+                <label asp-for="Item.Status" class="control-label"></label>
+                <select asp-for="Item.Status" asp-items="Model.ItemStatuses" class="form-control"></select>
+                <span asp-validation-for="Item.Status" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
                 <label asp-for="Item.LocationId" class="control-label"></label>
                 <select asp-for="Item.LocationId" asp-items="Model.Locations" class="form-control"></select>
                 <span asp-validation-for="Item.LocationId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Item.ItemSetId" class="control-label"></label>
+                <select asp-for="Item.ItemSetId" asp-items="Model.Sets" class="form-control">
+                    <option value="">---Not part of any set---</option>
+                </select>
+                <span asp-validation-for="Item.ItemSetId" class="text-danger"></span>
             </div>
         </div>
     </div>
@@ -100,13 +118,7 @@
                 <span asp-validation-for="Item.SKU" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label asp-for="Item.Status" class="control-label"></label>
-                <select asp-for="Item.Status" asp-items="Model.ItemStatuses" class="form-control"></select>
-                <span asp-validation-for="Item.Status" class="text-danger"></span>
-            </div>
-        </div>
+      
     </div>
     <div class="row">
         <div class="col-md-12">

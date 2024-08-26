@@ -13,7 +13,13 @@ namespace HomeStuff.Data
             : base(options)
         {
         }
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Item>()
+                .HasOne(b => b.ItemSet)
+                .WithMany(a => a.Items)
+                .OnDelete(DeleteBehavior.SetNull);
+        }
         public DbSet<HomeStuff.Models.Item> Item { get; set; } = default!;
 
         public DbSet<HomeStuff.Models.Location> Location { get; set; } = default!;

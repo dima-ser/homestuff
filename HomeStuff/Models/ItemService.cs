@@ -59,6 +59,10 @@ namespace HomeStuff.Models
             {
                 item.Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId);
             }
+            foreach (var item in items)
+            {
+                item.ItemSet = _context.ItemSet.FirstOrDefault(l => l.Id == item.ItemSetId);
+            }
             return items.ToList();
 
             //Items = items.OrderByDescending(i => i.LastModifiedUtc).ToList();

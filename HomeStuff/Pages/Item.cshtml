@@ -37,13 +37,34 @@
 
 <dl class="row">
     <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Item.Status)
+    </dt>
+    <dd class="col-sm-10">
+        <span class="@(Model.Item.Status == Models.Item.ItemStatus.Missing ? "text-danger" : "text-dark")">
+            @Html.DisplayFor(model => model.Item.Status)
+        </span>
+    </dd>
+</dl>
+<dl class="row">
+    <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.Item.LocationId)
     </dt>
     <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Location.FullName)
+        @Html.DisplayFor(model => model.Item.Location.FullName)
     </dd>
     
 </dl>
+@if (Model.Item!.ItemSet != null)
+{
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Item.ItemSetId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Item.ItemSet!.Name)
+        </dd>
+    </dl>
+}
 @if (!String.IsNullOrEmpty(Model.Item!.Description))
 {
     <dl class="row">
@@ -134,16 +155,6 @@
 }
 <dl class="row">
     <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.Item.Status)
-    </dt>
-    <dd class="col-sm-10">
-        <span class="@(Model.Item.Status == Models.Item.ItemStatus.Missing ? "text-danger" : "text-dark")">
-        @Html.DisplayFor(model => model.Item.Status)
-        </span>
-    </dd>
-</dl>
-<dl class="row">
-    <dt class="col-sm-2">
         <i>Last Modified</i>
     </dt>
     <dd class="col-sm-10">
@@ -206,16 +217,16 @@ else
 </form>
 
 
-@if (Model.NeighborItems != null)
+@if (Model.AllItemsInSet != null)
 {
     <br/>
     <hr/>
-    <h2>@Model.Location.Name</h2>
+    <h2>@Model.Item.ItemSet.Name</h2>
 
     <div class="alert alert-secondary">
-        <h4>All items in this sub-location (total value: <b>@Html.DisplayFor(model => model.TotalSublocationValue))</h4>
+        <h4>All items in this set (total value: <b>@Html.DisplayFor(model => model.TotalSetValue))</h4>
         <ul class="list-group list-group-flush">
-            @foreach (var item in Model.NeighborItems!)
+            @foreach (var item in Model.AllItemsInSet!)
             {
                 <li class="list-group-item list-group-item-secondary">
                     @if (item.Id == Model.Item.Id)
