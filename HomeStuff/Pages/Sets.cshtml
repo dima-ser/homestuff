@@ -1,0 +1,37 @@
+﻿@page
+@model HomeStuff.Pages.SetsModel
+
+@{
+    ViewData["Title"] = "Sets";
+}
+
+<h1>Sets</h1>
+<hr />
+<p>Represents a logical group of items that can generally be obtained or sold as a group (e.g., computer, PA system). Items in the set don't have to be in same physical location.</p>
+<p>
+    <a class="btn btn-success" asp-page="SetNew">Add New Set</a>
+</p>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sets[0].Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Sets.Count; i++)
+        {
+            <tr>
+                <td>
+                    <a asp-page="./Items" asp-route-set="@Model.Sets[i].Id">@Html.DisplayFor(modelItem => Model.Sets[i].Name) </a>
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-page="./SetEdit" asp-route-id="@Model.Sets[i].Id">Edit</a>
+                    <a class="btn btn-danger" asp-page="./SetDelete" asp-route-id="@Model.Sets[i].Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
