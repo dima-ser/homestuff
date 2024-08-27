@@ -41,7 +41,8 @@ namespace HomeStuff.Models
                 (s.ModelNumber != null && s.ModelNumber.ToLower().Contains(query.ToLower())) ||
                 (s.SerialNumber != null && s.SerialNumber.ToLower().Contains(query.ToLower())) ||
                 (s.Vendor != null && s.Vendor.ToLower().Contains(query.ToLower())) ||
-                (s.SKU != null && s.SKU.ToLower().Contains(query.ToLower())));
+                (s.SKU != null && s.SKU.ToLower().Contains(query.ToLower())) ||
+                (s.ItemSetId != null && _context.ItemSet.FirstOrDefault(l => l.Id == s.ItemSetId)!.Name.ToLower().Contains(query.ToLower())));
             }
             if (!string.IsNullOrEmpty(locationId))
             {
