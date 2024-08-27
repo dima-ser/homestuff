@@ -1,3 +1,4 @@
 {
-  "AvatarFileExtensions": [ ".jpg", ".jpeg", ".png", ".bmp", ".webp" ]
+  "AvatarFileExtensions": [ ".jpg", ".jpeg", ".png", ".bmp", ".webp" ],
+  "ItemPageSize" :  48
 }

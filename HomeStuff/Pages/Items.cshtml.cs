@@ -15,8 +15,8 @@ namespace HomeStuff.Pages
         public IWebHostEnvironment WebHostEnvironment { get; set; }
         public IList<HomeStuff.Models.Item> Items { get; set; } = default!;
         public int Count { get; set; } // total number of items matching the filter criteria
-        public const int PAGE_SIZE = 4;//48;
-        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PAGE_SIZE));
+        public int PageSize { get; set; }
+        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
         private readonly IItemService _itemService;
 
         // query string parameters
@@ -43,6 +43,7 @@ namespace HomeStuff.Pages
             _itemService = itemService;
             Configuration = configuration;
             WebHostEnvironment = webHostEnvironment;
+            PageSize = Config.GetItemPageSize(configuration);
 
             Locations = new SelectList(context.Location.OrderBy(l=>l.FullName), nameof(Location.Id), nameof(Location.FullName));
             var statuses = from ItemStatus d in Enum.GetValues(typeof(Item.ItemStatus))
@@ -56,7 +57,7 @@ namespace HomeStuff.Pages
         {
             if (_context.Item != null)
             {
-                Items = await _itemService.GetPaginatedResult(CurrentPage, Query, LocationId, MinPrice, Status, ItemSetId, PAGE_SIZE);
+                Items = await _itemService.GetPaginatedResult(CurrentPage, Query, LocationId, MinPrice, Status, ItemSetId, PageSize);
                 Count = await _itemService.GetCount(Query, LocationId, MinPrice, Status, ItemSetId);
             }
         }

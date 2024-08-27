@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using HomeStuff.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore;
+using System.Configuration;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     cookieOptions.LoginPath = "/auth/login";
 });
 builder.Configuration.AddJsonFile(@"db\settings.json", optional: true, reloadOnChange: true);
+builder.Services.AddSingleton<Config>();
 var app = builder.Build();
 
 // Migrate latest database changes during startup

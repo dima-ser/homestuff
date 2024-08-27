@@ -65,17 +65,11 @@ namespace HomeStuff.Models
         /// <returns></returns>
         public static string GetAttachmentDirPhysicalPath(IWebHostEnvironment environment, IConfiguration configuration, string itemId)
         {
-            string? dataDir = configuration.GetValue<string>(Utilities.ConfigUserDataDirectory);
-            if (dataDir != null)
-            {
-                string attachmentDir = Path.Combine(environment.ContentRootPath, dataDir);
-                attachmentDir = Path.Combine(attachmentDir, Utilities.AttachmentDirName);
-                return Path.Combine(attachmentDir, itemId);
-            }
-            else
-            {
-                throw new Exception("Missing config \"" + Utilities.ConfigUserDataDirectory + "\" in appsettings.json");
-            }
+            string dataDir = Config.GetUserDataDirectory(configuration);
+            string attachmentDir = Path.Combine(environment.ContentRootPath, dataDir);
+            attachmentDir = Path.Combine(attachmentDir, Utilities.AttachmentDirName);
+            return Path.Combine(attachmentDir, itemId);
+
         }
 
         public static bool HasAttachments(IWebHostEnvironment environment, IConfiguration configuration, int itemId)
@@ -96,7 +90,7 @@ namespace HomeStuff.Models
             if (Directory.Exists(attachmentDir))
             {
                 var files = Directory.EnumerateFiles(attachmentDir);
-                string[]? fileExtensions = configuration.GetSection(Utilities.ConfigAvatarFileExtensions).Get<string[]>();
+                string[] fileExtensions = Config.GetAvatarFileExtensions(configuration);
                 if (fileExtensions != null)
                 {
                     foreach (string file in files)

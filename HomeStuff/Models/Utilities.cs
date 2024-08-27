@@ -9,8 +9,7 @@ namespace HomeStuff.Models
         public static readonly string AdminUserName = "HomeStuff Admin";
         public static readonly byte[] Salt = Encoding.ASCII.GetBytes("LemonTree");
         public static readonly string AttachmentDirName = "attachments";
-        public static readonly string ConfigUserDataDirectory = "UserDataDirectory";
-        public static readonly string ConfigAvatarFileExtensions = "AvatarFileExtensions";
+
 
         private static readonly string passwordFileName = "password.txt";
 
@@ -26,7 +25,7 @@ namespace HomeStuff.Models
 
         public static string GetPasswordFilePath(IWebHostEnvironment environment, IConfiguration configuration)
         {
-            string passwordFilePath = Path.Combine(environment.ContentRootPath, configuration[ConfigUserDataDirectory]);
+            string passwordFilePath = Path.Combine(environment.ContentRootPath, Config.GetUserDataDirectory(configuration));
             return Path.Combine(passwordFilePath, passwordFileName);
         }
 
