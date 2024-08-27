@@ -14,11 +14,18 @@ namespace HomeStuff.Pages
         public IConfiguration Configuration { get; set; }
         public IWebHostEnvironment WebHostEnvironment { get; set; }
         public IList<HomeStuff.Models.Item> Items { get; set; } = default!;
+        public int Count { get; set; } // total number of items matching the filter criteria
+        public const int PAGE_SIZE = 4;//48;
+        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PAGE_SIZE));
+        private readonly IItemService _itemService;
+
+        // query string parameters
         [BindProperty(SupportsGet = true)]
         public string? Query { get; set; }
         public SelectList? Locations { get; set; }
         [BindProperty(SupportsGet = true)]
         public string? LocationId { get; set; }
+        public SelectList? ItemSets { get; set; }
         [BindProperty(SupportsGet = true)]
         public int? ItemSetId { get; set; }
         public SelectList? ItemStatuses { get; set; }
@@ -29,10 +36,6 @@ namespace HomeStuff.Pages
 
         [BindProperty(SupportsGet = true)]
         public int CurrentPage { get; set; } = 1;
-        public int Count { get; set; }
-        public const int PAGE_SIZE = 48;
-        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PAGE_SIZE));
-        private readonly IItemService _itemService;
 
         public ItemsModel(HomeStuff.Data.SqliteContext context, IItemService itemService, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
@@ -45,6 +48,7 @@ namespace HomeStuff.Pages
             var statuses = from ItemStatus d in Enum.GetValues(typeof(Item.ItemStatus))
                              select new { ID = (int)d, Name = d.ToString() };
             ItemStatuses = new SelectList(statuses, "ID", "Name");
+            ItemSets = new SelectList(context.ItemSet.OrderBy(l => l.Name), nameof(ItemSet.Id), nameof(ItemSet.Name));
         }
 
 

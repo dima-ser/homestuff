@@ -60,6 +60,10 @@ namespace HomeStuff.Models
             {
                 items = items.Where(i => i.ItemSetId == itemSetId);
             }
+            //if (notUpdatedSince != null)
+            //{
+            //    items = items.Where(i => i.LastModifiedUtc <= notUpdatedSince.Value.ToDateTime(TimeOnly.MaxValue).ToUniversalTime()); 
+            //}
             foreach (var item in items)
             {
                 item.Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId);
