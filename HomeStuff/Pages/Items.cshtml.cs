@@ -30,7 +30,7 @@ namespace HomeStuff.Pages
         [BindProperty(SupportsGet = true)]
         public int CurrentPage { get; set; } = 1;
         public int Count { get; set; }
-        public const int PAGE_SIZE = 4;//48
+        public const int PAGE_SIZE = 48;
         public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PAGE_SIZE));
         private readonly IItemService _itemService;
 

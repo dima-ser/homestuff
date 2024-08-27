@@ -32,7 +32,7 @@
                     @for (var i = 1; i <= Model.TotalPages; i++)
                     {
                         <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                            <a asp-page="/Items" asp-route-currentpage="@i" asp-route-query="@Model.Query" asp-route-locationid="@Model.LocationId" asp-route-minprice="@Model.MinPrice" class="page-link">@i</a>
+                            <a asp-page="/Items" asp-route-currentpage="@i" asp-route-query="@Model.Query" asp-route-locationid="@Model.LocationId" asp-route-status="@Model.Status" asp-route-minprice="@Model.MinPrice" class="page-link">@i</a>
                         </li>
                     }
                 </ul>
