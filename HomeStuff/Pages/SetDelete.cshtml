@@ -9,7 +9,7 @@
 <hr />
 @if (Model.Items.Count>0)
 {
-    <p>All <a title="Show items in this set" href="./items?set=@Model.ItemSet.Id">items currently in this set</a> will be unlinked from it. Deleting the set won't delete the items.</p>
+    <p>All <a title="Show items in this set" href="./items?itemsetid=@Model.ItemSet.Id">items currently in this set</a> will be unlinked from it. Deleting the set won't delete the items.</p>
 }
 <p> Are you sure you want to delete this set?</p>
 <div>    
