@@ -20,7 +20,7 @@ namespace HomeStuff.Pages
         [BindProperty(SupportsGet = true)]
         public string? LocationId { get; set; }
         [BindProperty(SupportsGet = true)]
-        public string? ItemSetId { get; set; }
+        public int? ItemSetId { get; set; }
         public SelectList? ItemStatuses { get; set; }
         [BindProperty(SupportsGet = true)]
         public int? Status { get; set; }
@@ -52,8 +52,8 @@ namespace HomeStuff.Pages
         {
             if (_context.Item != null)
             {
-                Items = await _itemService.GetPaginatedResult(CurrentPage, Query, LocationId, MinPrice, Status, PAGE_SIZE);
-                Count = await _itemService.GetCount(Query, LocationId, MinPrice, Status);
+                Items = await _itemService.GetPaginatedResult(CurrentPage, Query, LocationId, MinPrice, Status, ItemSetId, PAGE_SIZE);
+                Count = await _itemService.GetCount(Query, LocationId, MinPrice, Status, ItemSetId);
             }
         }
 

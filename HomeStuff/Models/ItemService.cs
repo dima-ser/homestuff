@@ -5,8 +5,8 @@ namespace HomeStuff.Models
 {
     public interface IItemService
     {
-        Task<List<Item>> GetPaginatedResult(int currentPage, string? query, string? locationId, double? minPrice, int? itemStatus, int pageSize = 10);
-        Task<int> GetCount(string? query, string? locationId, double? minPrice, int? itemStatus);
+        Task<List<Item>> GetPaginatedResult(int currentPage, string? query, string? locationId, double? minPrice, int? itemStatus, int? itemSetId, int pageSize = 10);
+        Task<int> GetCount(string? query, string? locationId, double? minPrice, int? itemStatus, int? itemSetId);
     }
 
     public class ItemService : IItemService
@@ -17,19 +17,19 @@ namespace HomeStuff.Models
             _context = context;
         }
 
-        public async Task<List<Item>> GetPaginatedResult(int currentPage, string? query, string? locationId, double? minPrice, int? itemStatus, int pageSize = 10)
+        public async Task<List<Item>> GetPaginatedResult(int currentPage, string? query, string? locationId, double? minPrice, int? itemStatus, int? itemSetId, int pageSize = 10)
         {
-            var data = await GetData(query, locationId, minPrice, itemStatus);
+            var data = await GetData(query, locationId, minPrice, itemStatus, itemSetId);
             return data.OrderByDescending(i => i.LastModifiedUtc).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
         }
 
-        public async Task<int> GetCount(string? query, string? locationId, double? minPrice, int? itemStatus)
+        public async Task<int> GetCount(string? query, string? locationId, double? minPrice, int? itemStatus, int? itemSetId)
         {
-            var data = await GetData(query, locationId, minPrice, itemStatus);
+            var data = await GetData(query, locationId, minPrice, itemStatus, itemSetId);
             return data.Count;
         }
 
-        private async Task<List<Item>> GetData(string? query, string? locationId, double? minPrice, int? itemStatus)
+        private async Task<List<Item>> GetData(string? query, string? locationId, double? minPrice, int? itemStatus, int? itemSetId)
         {
             var items = from i in _context.Item select i;
             if (!string.IsNullOrEmpty(query))
@@ -54,6 +54,10 @@ namespace HomeStuff.Models
             if (itemStatus != null)
             {
                 items = items.Where(i => i.Status == (Item.ItemStatus)itemStatus);
+            }
+            if (itemSetId != null)
+            {
+                items = items.Where(i => i.ItemSetId == itemSetId);
             }
             foreach (var item in items)
             {
