@@ -1,0 +1,72 @@
+﻿@page
+@model HomeStuff.Pages.AboutModel
+@{
+    ViewData["Title"] = "About Homestuff";
+}
+
+<h1>About Homestuff</h1>
+<hr />
+<dl class="row">
+    <dt class="col-sm-2">
+        Assembly Version
+    </dt>
+    <dd class="col-sm-10">
+        @ThisAssembly.AssemblyVersion
+    </dd>
+</dl>
+<dl class="row">
+    <dt class="col-sm-2">
+        Assembly File Version
+    </dt>
+    <dd class="col-sm-10">
+        @ThisAssembly.AssemblyFileVersion
+    </dd>
+</dl>
+<dl class="row">
+    <dt class="col-sm-2">
+        Assembly Informational Version
+    </dt>
+    <dd class="col-sm-10">
+        @ThisAssembly.AssemblyInformationalVersion
+    </dd>
+</dl>
+<dl class="row">
+    <dt class="col-sm-2">
+        Assembly Configuration
+    </dt>
+    <dd class="col-sm-10">
+        @ThisAssembly.AssemblyConfiguration
+    </dd>
+</dl>
+<dl class="row">
+    <dt class="col-sm-2">
+        Is Public Release
+    </dt>
+    <dd class="col-sm-10">
+        @ThisAssembly.IsPublicRelease
+    </dd>
+</dl>
+<dl class="row">
+    <dt class="col-sm-2">
+        Is Prerelease?
+    </dt>
+    <dd class="col-sm-10">
+        @ThisAssembly.IsPrerelease
+    </dd>
+</dl>
+<dl class="row">
+    <dt class="col-sm-2">
+        Git Commit Date (UTC)
+    </dt>
+    <dd class="col-sm-10">
+        @ThisAssembly.GitCommitDate
+    </dd>
+</dl>
+<dl class="row">
+    <dt class="col-sm-2">
+        Git Commit Id
+    </dt>
+    <dd class="col-sm-10">
+        @ThisAssembly.GitCommitId
+    </dd>
+</dl>
