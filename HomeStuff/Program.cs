@@ -32,7 +32,6 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     cookieOptions.LoginPath = "/auth/login";
 });
 builder.Configuration.AddJsonFile(@"db\appsettings.json", optional: true, reloadOnChange: true);
-builder.Services.AddSingleton<Config>();
 var app = builder.Build();
 
 // Migrate latest database changes during startup
