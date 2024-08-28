@@ -31,7 +31,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(cookieOptions => {
     cookieOptions.LoginPath = "/auth/login";
 });
-builder.Configuration.AddJsonFile(@"db\settings.json", optional: true, reloadOnChange: true);
+builder.Configuration.AddJsonFile(@"db\appsettings.json", optional: true, reloadOnChange: true);
 builder.Services.AddSingleton<Config>();
 var app = builder.Build();
 
