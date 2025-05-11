@@ -39,7 +39,6 @@ namespace HomeStuff.Pages
                 string attachmentPath = ItemAttachment.GetPhysicalPath(webHostEnvironment, configuration, ItemID, fileName);
                 if (System.IO.File.Exists(attachmentPath))
                 {
-                    Console.WriteLine(fileName + " exists");
                     var fileProvider = new FileExtensionContentTypeProvider();
                     // Figures out what the content type should be based on the file name.  
                     if (!fileProvider.TryGetContentType(fileName, out string? contentType))
