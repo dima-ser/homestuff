@@ -25,7 +25,7 @@ HomeStuff is a basic home inventory management solution.
   
 
 # Installation (Docker)
-Docker image hosted on DockerHub (private repo). To pull, use `docker pull dimaser/homestuff` You may need to first log in to DockerHub since it's a private repo. To log in, use `docker login`
+Docker image hosted on DockerHub: https://hub.docker.com/r/dimaser/homestuff. To pull, use `docker pull dimaser/homestuff` 
 
 ### Docker parameters
 `-p [any port you want]:80`
