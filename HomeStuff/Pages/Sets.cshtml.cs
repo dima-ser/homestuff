@@ -24,7 +24,7 @@ namespace HomeStuff.Pages
         {
             if (_context.ItemSet != null)
             {
-                Sets = _context.ItemSet.OrderBy(i => i.Name).ToList();
+                Sets = await _context.ItemSet.OrderBy(i => i.Name).ToListAsync();
             }
         }
     }

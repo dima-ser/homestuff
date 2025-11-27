@@ -19,7 +19,7 @@ namespace HomeStuff.Models
         public string? SKU { get; set; }
         //public List<string>? AttachmentUrls { get; set; }
         public bool HasAttachments { get; set; }
-        public string ItemUrl { get; set; }
+        public string? ItemUrl { get; set; }
         public string? Status { get; set; }
     }
     public sealed class ItemExportMap : ClassMap<ItemExport>
