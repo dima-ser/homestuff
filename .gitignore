@@ -365,3 +365,4 @@ FodyWeavers.xsd
 # Database and data (but keep the db fodler itself)
 /HomeStuff/db/
 !/HomeStuff/db/.gitkeep
+/HomeStuff/Properties/launchSettings.json
