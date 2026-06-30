@@ -21,7 +21,7 @@
 </div>
 
 
-@if (Models.Item.GetAvatarFileName(Model.webHostEnvironment, Model.configuration, Model.Item.Id) != String.Empty)
+@if (Models.Item.GetAvatarFileName(Model.webHostEnvironment, Model.configuration, Model.Item!.Id) != String.Empty)
 {
     <dl class="row">
         <dt class="col-sm-2">
@@ -50,7 +50,7 @@
         @Html.DisplayNameFor(model => model.Item.LocationId)
     </dt>
     <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Item.Location.FullName)
+        @Html.DisplayFor(model => model.Item.Location!.FullName)
     </dd>
     
 </dl>
@@ -221,7 +221,7 @@ else
 {
     <br/>
     <hr/>
-    <h2>@Model.Item.ItemSet.Name</h2>
+    <h2>@Model.Item.ItemSet!.Name</h2>
 
     <div class="alert alert-secondary">
         <h4>All items in this set (total value: <b>@Html.DisplayFor(model => model.TotalSetValue))</h4>

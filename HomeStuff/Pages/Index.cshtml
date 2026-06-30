@@ -171,9 +171,10 @@ else
                 {
                     <tr class="position-relative table-danger">
                         <th scope="row">@item.Name</th>
-                        <td>@item.Location.FullName</td>
+                        <td>@item.Location?.FullName</td>
                         <td><a class="stretched-link" asp-page="./Item" asp-route-id="@item.Id"></a></td>
                     </tr>
+                    
                 }
 
             </tbody>

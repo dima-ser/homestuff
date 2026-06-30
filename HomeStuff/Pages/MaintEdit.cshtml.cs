@@ -54,9 +54,12 @@ namespace HomeStuff.Pages
             }
 
             _context.Attach(Maintenance).State = EntityState.Modified;
-            Item Item = await _context.Item.FindAsync(Maintenance.ItemId);
-            Item.LastModifiedUtc = DateTime.UtcNow;
-            _context.Attach(Item).State = EntityState.Modified;
+            Item? Item = await _context.Item.FindAsync(Maintenance.ItemId);
+            if (Item != null)
+            {
+                Item.LastModifiedUtc = DateTime.UtcNow;
+                _context.Attach(Item).State = EntityState.Modified;
+            }
             try
             {
                 await _context.SaveChangesAsync();

@@ -22,7 +22,7 @@ namespace HomeStuff.Pages
         [BindProperty]
       public Maintenance Maintenance { get; set; } = default!;
         [BindProperty]
-        public Item Item { get; set; } = default!;
+        public Item? Item { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -63,9 +63,9 @@ namespace HomeStuff.Pages
             {
                 Maintenance = maintenance;
                 ItemId = maintenance.ItemId;
-                Item Item = await _context.Item.FindAsync(maintenance.ItemId);
+                Item = await _context.Item.FindAsync(maintenance.ItemId);
                 _context.Maintenance.Remove(Maintenance);
-                Item.LastModifiedUtc = DateTime.UtcNow;
+                Item!.LastModifiedUtc = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
                 return RedirectToPage("./Maintenance", new { itemid = ItemId.ToString() });
             }

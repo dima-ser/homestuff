@@ -17,7 +17,7 @@ namespace HomeStuff.Pages
         public int ItemId { get; set; }
         public List<Models.Maintenance> ScheduledMaintenances { get; set; } = new List<Models.Maintenance>();
         public List<Models.Maintenance> CompletedMaintenances { get; set; } = new List<Models.Maintenance>();
-        public Item? Item;
+        public Item? Item { get; set; }
 
         [BindProperty]
         public Models.Maintenance NewMaintenance { get; set; } = new Models.Maintenance();

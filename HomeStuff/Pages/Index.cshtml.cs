@@ -12,10 +12,10 @@ namespace HomeStuff.Pages
         private readonly Data.SqliteContext _context;
         public IConfiguration Configuration { get; set; }
         public IWebHostEnvironment WebHostEnvironment { get; set; }
-        public IList<Models.Item> RecentItems { get; set; } = default!;
+        public IList<Models.Item> RecentItems { get; set; } = new List<Models.Item>();
         //public IList<Models.Maintenance> OverdueMaintenance { get; set; } = default!;
-        public IList<Models.Maintenance> UpcomingMaintenance { get; set; } = default!;
-        public IList<Models.Maintenance> CompletedMaintenance { get; set; } = default!;
+        public IList<Models.Maintenance> UpcomingMaintenance { get; set; } = new List<Models.Maintenance>();
+        public IList<Models.Maintenance> CompletedMaintenance { get; set; } = new List<Models.Maintenance>();
         public const int UPCOMING_MAINTENANCE_DAYS = 14;
         public const int COMPLETED_MAINTENANCE_DAYS = 14;
 
@@ -23,7 +23,7 @@ namespace HomeStuff.Pages
         public double? TotalValue = 0;
         public List<Location> ValueLocations {  get; set; } = new List<Location>();
         public List<double?> ValueNumbers { get; set; } = new List<double?>();
-        public IList<Models.Item> MissingItems { get; set; } = default!;
+        public IList<Models.Item> MissingItems { get; set; } = new List<Models.Item>();
 
         public IndexModel(Data.SqliteContext context, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
