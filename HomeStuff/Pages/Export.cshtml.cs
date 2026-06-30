@@ -91,9 +91,11 @@ namespace HomeStuff.Pages
                 {
                     if (maint.Completed || (!maint.Completed && !MaintCompletedOnly))
                     {
+                        var item = _context.Item.Where(i => i.Id == maint.ItemId).FirstOrDefault();
                         MaintenanceExport maintenanceExport = new()
                         {
-                            ItemName = _context.Item.Where(i => i.Id == maint.ItemId).FirstOrDefault().Name,
+                            
+                            ItemName = item != null ? item.Name : "Item no longer in the database",
                             MaintenanceDescription = maint.Description,
                             Date = maint.Date,
                             Completed = maint.Completed ? "Yes" : "No"
