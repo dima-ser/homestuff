@@ -34,6 +34,8 @@ namespace HomeStuff.Pages
         public bool MaintCompletedOnly { get; set; }
         //[BindProperty(SupportsGet = true)]
         //public bool IncludeAttachmentUrls { get; set; }
+        [BindProperty]
+        public bool ActiveItemsOnly { get; set; }
 
         public ExportModel(Data.SqliteContext context, IWebHostEnvironment environment, IConfiguration configuration)
         {
@@ -51,23 +53,26 @@ namespace HomeStuff.Pages
                 List<ItemExport> itemsForExport = new();
                 foreach (var item in _context.Item)
                 {
-                    ItemExport itemExport = new()
-                    {
-                        Name = item.Name,
-                        Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId)!.FullName,
-                        Description = item.Description,
-                        Manufacturer = item.Manufacturer,
-                        ModelNumber = item.ModelNumber,
-                        SerialNumber = item.SerialNumber,
-                        PurchasePrice = item.PurchasePrice,
-                        Vendor = item.Vendor,
-                        PurchaseDate = item.PurchaseDate,
-                        SKU = item.SKU,
-                        HasAttachments = Item.HasAttachments(_webHostEnvironment, _configuration, item.Id),
-                        ItemUrl = Url.PageLink("Item", null, new { id = item.Id}),
-                        Status = item.Status.ToString()
-                    };
-                    itemsForExport.Add(itemExport);
+                    if (item.Status == Item.ItemStatus.Active || !ActiveItemsOnly)
+                    {                    
+                        ItemExport itemExport = new()
+                        {
+                            Name = item.Name,
+                            Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId)!.FullName,
+                            Description = item.Description,
+                            Manufacturer = item.Manufacturer,
+                            ModelNumber = item.ModelNumber,
+                            SerialNumber = item.SerialNumber,
+                            PurchasePrice = item.PurchasePrice,
+                            Vendor = item.Vendor,
+                            PurchaseDate = item.PurchaseDate,
+                            SKU = item.SKU,
+                            HasAttachments = Item.HasAttachments(_webHostEnvironment, _configuration, item.Id),
+                            ItemUrl = Url.PageLink("Item", null, new { id = item.Id}),
+                            Status = item.Status.ToString()
+                        };
+                        itemsForExport.Add(itemExport);
+                    }
                 }
 
                 var filePath = Path.GetTempFileName();
