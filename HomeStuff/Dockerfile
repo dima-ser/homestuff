@@ -13,7 +13,7 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Directory.Build.props", "."]
+# COPY ["Directory.Build.props", "."]
 COPY ["HomeStuff/HomeStuff.csproj", "HomeStuff/"]
 RUN dotnet restore "./HomeStuff/HomeStuff.csproj"
 COPY . .
