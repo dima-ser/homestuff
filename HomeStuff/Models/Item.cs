@@ -34,6 +34,7 @@ namespace HomeStuff.Models
         public DateOnly? PurchaseDate { get; set; }
         public string? SKU { get; set; }
         public DateTime LastModifiedUtc { get; set; }
+        public DateTime LastViewedUtc { get; set; }
         public string? MaintenanceNotes { get; set; }
         public ICollection<Maintenance> Maintenances { get;} = new List<Maintenance>();
         [DisplayName("Set")]

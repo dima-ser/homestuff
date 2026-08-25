@@ -60,6 +60,9 @@ namespace HomeStuff.Pages
                 }
 
                 Attachments = Item.GetAttachments(webHostEnvironment, configuration, this, item.Id);
+
+                item.LastViewedUtc = DateTime.UtcNow;
+                await _context.SaveChangesAsync();
                
             }
             ViewData["Title"] = Item.Name;
