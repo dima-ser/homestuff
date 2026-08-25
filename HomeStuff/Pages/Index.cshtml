@@ -5,7 +5,7 @@
 }
 <h1>Home</h1>
 <hr />
-@if (Model.RecentlyUpdatedItems.Count > 0)
+@if (Model.RecentlyUpdatedItems.Items.Count > 0)
 {
     <form action="/items">
         <div class="row no-gutters mb-3">
@@ -16,115 +16,10 @@
         </div>
     </form>
 }
-<h2>Recently Viewed Items</h2>
 
-@if (Model.RecentlyViewedItems.Count > 0)
-{
-    <div class="row">
-        @foreach (var item in Model.RecentlyViewedItems)
-        {
-            <div class="col-lg-4 col-md-6 col-sm-6 mb-2">
-                <div class="card h-100 card-hover">
-                    <h5 class="card-header bg-primary text-light text-truncate">@item.Name</h5>
-                    <div class="card-body border-primary">
-                        @if (Models.Item.GetAvatarFileName(Model.WebHostEnvironment, Model.Configuration, item.Id) != String.Empty)
-                        {
-                            <img src="/itemattachment?itemid=@item.Id&name=@Models.Item.GetAvatarFileNameUrlEncoded(Model.WebHostEnvironment, Model.Configuration, item.Id)" 
-                            class="float-start avatar-image rounded" alt="Avatar image for @item.Name">
-                        }
-                        <p class="card-text card-description" >@item.Description</p>
-                        <span class="badge bg-dark align-bottom">@item.Location!.FullName</span>
-                        @if (item.ItemSet != null)
-                        {
-                            <span class="badge bg-info align-bottom">@item.ItemSet!.Name</span>
-                        }
-                        @if (item.PurchasePrice != null)
-                        {
-                            <span class="badge bg-success align-bottom">@Html.DisplayFor(model => item.PurchasePrice)</span>
-                        }
-                        @if (item.Status == Models.Item.ItemStatus.Missing)
-                        {
-                            <span class="badge bg-danger align-bottom">@Html.DisplayFor(model => item.Status)</span>
-                        }
-                        @if (item.Status == Models.Item.ItemStatus.Gone)
-                        {
-                            <span class="badge bg-warning align-bottom">@Html.DisplayFor(model => item.Status)</span>
-                        }
-                        <a asp-page="./Item" asp-route-id="@item.Id" class="stretched-link"></a>
-                    </div>
-                </div>
-            </div>
+@await Html.PartialAsync("IndexPartialRecentItems", Model.RecentlyViewedItems)
 
-        }
-    </div>
-    <div class="d-flex justify-content-center"><a class="btn btn-primary btn-lg" asp-page="Items">See All Items</a></div>
-}
-else
-{
-    <div class="row">
-        <div class="col">
-            <div class="alert alert-warning" role="alert">
-                No items in the database. Add or import items to see something here.
-            </div>
-        </div>
-    </div>
-    <div class="d-flex justify-content-center"><a class="btn btn-primary btn-lg" asp-page="ItemNew">Add Item</a></div>
-}
-
-<h2>Recently Updated Items</h2>
-
-@if (Model.RecentlyUpdatedItems.Count > 0)
-{
-    <div class="row">
-        @foreach (var item in Model.RecentlyUpdatedItems)
-        {
-            <div class="col-lg-4 col-md-6 col-sm-6 mb-2">
-                <div class="card h-100 card-hover">
-                    <h5 class="card-header bg-primary text-light text-truncate">@item.Name</h5>
-                    <div class="card-body border-primary">
-                        @if (Models.Item.GetAvatarFileName(Model.WebHostEnvironment, Model.Configuration, item.Id) != String.Empty)
-                        {
-                            <img src="/itemattachment?itemid=@item.Id&name=@Models.Item.GetAvatarFileNameUrlEncoded(Model.WebHostEnvironment, Model.Configuration, item.Id)" 
-                            class="float-start avatar-image rounded" alt="Avatar image for @item.Name">
-                        }
-                        <p class="card-text card-description" >@item.Description</p>
-                        <span class="badge bg-dark align-bottom">@item.Location!.FullName</span>
-                        @if (item.ItemSet != null)
-                        {
-                            <span class="badge bg-info align-bottom">@item.ItemSet!.Name</span>
-                        }
-                        @if (item.PurchasePrice != null)
-                        {
-                            <span class="badge bg-success align-bottom">@Html.DisplayFor(model => item.PurchasePrice)</span>
-                        }
-                        @if (item.Status == Models.Item.ItemStatus.Missing)
-                        {
-                            <span class="badge bg-danger align-bottom">@Html.DisplayFor(model => item.Status)</span>
-                        }
-                        @if (item.Status == Models.Item.ItemStatus.Gone)
-                        {
-                            <span class="badge bg-warning align-bottom">@Html.DisplayFor(model => item.Status)</span>
-                        }
-                        <a asp-page="./Item" asp-route-id="@item.Id" class="stretched-link"></a>
-                    </div>
-                </div>
-            </div>
-
-        }
-    </div>
-    <div class="d-flex justify-content-center"><a class="btn btn-primary btn-lg" asp-page="Items">See All Items</a></div>
-}
-else
-{
-    <div class="row">
-        <div class="col">
-            <div class="alert alert-warning" role="alert">
-                No items in the database. Add or import items to see something here.
-            </div>
-        </div>
-    </div>
-    <div class="d-flex justify-content-center"><a class="btn btn-primary btn-lg" asp-page="ItemNew">Add Item</a></div>
-}
+@await Html.PartialAsync("IndexPartialRecentItems", Model.RecentlyUpdatedItems)
 
 
 <br/>

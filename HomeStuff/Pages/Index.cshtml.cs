@@ -12,8 +12,9 @@ namespace HomeStuff.Pages
         private readonly Data.SqliteContext _context;
         public IConfiguration Configuration { get; set; }
         public IWebHostEnvironment WebHostEnvironment { get; set; }
-        public IList<Models.Item> RecentlyUpdatedItems { get; set; } = new List<Models.Item>();
-        public IList<Models.Item> RecentlyViewedItems { get; set; } = new List<Models.Item>();
+
+        public RecentItemsViewModel RecentlyViewedItems {get; set; }
+        public RecentItemsViewModel RecentlyUpdatedItems {get; set; }
         //public IList<Models.Maintenance> OverdueMaintenance { get; set; } = default!;
         public IList<Models.Maintenance> UpcomingMaintenance { get; set; } = new List<Models.Maintenance>();
         public IList<Models.Maintenance> CompletedMaintenance { get; set; } = new List<Models.Maintenance>();
@@ -31,22 +32,35 @@ namespace HomeStuff.Pages
             _context = context;
             this.Configuration = configuration;
             this.WebHostEnvironment = webHostEnvironment;
+            RecentlyViewedItems = new RecentItemsViewModel() { 
+                Title="Recently Viewed Items", 
+                Configuration = configuration, 
+                WebHostEnvironment = webHostEnvironment 
+            };
+            RecentlyUpdatedItems = new RecentItemsViewModel() { 
+                Title="Recently Updated Items", 
+                Configuration = configuration, 
+                WebHostEnvironment = webHostEnvironment 
+            };
         }
         public void OnGet()
         {
-            RecentlyUpdatedItems = _context.Item.OrderByDescending(x => x.LastModifiedUtc).Take(6).ToList();
-            foreach (var item in RecentlyUpdatedItems)
+            var recentlyUpdated = _context.Item.OrderByDescending(x => x.LastModifiedUtc).Take(6).ToList();
+            foreach (var item in recentlyUpdated)
             {
                 // why do I have to do this for Sets, but not for Locations?
                 item.ItemSet = _context.ItemSet.FirstOrDefault(l => l.Id == item.ItemSetId);
                 //item.Location = _context.Location.FirstOrDefault(l => l.Id == item.LocationId);
             }
-            RecentlyViewedItems = _context.Item.OrderByDescending(x => x.LastViewedUtc).Take(6).ToList();
-            foreach (var item in RecentlyViewedItems)
+            RecentlyUpdatedItems.Items = recentlyUpdated;
+
+            var recentlyViewed = _context.Item.OrderByDescending(x => x.LastViewedUtc).Take(6).ToList();
+            foreach (var item in recentlyViewed)
             {
                 // why do I have to do this for Sets, but not for Locations?
                 item.ItemSet = _context.ItemSet.FirstOrDefault(l => l.Id == item.ItemSetId);
             }
+            RecentlyViewedItems.Items = recentlyViewed;
             DateOnly today = DateOnly.FromDateTime(DateTime.Now);
             //OverdueMaintenance = _context.Maintenance.Where(x => x.Completed == false && x.Date <= today).OrderBy(x => x.Date).ToList();
             //foreach (var maintenance in OverdueMaintenance)
